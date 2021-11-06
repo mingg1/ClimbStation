@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/climb"
+        android:icon="@drawable/ic_climbstation_logo"
+        android:title="Climb" />
+    <item
+        android:id="@+id/statistics"
+        android:icon="@drawable/ic_statistic"
+        android:title="Statistics" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_baseline_settings"
+        android:title="Settings" />
+</menu>
