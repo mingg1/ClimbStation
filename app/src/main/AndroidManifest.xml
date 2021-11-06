@@ -11,14 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClimbStation">
         <activity
-            android:name=".climbstation.MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.ClimbingProgressActivity"
+            android:parentActivityName=".activities.MainActivity" />
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package fi.metropolia.climbstation.climbstation
+package fi.metropolia.climbstation.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
