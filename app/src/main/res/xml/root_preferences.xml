@@ -1,0 +1,52 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/messages_header">
+
+        <EditTextPreference
+            app:key="Account"
+            app:title="@string/profile"/>
+
+
+        <EditTextPreference
+            app:key="pwd"
+            app:title="@string/change_password"/>
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory >
+
+        <EditTextPreference
+            app:key="calibrate"
+            app:title="@string/calibration"/>
+
+
+        <EditTextPreference
+            app:key="network"
+            app:title="@string/network"/>
+
+        <EditTextPreference
+            app:key="security"
+            app:title="@string/security"/>
+
+
+        <SwitchPreferenceCompat
+            app:key="sound"
+            app:title="@string/sound_info" />
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:title="@string/position"/>
+
+        <EditTextPreference
+            app:key="owner_setting"
+            app:title="@string/owner_settings"/>
+
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

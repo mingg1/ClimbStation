@@ -15,4 +15,27 @@
     <string name="qr_code_scan_msg">Start by connecting your device to Climbstation by scanning the QR-code attached to the wall</string>
     <string name="skip">skip</string>
     <string name="speed">%d m / min</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="setting">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Account Settings</string>
+
+
+    <!-- Messages Preferences -->
+    <string name="profile">Edit Profile</string>
+
+
+<!--    &lt;!&ndash; Sync Preferences &ndash;&gt;-->
+   <string name="sound_info">Sound Information</string>
+   <string name="position">Start at same position</string>
+<!--    <string name="attachment_summary_on">Automatically download attachments for incoming emails-->
+<!--    </string>-->
+<!--    <string name="attachment_summary_off">Only download attachments when manually requested</string>-->
+    <string name="Settings">Settings</string>
+    <string name="change_password">Change Password</string>
+    <string name="calibration">Calibration</string>
+    <string name="network">Network</string>
+    <string name="security">Security</string>
+    <string name="owner_settings">Owner\'s Setting</string>
 </resources>
