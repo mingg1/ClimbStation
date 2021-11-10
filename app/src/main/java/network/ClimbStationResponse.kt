@@ -3,7 +3,7 @@ package network
 import com.google.gson.annotations.SerializedName
 
 
-interface BaseResponse : BaseKeys {
+interface BaseResponse : BaseKey {
     val response: String
 }
 
@@ -11,7 +11,7 @@ data class LogInResponse(
     @SerializedName("PacketId") override val packetId: String,
     @SerializedName("PacketNumber") override val packetNumber: String,
     @SerializedName("Response") override val response: String,
-    @SerializedName("clientKey") val clientKey: String
+    val clientKey: String
 ) : BaseResponse
 
 data class InfoResponse(
@@ -23,7 +23,7 @@ data class InfoResponse(
     @SerializedName("Length") val length: String
 ) : BaseResponse
 
-data class ClimbStationResponses(
+data class ClimbStationResponse(
     @SerializedName("PacketId") override val packetId: String,
     @SerializedName("PacketNumber") override val packetNumber: String,
     @SerializedName("Response") override val response: String
