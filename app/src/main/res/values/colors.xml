@@ -10,4 +10,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="inactive">#C4C4C4</color>
     <color name="colorPrimary">#da0000</color>
+    <color name="background_gray">#D2FFFFFF</color>
 </resources>

@@ -38,4 +38,14 @@
     <string name="network">Network</string>
     <string name="security">Security</string>
     <string name="owner_settings">Owner\'s Setting</string>
+    <string name="stats">Statistics</string>
+    <string name="congratulations">Congratulations!</string>
+    <string name="you_climbed_meters_form_meters_goal">You climbed meters form meters goal.</string>
+    <string name="statistics">Statistics</string>
+    <string name="climbing_duration">Climbing Duration</string>
+    <string name="climbed_date">Climbed Date</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="climbed_length">Climbed Length</string>
+    <string name="average_speed">Average Speed</string>
+    <string name="calories_consumed">Calories Consumed</string>
 </resources>
