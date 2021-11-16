@@ -19,11 +19,14 @@
     <string name="setting">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Account Settings</string>
+    <string name="general_setting">General Settings</string>
+    <string name="owner_setting">Owner\'s Settings</string>
 
 
     <!-- Messages Preferences -->
-    <string name="profile">Edit Profile</string>
+    <string name="scale">Scales</string>
+    <string name="calorie">Calories</string>
+
 
 
 <!--    &lt;!&ndash; Sync Preferences &ndash;&gt;-->

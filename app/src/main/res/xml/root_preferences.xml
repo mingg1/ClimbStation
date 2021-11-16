@@ -1,48 +1,51 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="@string/general_setting">
 
-        <EditTextPreference
-            app:key="Account"
-            app:title="@string/profile"/>
+        <DropDownPreference
+            app:key="Scale"
+            app:title="@string/scale"/>
 
 
-        <EditTextPreference
-            app:key="pwd"
-            app:title="@string/change_password"/>
+<!--        <EditTextPreference-->
+<!--            app:key="Calorie"-->
+<!--            app:title="@string/calorie"/>-->
 
 
     </PreferenceCategory>
 
     <PreferenceCategory >
 
-        <EditTextPreference
-            app:key="calibrate"
-            app:title="@string/calibration"/>
+<!--        <EditTextPreference-->
+<!--            app:key="calibrate"-->
+<!--            app:title="@string/calibration"/>-->
 
 
-        <EditTextPreference
-            app:key="network"
-            app:title="@string/network"/>
+<!--        <EditTextPreference-->
+<!--            app:key="network"-->
+<!--            app:title="@string/network"/>-->
 
-        <EditTextPreference
-            app:key="security"
-            app:title="@string/security"/>
+<!--        <EditTextPreference-->
+<!--            app:key="security"-->
+<!--            app:title="@string/security"/>-->
 
 
-        <SwitchPreferenceCompat
-            app:key="sound"
-            app:title="@string/sound_info" />
+<!--        <SwitchPreferenceCompat-->
+<!--            app:key="sound"-->
+<!--            app:title="@string/sound_info" />-->
 
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:title="@string/position"/>
+<!--        <SwitchPreferenceCompat-->
+<!--            app:dependency="sync"-->
+<!--            app:key="attachment"-->
+<!--            app:title="@string/position"/>-->
 
-        <EditTextPreference
-            app:key="owner_setting"
-            app:title="@string/owner_settings"/>
+<!--        <EditTextPreference-->
+<!--            app:key="owner_setting"-->
+<!--            app:title="@string/owner_settings"/>-->
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/owner_setting">
 
 
 
