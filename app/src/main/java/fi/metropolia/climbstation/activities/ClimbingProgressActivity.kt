@@ -90,7 +90,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
             time = intent?.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)!!
             binding.textDuration.text = getTimeString(time)
             val consumedCalories = calculateCalories(weight, time)
-            binding.textConsumedCalory.text = consumedCalories.toString()
+            binding.textConsumedCalory.text = getString(R.string.consumed_calories,consumedCalories)
         }
 
     }
