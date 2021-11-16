@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClimbStation">
         <activity
+            android:name=".activities.SettingsActivity2"
+            android:exported="true"
+            android:label="@string/title_activity_settings2" />
+        <activity
             android:name=".activities.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
