@@ -1,4 +1,4 @@
-package network.util
+package fi.metropolia.climbstation.fi.metropolia.climbstation.network.util
 
 class Constants {
 

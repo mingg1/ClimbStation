@@ -136,7 +136,7 @@
                     style="@style/infoTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 kal" />
+                    android:text="@string/consumed_calories" />
             </LinearLayout>
 
             <LinearLayout
@@ -156,7 +156,7 @@
                     android:text="Difficulty" />
 
                 <TextView
-                    android:id="@+id/text_difficulty2"
+                    android:id="@+id/text_difficulty_mode"
                     style="@style/infoTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

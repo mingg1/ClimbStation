@@ -1,4 +1,4 @@
-package fi.metropolia.climbstation.fi.metropolia.climbstation.service
+package fi.metropolia.climbstation.service
 
 import android.app.Service
 import android.content.Intent
