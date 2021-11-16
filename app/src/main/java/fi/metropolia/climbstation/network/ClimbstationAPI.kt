@@ -1,5 +1,6 @@
-package network
+package fi.metropolia.climbstation.network
 
+import fi.metropolia.climbstation.network.*
 import retrofit2.http.Body
 import retrofit2.http.POST
 

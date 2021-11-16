@@ -1,4 +1,4 @@
-package network
+package fi.metropolia.climbstation.network
 
 import com.google.gson.annotations.SerializedName
 

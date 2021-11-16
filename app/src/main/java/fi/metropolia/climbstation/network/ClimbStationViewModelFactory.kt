@@ -1,4 +1,4 @@
-package network
+package fi.metropolia.climbstation.network
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
