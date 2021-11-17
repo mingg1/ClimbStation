@@ -1,6 +1,7 @@
-package network
+package fi.metropolia.climbstation.network
 
 import android.util.Log
+import fi.metropolia.climbstation.network.*
 
 class ClimbStationRepository {
     private val api = RetrofitInstance.climbStationApi
@@ -10,21 +11,21 @@ class ClimbStationRepository {
         return api.logIn(logInReq)
     }
 
-    suspend fun getInfo(infoRequest: InfoRequest):InfoResponse{
+    suspend fun getInfo(infoRequest: InfoRequest): InfoResponse {
         return api.climbstationInfo(infoRequest)
     }
 
-    suspend fun setSpeed(speedRequest:SpeedRequest):ClimbStationResponse{
+    suspend fun setSpeed(speedRequest: SpeedRequest): ClimbStationResponse {
         Log.d("speedCheck","start")
         return api.setSpeed(speedRequest)
     }
 
-    suspend fun setAngle(angleRequest: AngleRequest):ClimbStationResponse{
+    suspend fun setAngle(angleRequest: AngleRequest): ClimbStationResponse {
         Log.d("AngleCheck","start angle")
         return api.setAngle(angleRequest)
     }
 
-    suspend fun setOperation(operationRequest: OperationRequest):ClimbStationResponse{
+    suspend fun setOperation(operationRequest: OperationRequest): ClimbStationResponse {
         return api.operation(operationRequest)
     }
 
