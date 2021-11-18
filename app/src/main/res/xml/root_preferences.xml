@@ -45,7 +45,10 @@
         <!--            app:title="@string/owner_settings"/>-->
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/owner_setting">
+    <PreferenceCategory
+        app:key="owner_setting"
+        app:title="@string/owner_setting"
+        app:summary="Login to access the owner settings.">
 
 
 
