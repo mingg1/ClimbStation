@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import fi.metropolia.climbstation.NetworkMonitor
 import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.TerrainProfiles
 import fi.metropolia.climbstation.databinding.ActivityClimbingBinding
@@ -45,7 +44,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.viewLayout.setOnClickListener { hideKeyboard(it) }
 
-        binding.sliderSpeed.addOnChangeListener { _, value, fromUser ->
+        binding.sliderSpeed.addOnChangeListener { _, value, _ ->
+            hideKeyboard(binding.viewLayout)
             binding.textSpeedValue.text = getString(R.string.speed, value.toInt())
         }
 
@@ -122,7 +122,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun checkFilledValues(totalLength: String, speed: String): Boolean =
         (totalLength != "" && totalLength != "0") && speed != "0.0"

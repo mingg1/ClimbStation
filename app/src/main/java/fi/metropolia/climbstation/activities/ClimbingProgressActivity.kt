@@ -1,21 +1,23 @@
 package fi.metropolia.climbstation.activities
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.data.*
 import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.databinding.ActivityClimbingProgressBinding
+import fi.metropolia.climbstation.network.*
 import kotlinx.coroutines.launch
-import fi.metropolia.climbstation.network.ClimbStationRepository
-import fi.metropolia.climbstation.network.ClimbStationViewModel
-import fi.metropolia.climbstation.network.ClimbStationViewModelFactory
 import fi.metropolia.climbstation.service.TimerService
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -27,15 +29,32 @@ class ClimbingProgressActivity : AppCompatActivity() {
     private lateinit var serviceIntent: Intent
     private var time = 0.0
     var weight = 60.0 // in kg
+    lateinit var viewModel: ClimbStationViewModel
+    val repository = ClimbStationRepository()
+    val viewModelFactory = ClimbStationViewModelFactory(repository)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClimbingProgressBinding.inflate(layoutInflater)
         supportActionBar?.hide()
         setContentView(binding.root)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
+        val clientKey = intent.extras?.getString("clientKey")
+        val climbMode = intent.extras?.getString("mode")
+        val speed = intent.extras?.getString("speed")
+        val totalLength = intent.extras?.getString("length")
+        Log.d("keys","$clientKey $climbMode $speed $totalLength}")
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ClimbStationViewModel::class.java)
         binding.buttonPause.setOnClickListener { startStopTimer() }
-        binding.buttonFinish.setOnClickListener { stopTimer() }
+        binding.buttonFinish.setOnClickListener {
+            stopTimer()
+            lifecycleScope.launch {
+                val stopReq = OperationRequest("20110001", clientKey!!, "stop")
+                val operationRes = repository.setOperation(stopReq)
+                viewModel.operationResponse.value = operationRes
+            }
+        }
         binding.textDifficultyMode.text = intent.extras?.getString("mode")
 
         serviceIntent = Intent(applicationContext, TimerService::class.java)
@@ -43,24 +62,27 @@ class ClimbingProgressActivity : AppCompatActivity() {
 
         startStopTimer()
 
+        val mHandler = Handler(Looper.getMainLooper())
+        mHandler.post(object : Runnable {
+            override fun run() {
+                lifecycleScope.launch {
+                    Log.d("----------", "--------------------------------")
 
-        lateinit var viewModel: ClimbStationViewModel
-        val repository = ClimbStationRepository()
-        val viewModelFactory = ClimbStationViewModelFactory(repository)
-        val clientKey = intent.extras?.getString("clientKey")
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ClimbStationViewModel::class.java)
-        lifecycleScope.launch {
-//            Log.d("----------", "--------------------------------")
-//
-//            val inforeq = InfoRequest("20110001", clientKey!!)
-//            val res = repository.getInfo(inforeq)
-//            Log.d("infores", "$res")
-//            viewModel.infoResponse.value = res
-//            viewModel.infoResponse.observe(
-//                this@ClimbingProgressActivity,
-//                { res -> Log.d("info", "$res" ?: "none") })
-        }
-        setChartData()
+                    val infoReq = InfoRequest("20110001", clientKey!!)
+                    val res = repository.getInfo(infoReq)
+                    Log.d("infores", "$res")
+                    viewModel.infoResponse.value = res
+                    viewModel.infoResponse.observe(
+                        this@ClimbingProgressActivity,
+                        { res ->
+                            Log.d("info", "$res" ?: "none")
+                            binding.textClimbedLength.text = res.length
+                        })
+                }
+                mHandler.postDelayed(this, 1000)
+            }
+        })
+
     }
 
     override fun onPause() {
@@ -90,7 +112,8 @@ class ClimbingProgressActivity : AppCompatActivity() {
             time = intent?.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)!!
             binding.textDuration.text = getTimeString(time)
             val consumedCalories = calculateCalories(weight, time)
-            binding.textConsumedCalory.text = getString(R.string.consumed_calories,consumedCalories)
+            binding.textConsumedCalory.text =
+                getString(R.string.consumed_calories, consumedCalories)
         }
 
     }
@@ -124,25 +147,4 @@ class ClimbingProgressActivity : AppCompatActivity() {
         timerStarted = false
     }
 
-    private fun setChartData() {
-        val chart = findViewById<LineChart>(R.id.chart_current_climbing)
-        val valueList = ArrayList<Double>()
-        val entries = ArrayList<Entry>()
-        val title = "example"
-
-        for (i in 0..6) {
-            valueList.add(i * 100.1)
-        }
-
-        for (i in 0 until valueList.size) {
-            val barEntry = BarEntry(i.toFloat(), valueList.get(i).toFloat())
-            entries.add(barEntry)
-        }
-
-        val dataSet = LineDataSet(entries, title)
-        val data = LineData(dataSet)
-        chart.data = data
-        chart.setGridBackgroundColor(R.color.black)
-        chart.invalidate()
-    }
 }
