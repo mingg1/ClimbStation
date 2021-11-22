@@ -13,21 +13,31 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
     <style name="titleTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">16sp</item>
     </style>
+
     <style name="infoTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="textContainerStyle">
         <item name="android:gravity">center</item>
     </style>
-<style name="buttonStyle">
-    <item name="elevation">16dp</item>
-    <item name="cornerRadius">16dp</item>
-    <item name="android:padding">20dp</item>
-    <item name="backgroundColor">?attr/colorPrimaryVariant</item>
-    <item name="fontFamily">@font/airbnb_cereal_medium</item>
-</style>
+
+    <style name="buttonStyle">
+        <item name="elevation">16dp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:padding">20dp</item>
+        <item name="backgroundColor">?attr/colorPrimaryVariant</item>
+        <item name="fontFamily">@font/airbnb_cereal_medium</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
 </resources>

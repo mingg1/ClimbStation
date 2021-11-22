@@ -38,6 +38,34 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
+            android:id="@+id/linearLayout21"
+            style="@style/textContainerStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|center_horizontal"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout4">
+
+            <ImageView
+                android:id="@+id/imageView21"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_angle" />
+
+            <TextView
+                android:id="@+id/text_angle"
+                style="@style/infoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0°" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/linearLayout4"
             style="@style/textContainerStyle"
             android:layout_width="wrap_content"
@@ -53,7 +81,7 @@
                 android:layout_height="32dp"
                 android:layout_marginEnd="12dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_mode" />
+                app:srcCompat="@drawable/ic_climbstation_logo" />
 
             <TextView
                 android:id="@+id/text_difficulty_mode"
@@ -74,7 +102,7 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="32dp"
+                android:layout_width="33dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="12dp"
                 android:layout_weight="1"
