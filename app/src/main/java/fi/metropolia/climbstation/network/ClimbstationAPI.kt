@@ -14,7 +14,7 @@ interface ClimbstationAPI {
     @POST("climbstationinfo")
     suspend fun climbstationInfo(@Body reqBody: InfoRequest): InfoResponse
 
-    @Headers("Content-Type: application/json")
+
     @POST("Operation")
     suspend fun operation(@Body reqBody: OperationRequest): ClimbStationResponse
 

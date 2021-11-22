@@ -3,12 +3,14 @@ package fi.metropolia.climbstation.activities
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import fi.metropolia.climbstation.*
@@ -16,6 +18,7 @@ import fi.metropolia.climbstation.databinding.ActivityClimbingBinding
 import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.util.Constants.Companion.CLIMB_MODES
 import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
+import fi.metropolia.climbstation.R
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -151,5 +154,25 @@ class MainActivity : AppCompatActivity() {
         val inputMethodManager: InputMethodManager =
             view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.nav_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        if (id == R.id.menu_settings) {
+            goToSettingsActivity()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun goToSettingsActivity() {
+        startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
     }
 }

@@ -1,4 +1,4 @@
-package fi.metropolia.climbstation
+package fi.metropolia.climbstation.database
 
 import android.content.Context
 import androidx.room.Room

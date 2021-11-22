@@ -14,17 +14,26 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="TextInputLayout" parent="">
+        <item name="android:textColorHint">@color/black</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="boxStrokeColor">@color/black</item>
+    </style>
+
     <style name="titleTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">16sp</item>
     </style>
-
     <style name="infoTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-
     <style name="textContainerStyle">
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:statusBarColor">@color/white</item>
     </style>
 
     <style name="buttonStyle">
