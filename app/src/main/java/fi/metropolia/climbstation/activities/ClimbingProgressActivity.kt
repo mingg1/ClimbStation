@@ -18,7 +18,6 @@ import fi.metropolia.climbstation.TerrainProfiles
 import fi.metropolia.climbstation.databinding.ActivityClimbingProgressBinding
 import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.service.TimerService
-import fi.metropolia.climbstation.util.Constants
 import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
 import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
@@ -34,9 +33,10 @@ class ClimbingProgressActivity : AppCompatActivity() {
     var weight = 60.0 // in kg
     lateinit var viewModel: ClimbStationViewModel
     val repository = ClimbStationRepository()
-    val viewModelFactory = ClimbStationViewModelFactory(repository)
+    private val viewModelFactory = ClimbStationViewModelFactory(repository)
 
-    // var currentLength = 0
+    var climbedLength = 0
+    var completedAreaLength = 0
     var currentStep = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,43 +52,46 @@ class ClimbingProgressActivity : AppCompatActivity() {
         val speed = intent.extras?.getString("speed")
         val goalLength = intent.extras?.getString("length")
         val climbMode = intent.extras?.getString("mode")
-        val currentLevelStacks =
-            TerrainProfiles.difficultyLevels.find { it.name == difficultyLevel }?.profiles
-
+        val currentLevel = TerrainProfiles.difficultyLevels.find { it.name == difficultyLevel }
+        val currentLevelStacks = currentLevel?.profiles
+        var currentAngle = currentLevelStacks?.get(0)?.angle
+        var levelTotalLength = 0
+        currentLevelStacks?.forEach { it -> levelTotalLength += it.distance }
+        binding.textAngle.text = currentAngle.toString()
         val mHandler = Handler(Looper.getMainLooper())
         val runnable = object : Runnable {
             override fun run() {
                 lifecycleScope.launch {
-                    Log.d("----------", "--------------------------------")
-
-                    val infoReq = InfoRequest("20110001", clientKey!!)
+                    val infoReq = InfoRequest(SERIAL_NUM, clientKey!!)
                     val res = repository.getInfo(infoReq)
-                    Log.d("infores", "$res")
                     viewModel.infoResponse.value = res
                     viewModel.infoResponse.observe(
                         this@ClimbingProgressActivity,
                         { res ->
                             try {
-                                var currentLength = 0
-                                currentLength = res.length.toInt() - currentLength!!
-                                Log.d("info", "$res" ?: "none")
-                                binding.textClimbedLength.text = currentLength.toString()
-                                if (currentLength == currentLevelStacks!![currentStep].distance) {
+                                climbedLength = res.length.toInt()
+                                binding.textClimbedLength.text = climbedLength.toString()
+
+                                if (climbedLength - completedAreaLength == currentLevelStacks!![currentStep].distance) {
                                     if (currentStep == currentLevelStacks.size - 1) currentStep = 0
                                     else currentStep++
+                                    completedAreaLength = climbedLength
+
+                                    currentAngle = currentLevelStacks[currentStep].angle
                                     val angleReq = AngleRequest(
-                                        Constants.SERIAL_NUM,
+                                        SERIAL_NUM,
                                         clientKey,
-                                        currentLevelStacks[currentStep].angle.toString()
+                                        currentAngle.toString()
                                     )
                                     lifecycleScope.launch { repository.setAngle(angleReq) }
                                     Log.d("currentStep", "$res")
+                                    binding.textAngle.text = currentAngle.toString()
                                 }
                             } catch (err: NumberFormatException) {
                                 Toast.makeText(
                                     applicationContext,
-                                    "clicked cancel",
-                                    Toast.LENGTH_LONG
+                                    "No internet connection!",
+                                    Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
@@ -105,7 +108,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
         }
         binding.buttonFinish.setOnClickListener {
             stopTimer()
-            if(mHandler.post(runnable)) stopRunnable(mHandler, runnable)
+            if (mHandler.post(runnable)) stopRunnable(mHandler, runnable)
             lifecycleScope.launch {
                 val stopReq = OperationRequest(SERIAL_NUM, clientKey!!, "stop")
                 val operationRes = repository.setOperation(stopReq)
