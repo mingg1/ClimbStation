@@ -15,6 +15,8 @@
     <string name="qr_code_scan_msg">Start by connecting your device to Climbstation by scanning the QR-code attached to the wall</string>
     <string name="skip">skip</string>
     <string name="speed">%d m / min</string>
+    <string name="consumed_calories">%.2f kcal</string>
+    <string name="length_textfield_label">Length (in meter)</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="setting">Settings</string>
 

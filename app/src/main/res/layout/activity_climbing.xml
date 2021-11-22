@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
@@ -43,7 +44,7 @@
             android:layout_marginEnd="24dp"
             android:background="#00FFFFFF"
             android:elevation="8dp"
-            android:hint="Difficulty"
+            android:hint="Difficulty level"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -61,18 +62,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             app:boxBackgroundColor="#00FFFFFF"
-            app:suffixText="m"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+            app:suffixText="m">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Length (in meter)" />
+                android:hint="@string/length_textfield_label"
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.slider.Slider
@@ -82,16 +84,16 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="speed_slider"
-            android:value="0"
             android:stepSize="1"
+            android:value="0"
             android:valueFrom="0"
             android:valueTo="100"
             app:labelBehavior="gone"
-            app:tickColor="@color/colorPrimary"
-            app:trackColor="@color/colorPrimary"
             app:layout_constraintEnd_toStartOf="@+id/text_speed_value"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_speed_slider_label"
+            app:tickColor="@color/colorPrimary"
+            app:trackColor="@color/colorPrimary"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
@@ -99,24 +101,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:text="Speed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_length" />
 
-        <Button
-            android:id="@+id/button_start"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout20"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:elevation="16dp"
-            android:padding="16dp"
-            android:text="start climbing"
-            android:textSize="18sp"
-            app:cornerRadius="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="#00FFFFFF"
+            android:elevation="8dp"
+            android:hint="Climb mode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/slider_speed" />
+            app:layout_constraintTop_toBottomOf="@+id/slider_speed">
+
+            <AutoCompleteTextView
+                android:id="@+id/list_climb_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button_start"
+            style="@style/buttonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="start climbing"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:text="What is climb mode?"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout20" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

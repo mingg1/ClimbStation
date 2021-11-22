@@ -1,12 +1,15 @@
-package network
+package fi.metropolia.climbstation.network
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import retrofit2.Response
+import java.lang.Exception
 
 class ClimbStationViewModel(private val repository: ClimbStationRepository) : ViewModel() {
-    val loginResponse: MutableLiveData<LogInResponse> = MutableLiveData()
+    val loginResponse: MutableLiveData<Response<LogInResponse>> = MutableLiveData()
     val infoResponse: MutableLiveData<InfoResponse> = MutableLiveData()
     val speedResponse: MutableLiveData<ClimbStationResponse> = MutableLiveData()
     val angleResponse: MutableLiveData<ClimbStationResponse> = MutableLiveData()
@@ -14,8 +17,13 @@ class ClimbStationViewModel(private val repository: ClimbStationRepository) : Vi
 
     fun logIn() {
         viewModelScope.launch {
-            val response = repository.logIn("20110001","user","climbstation")
-            loginResponse.value = response
+          try {
+                val response = repository.logIn("20110001", "user", "climbstation")
+                loginResponse.value = response
+            } catch (err:Exception){
+              loginResponse.value = null
+              Log.d("err","$err.toString(), ${loginResponse.value}")
+            }
         }
     }
 

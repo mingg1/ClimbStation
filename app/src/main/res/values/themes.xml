@@ -36,4 +36,17 @@
         <item name="android:statusBarColor">@color/white</item>
     </style>
 
+    <style name="buttonStyle">
+        <item name="elevation">16dp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:padding">20dp</item>
+        <item name="backgroundColor">?attr/colorPrimaryVariant</item>
+        <item name="fontFamily">@font/airbnb_cereal_medium</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
 </resources>

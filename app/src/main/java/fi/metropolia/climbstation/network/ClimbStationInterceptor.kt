@@ -1,4 +1,4 @@
-package network
+package fi.metropolia.climbstation.network
 
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -10,3 +10,4 @@ class ClimbStationInterceptor:Interceptor {
         return chain.proceed(request)
     }
 }
+

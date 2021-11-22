@@ -1,112 +1,161 @@
 package fi.metropolia.climbstation.activities
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.slider.Slider
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputLayout
+import fi.metropolia.climbstation.*
+import fi.metropolia.climbstation.databinding.ActivityClimbingBinding
+import fi.metropolia.climbstation.network.*
+import fi.metropolia.climbstation.util.Constants.Companion.CLIMB_MODES
+import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
 import fi.metropolia.climbstation.R
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import network.*
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityClimbingBinding
+    private lateinit var viewModel: ClimbStationViewModel
+    private val repository = ClimbStationRepository()
+    private val viewModelFactory = ClimbStationViewModelFactory(repository)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        setContentView(R.layout.activity_climbing)
-        findViewById<TextView>(R.id.text_speed_value).text = getString(R.string.speed, 0)
+        binding = ActivityClimbingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val items = listOf("Beginner", "Warm up", "Easy", "Power", "Athlete", "Pro athlete")
-        val adapter = ArrayAdapter(this, R.layout.list_item, R.id.list_item, items)
-        // (textField.editText as? AutoCompleteTextView)?.setAdapter(adapter)
-        findViewById<MaterialAutoCompleteTextView>(R.id.list_difficulty).setAdapter(adapter)
-        findViewById<MaterialAutoCompleteTextView>(R.id.list_difficulty).setText(items.get(0), false);
-        findViewById<Button>(R.id.button_start).setOnClickListener {
-            val intent = Intent(this, ClimbingProgressActivity::class.java)
-            startActivity(intent)
+        NetworkMonitor(application).startNetworkCallback()
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
+        binding.textSpeedValue.text = getString(R.string.speed, 0)
+
+        val difficultyLevelTv = binding.listDifficulty
+        val difficultyLevels = TerrainProfiles.difficultyLevels.map { it.name }
+        val climbModeTv = binding.listClimbMode
+
+        val difficultyLevelList = DropDownList(this, difficultyLevelTv, difficultyLevels)
+        difficultyLevelList.setDropDownHeight(620)
+        DropDownList(this, climbModeTv, CLIMB_MODES)
+
+        binding.viewLayout.setOnClickListener { hideKeyboard(it) }
+        binding.sliderSpeed.addOnChangeListener { _, value, _ ->
+            hideKeyboard(binding.viewLayout)
+            binding.textSpeedValue.text = getString(R.string.speed, value.toInt())
         }
 
-        findViewById<Slider>(R.id.slider_speed).addOnChangeListener { slider, value, fromUser ->
-            Log.d("test", value.toString())
-            findViewById<TextView>(R.id.text_speed_value).text = getString(R.string.speed, value.toInt())
-        }
-        lateinit var viewModel: ClimbStationViewModel
-        val repository = ClimbStationRepository()
-        val viewModelFactory = ClimbStationViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ClimbStationViewModel::class.java)
         viewModel.logIn()
-        viewModel.loginResponse.observe(this, Observer { res ->
-            Log.d("response", res.response ?: "none")
-            Log.d("response", res.clientKey ?: "dd")
+        viewModel.loginResponse.observe(this, { res ->
+            if (res != null && res.body()?.response != "NOTOK") {
+                Log.d("response1", res.body()?.response ?: "none")
+                Log.d("response2", res.body()?.clientKey ?: "dd")
+            } else {
+                Log.d("response3", res?.errorBody().toString() ?: "dd")
+                Toast.makeText(this, "No internet connection!", Toast.LENGTH_LONG).show()
+                makeAlert { viewModel.logIn() }
+
+            }
+
         })
 
-        findViewById<Button>(R.id.button_start).setOnClickListener {
-            val totalLength = findViewById<TextInputLayout>(R.id.text_length).editText?.text
-            val speedValue = findViewById<Slider>(R.id.slider_speed).value.toString()
+        binding.buttonStart.setOnClickListener {
+            startOperation(difficultyLevelTv.text.toString(), climbModeTv.text.toString())
+        }
+    }
 
+    private fun startOperation(difficultyLevel: String, climbMode: String) {
+        val totalLength = binding.textLength.editText?.text.toString()
+        val speedValue = binding.sliderSpeed.value.toInt().toString()
+        val clientKey = viewModel.loginResponse.value?.body()?.clientKey
+        val angle =
+            TerrainProfiles.difficultyLevels.find { it.name == difficultyLevel }?.profiles?.get(0)?.angle.toString()
+
+        if (NetworkVariables.isNetworkConnected && clientKey != null && checkFilledValues(
+                totalLength,
+                speedValue
+            )
+        ) {
             lifecycleScope.launch {
                 async {
-                    val speedReq = SpeedRequest("20110001", viewModel.loginResponse.value!!.clientKey, speedValue)
-                    val angleReq = AngleRequest("20110001", viewModel.loginResponse.value!!.clientKey, "15")
+                    val speedReq = SpeedRequest(
+                        SERIAL_NUM,
+                        clientKey!!,
+                        speedValue
+                    )
+                    val angleReq = AngleRequest(
+                        SERIAL_NUM,
+                        clientKey,
+                        angle
+                    )
                     val speedRes = repository.setSpeed(speedReq)
                     viewModel.speedResponse.value = speedRes
-                    viewModel.speedResponse.observe(this@MainActivity, Observer { res ->
-                        Log.d("speed", "$res" ?: "none")
-                    })
-
                     repository.setAngle(angleReq)
-                    viewModel.angleResponse.observe(this@MainActivity, { res -> Log.d("angle", "$res" ?: "none") })
+                    viewModel.angleResponse.observe(
+                        this@MainActivity,
+                        { res -> Log.d("angle", "$res" ?: "none") })
 
-                    val operationReq = OperationRequest("20110001", viewModel.loginResponse.value!!.clientKey, "start")
+                    val operationReq = OperationRequest(SERIAL_NUM, clientKey, "start")
                     val operationRes = repository.setOperation(operationReq)
                     viewModel.operationResponse.value = operationRes
-                    viewModel.operationResponse.observe(this@MainActivity, { res -> Log.d("operation", "$res" ?: "none") })
+
                 }.await()
                 val intent = Intent(this@MainActivity, ClimbingProgressActivity::class.java)
-                intent.putExtra("clientKey", viewModel.loginResponse.value!!.clientKey)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.putExtra("clientKey", clientKey)
+                intent.putExtra("difficultyLevel", difficultyLevel)
+                intent.putExtra("speed", speedValue)
+                intent.putExtra("length", totalLength)
+                intent.putExtra("mode", climbMode)
                 startActivity(intent)
+                finishAffinity()
             }
-//                viewModel.setSpeed(
-//                    "20110001",
-//                    viewModel.loginResponse.value!!.clientKey,
-//                    speedValue
-//                )
-//
-//                viewModel.speedResponse.observe(this@MainActivity, Observer { res ->
-//                    Log.d("speed", "$res" ?: "none")
-//                })
-//                viewModel.setAngle("20110001", viewModel.loginResponse.value!!.clientKey, "15")
-//                viewModel.angleResponse.observe(
-//                    this@MainActivity,
-//                    { res -> Log.d("angle", "$res" ?: "none") })
-
-
-//                viewModel.setOperation(
-//                    "20110001",
-//                    viewModel.loginResponse.value!!.clientKey,
-//                    "start"
-//                )
-//                viewModel.operationResponse.observe(
-//                    this@MainActivity,
-//                    { res -> Log.d("operation", "$res" ?: "none") })
-//
-
-
+        } else if (clientKey == null) {
+            viewModel.logIn()
+            startOperation(difficultyLevel, climbMode)
+        } else if (!NetworkVariables.isNetworkConnected) {
+            makeAlert { startOperation(difficultyLevel, climbMode) }
+        } else {
+            Toast.makeText(
+                this,
+                "Make sure that you set valid speed and total length.",
+                Toast.LENGTH_LONG
+            ).show()
         }
-
     }
+
+    private fun makeAlert(function: () -> Unit) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("No internet connection")
+        builder.setMessage("Do you want to try again?")
+        builder.setNeutralButton("Cancel") { _, which ->
+            Toast.makeText(applicationContext, "clicked cancel", Toast.LENGTH_LONG).show()
+        }
+        builder.setPositiveButton("Yes") { _, _ ->
+            function()
+        }
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    private fun checkFilledValues(totalLength: String, speed: String): Boolean =
+        (totalLength != "" && totalLength != "0") && speed != "0.0"
+
+    private fun hideKeyboard(view: View) {
+        val inputMethodManager: InputMethodManager =
+            view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -117,13 +166,13 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
-        if (id == R.id.settings) {
+        if (id == R.id.menu_settings) {
             goToSettingsActivity()
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun goToSettingsActivity() {
-        startActivity(Intent(this, SettingsActivity::class.java))
+        startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
     }
 }

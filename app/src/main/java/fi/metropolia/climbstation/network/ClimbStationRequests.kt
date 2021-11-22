@@ -1,8 +1,8 @@
-package network
+package fi.metropolia.climbstation.network
 
 import com.google.gson.annotations.SerializedName
-import network.util.Constants.Companion.REQUEST
-import network.util.Constants.Companion.REQ_PACKET_NUM
+import fi.metropolia.climbstation.util.Constants.Companion.REQUEST
+import fi.metropolia.climbstation.util.Constants.Companion.REQ_PACKET_NUM
 
 // keys used in both response and request
 interface BaseKey {
