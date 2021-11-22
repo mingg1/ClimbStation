@@ -1,12 +1,12 @@
 package fi.metropolia.climbstation.network
 
 import android.util.Log
-import fi.metropolia.climbstation.network.*
+import retrofit2.Response
 
 class ClimbStationRepository {
     private val api = RetrofitInstance.climbStationApi
 
-    suspend fun logIn(serialNumber: String, userId: String, password: String): LogInResponse {
+    suspend fun logIn(serialNumber: String, userId: String, password: String): Response<LogInResponse> {
         val logInReq = LogInRequest(serialNumber, userId, password)
         return api.logIn(logInReq)
     }
