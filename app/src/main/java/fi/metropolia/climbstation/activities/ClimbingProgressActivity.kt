@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.*
 import fi.metropolia.climbstation.R
+import fi.metropolia.climbstation.database.ClimbDatabase
 import kotlinx.coroutines.launch
 import network.ClimbStationRepository
 import network.ClimbStationViewModel
@@ -59,5 +61,12 @@ class ClimbingProgressActivity : AppCompatActivity() {
         val data = LineData(dataSet)
         chart.data = data
         chart.invalidate()
+
+        val database = Room.databaseBuilder(
+            this, ClimbDatabase::class.java, "climb_database"
+        ).build()
+
+        val climbHistory = database.climbInterface().readAllData()
     }
+
 }

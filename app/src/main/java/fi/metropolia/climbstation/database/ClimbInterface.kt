@@ -9,9 +9,11 @@ import androidx.room.Query
 @Dao
 interface ClimbInterface {
 
+    @Query("SELECT * FROM climb_table ORDER BY id ASC")
+    fun readAllData(): LiveData<List<Climb>>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addClimb(climb: Climb)
 
-    @Query("SELECT * FROM climb_table ORDER BY id ASC")
-    fun readAllData(): LiveData<List<Climb>>
+
 }

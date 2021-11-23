@@ -12,10 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import fi.metropolia.climbstation.R
+import fi.metropolia.climbstation.database.ClimbDatabase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import network.*
