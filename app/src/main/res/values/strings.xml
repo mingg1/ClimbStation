@@ -49,4 +49,6 @@
     <string name="average_speed">Average Speed</string>
     <string name="calories_consumed">Calories Consumed</string>
     <string name="climbing_history">List of Climbing history</string>
+    <string name="climb">Climb</string>
+    <string name="statistics">Statistics</string>
 </resources>
