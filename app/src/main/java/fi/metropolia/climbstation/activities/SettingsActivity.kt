@@ -42,11 +42,6 @@ class SettingsActivity : AppCompatActivity() {
 }
 
 
-
-
-
-
-
 //        findViewById<MaterialAutoCompleteTextView>(R.id.list_length).setAdapter(lengthAdapter)
 //        findViewById<MaterialAutoCompleteTextView>(R.id.list_length).setText(
 //            length[0], false)
@@ -56,7 +51,6 @@ class SettingsActivity : AppCompatActivity() {
 //        findViewById<MaterialAutoCompleteTextView>(R.id.list_calorie).setAdapter(calorieAdapter)
 //        findViewById<MaterialAutoCompleteTextView>(R.id.list_calorie).setText(
 //            calorie[0], false)
-
 
 
 //        setContentView(R.layout.settings_activity)
