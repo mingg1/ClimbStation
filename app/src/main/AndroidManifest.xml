@@ -15,8 +15,13 @@
         android:theme="@style/Theme.ClimbStation"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.OwnersActivity"
+            android:parentActivityName=".activities.SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SettingsActivity"
             android:exported="false"
+            android:parentActivityName=".activities.MainActivity"
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".activities.SplashScreenActivity"
@@ -27,7 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.CreateAccountActivity"
             android:exported="true" />
