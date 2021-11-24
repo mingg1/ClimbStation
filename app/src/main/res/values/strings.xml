@@ -18,15 +18,25 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="setting">Settings</string>
 
-    <!-- Preference Titles -->
     <string name="general_setting">General Settings</string>
     <string name="owner_setting">Owner\'s Settings</string>
 
+    <string-array name="length">
+        <item>millimeters(mm)</item>
+        <item>centimeters(cm)</item>
+        <item>meters(m)</item>
+        <item>feet(ft)</item>
+    </string-array>
 
-    <!-- Messages Preferences -->
+    <string-array name="calorie">
+        <item>grams(gms)</item>
+        <item>kilograms(kgs)</item>
+        <item>pounds(lbs)</item>
+
+    </string-array>
+
     <string name="scale">Scales</string>
-    <string name="calorie">Calories</string>
-
+    <string name="calorie">Unit to measure Calories</string>
 
 
     <!--    &lt;!&ndash; Sync Preferences &ndash;&gt;-->
@@ -64,4 +74,9 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!--    <string name="units">Units</string>-->
+    <string name="length">Unit to measure length of climb</string>
+    <string name="owners_name">Owner\'s Name</string>
+    <string name="log_in_to_access">Log In to access</string>
+
 </resources>
