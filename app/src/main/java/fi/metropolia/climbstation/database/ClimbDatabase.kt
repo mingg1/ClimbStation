@@ -22,6 +22,7 @@ abstract class ClimbDatabase : RoomDatabase() {
                 return tempInstance
             }
             synchronized(this) {
+
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     ClimbDatabase::class.java,
@@ -32,5 +33,4 @@ abstract class ClimbDatabase : RoomDatabase() {
             }
         }
     }
-
 }

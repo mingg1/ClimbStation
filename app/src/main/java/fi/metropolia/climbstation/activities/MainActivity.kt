@@ -18,6 +18,12 @@ import fi.metropolia.climbstation.databinding.ActivityClimbingBinding
 import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.util.Constants.Companion.CLIMB_MODES
 import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
+import androidx.room.Room
+import com.google.android.material.slider.Slider
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.android.material.textfield.TextInputLayout
+import fi.metropolia.climbstation.R
+import fi.metropolia.climbstation.database.ClimbDatabase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import android.content.SharedPreferences
