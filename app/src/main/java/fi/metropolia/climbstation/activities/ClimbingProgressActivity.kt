@@ -22,8 +22,6 @@ import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.service.TimerService
 import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
 import kotlinx.coroutines.async
-import androidx.room.Room
-import fi.metropolia.climbstation.database.ClimbDatabase
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.NumberFormatException
