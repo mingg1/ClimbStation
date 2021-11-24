@@ -3,11 +3,11 @@
     <item
         android:id="@+id/climb"
         android:icon="@drawable/ic_climbstation_logo"
-        android:title="Climb" />
+        android:title="@string/climb" />
     <item
         android:id="@+id/history"
         android:icon="@drawable/ic_statistic"
-        android:title="History" />
+        android:title="@string/statistics" />
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_baseline_settings"

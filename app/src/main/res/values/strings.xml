@@ -84,5 +84,6 @@
     <string name="owners_name">Owner\'s Name</string>
     <string name="log_in_to_access">Log In to access</string>
 
->>>>>>> SettingsView
+    <string name="climbing_history">List of Climbing history</string>
+    <string name="climb">Climb</string>
 </resources>

@@ -18,15 +18,12 @@ import fi.metropolia.climbstation.databinding.ActivityClimbingBinding
 import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.util.Constants.Companion.CLIMB_MODES
 import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
-import androidx.room.Room
-import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputLayout
 import fi.metropolia.climbstation.R
-import fi.metropolia.climbstation.database.ClimbDatabase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import android.content.SharedPreferences
+import android.widget.ArrayAdapter
+import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClimbingBinding
@@ -76,33 +73,41 @@ class MainActivity : AppCompatActivity() {
                     val editor = sf.edit()
                     editor.putString("clientKey", res.body()?.clientKey)
                     editor.apply()
-                } else {
+                }
+                else {
                     Log.d("response3", res?.errorBody().toString() ?: "dd")
                     Toast.makeText(this, "No internet connection!", Toast.LENGTH_LONG).show()
                     makeAlert { viewModel.logIn() }
                 }
             })
-        }
+            setContentView(R.layout.activity_main)
 
-        binding.buttonStart.setOnClickListener {
-            setValues(difficultyLevelTv.text.toString(),clientKeyTxt!!)
-            startOperation(difficultyLevelTv.text.toString(), climbModeTv.text.toString())
-        }
+//        findViewById<TextView>(R.id.text_speed_value).text = getString(R.string.speed,0)
 
-        binding.bottomNavigation.setOnItemSelectedListener { menu ->
-            when (menu.itemId) {
-                R.id.menu_settings -> goToSettingsActivity()
-                R.id.history -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        SettingsActivity::class.java
-                    )
-                )
+            val items = listOf("Beginner", "Warm up", "Easy", "Power", "Athlete", "Pro athlete")
+            val adapter = ArrayAdapter(this, R.layout.list_item, R.id.list_item, items)
+            // (textField.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+            findViewById<MaterialAutoCompleteTextView>(R.id.list_difficulty).setAdapter(adapter)
+            findViewById<MaterialAutoCompleteTextView>(R.id.list_difficulty).setText(items.get(0), false);
+            findViewById<Button>(R.id.button_start).setOnClickListener {
+                val intent = Intent(this, ClimbingProgressActivity::class.java)
+                startActivity(intent)
             }
-            true
+
+            binding.buttonStart.setOnClickListener {
+                setValues(difficultyLevelTv.text.toString(), clientKeyTxt!!)
+                startOperation(difficultyLevelTv.text.toString(), climbModeTv.text.toString())
+            }
+
+            binding.bottomNavigation.setOnItemSelectedListener { menu ->
+                when (menu.itemId) {
+                    R.id.menu_settings -> goToSettingsActivity()
+                    R.id.history -> startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                }
+                true
+            }
+
         }
-
-
     }
 //
 //    override fun onPause() {
