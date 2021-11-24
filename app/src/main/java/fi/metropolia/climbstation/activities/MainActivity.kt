@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.activity_main)
 
-        findViewById<TextView>(R.id.text_speed_value).text = getString(R.string.speed,0)
+//        findViewById<TextView>(R.id.text_speed_value).text = getString(R.string.speed,0)
 
         val items = listOf("Beginner", "Warm up", "Easy", "Power", "Athlete", "Pro athlete")
         val adapter = ArrayAdapter(this,R.layout.list_item, R.id.list_item, items)
