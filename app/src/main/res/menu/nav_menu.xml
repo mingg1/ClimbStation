@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/climb"
+        android:id="@+id/menu_climb"
         android:icon="@drawable/ic_climbstation_logo"
         android:title="@string/climb" />
     <item
-        android:id="@+id/history"
+        android:id="@+id/menu_history"
         android:icon="@drawable/ic_statistic"
         android:title="@string/statistics" />
     <item

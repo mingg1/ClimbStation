@@ -143,7 +143,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
             var isOkay = false
             response.observe(this, { it ->
                 if (it != null && it.body()?.response != "NOTOK") {
-                   isOkay = true
+                    isOkay = true
                 }
             })
             return isOkay
@@ -169,7 +169,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
                         viewModel.operationResponse.value = repository.setOperation(startReq)
                     }
                 }.await()
-            startStopTimer(mHandler, postRequestRunnable)
+                startStopTimer(mHandler, postRequestRunnable)
             }
         }
 

@@ -16,13 +16,13 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".activities.OwnersActivity"
-            android:parentActivityName=".activities.SettingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:name=".activities.SettingsActivity"
             android:exported="false"
-            android:parentActivityName=".activities.MainActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.SplashScreenActivity"
             android:exported="true"
@@ -44,6 +44,7 @@
         <activity
             android:name=".activities.ClimbingResultsActivity"
             android:parentActivityName=".activities.ClimbingProgressActivity" />
+        <activity android:name=".activities.HistoryActivity" />
 
         <service android:name=".service.TimerService" />
     </application>
