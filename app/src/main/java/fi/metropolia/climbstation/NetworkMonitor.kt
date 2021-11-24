@@ -19,9 +19,7 @@ constructor(private val application: Application) {
     fun startNetworkCallback() {
         val cm: ConnectivityManager =
             application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            cm.registerDefaultNetworkCallback(networkCallback)
-        }
+        cm.registerDefaultNetworkCallback(networkCallback)
     }
 
     fun stopNetworkCallback() {

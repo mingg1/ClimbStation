@@ -217,25 +217,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            app:layout_constraintTop_toBottomOf="@+id/results_msg" />
 
         <Button
-            android:id="@+id/button_start"
+            android:id="@+id/button_go_to_history"
             style="@style/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:padding="16dp"
             android:text="see histories"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_start5"
+            app:layout_constraintEnd_toStartOf="@+id/button_go_to_main"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/button_start5"
+            android:id="@+id/button_go_to_main"
             style="@style/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -248,11 +246,11 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/results_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="You climbed meters from meters goal!"
+            android:text="@string/results_message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />

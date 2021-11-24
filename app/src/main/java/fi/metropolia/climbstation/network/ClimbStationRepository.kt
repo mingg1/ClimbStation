@@ -29,4 +29,8 @@ class ClimbStationRepository {
         return api.operation(operationRequest)
     }
 
+    suspend fun logOut(logOutRequest: LogOutRequest): ClimbStationResponse {
+        return api.logOut(logOutRequest)
+    }
+
 }

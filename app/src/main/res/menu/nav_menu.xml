@@ -5,9 +5,9 @@
         android:icon="@drawable/ic_climbstation_logo"
         android:title="Climb" />
     <item
-        android:id="@+id/statistics"
+        android:id="@+id/history"
         android:icon="@drawable/ic_statistic"
-        android:title="Statistics" />
+        android:title="History" />
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_baseline_settings"

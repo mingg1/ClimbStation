@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.mikhaellopez.circularprogressbar.CircularProgressBar
-            android:id="@+id/circularProgressBar"
+            android:id="@+id/length_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
@@ -62,7 +62,7 @@
                 style="@style/infoTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0°" />
+                android:text="@string/degree" />
         </LinearLayout>
 
         <LinearLayout
@@ -122,10 +122,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="@+id/circularProgressBar"
-            app:layout_constraintEnd_toEndOf="@+id/circularProgressBar"
-            app:layout_constraintStart_toStartOf="@+id/circularProgressBar"
-            app:layout_constraintTop_toTopOf="@+id/circularProgressBar">
+            app:layout_constraintBottom_toBottomOf="@+id/length_progress_bar"
+            app:layout_constraintEnd_toEndOf="@+id/length_progress_bar"
+            app:layout_constraintStart_toStartOf="@+id/length_progress_bar"
+            app:layout_constraintTop_toTopOf="@+id/length_progress_bar">
 
             <TextView
                 android:id="@+id/text_climbed_length_title"

@@ -20,7 +20,7 @@ import fi.metropolia.climbstation.util.Constants.Companion.CLIMB_MODES
 import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-
+import android.content.SharedPreferences
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClimbingBinding
@@ -52,44 +52,83 @@ class MainActivity : AppCompatActivity() {
         difficultyLevelList.setDropDownHeight(620)
         DropDownList(this, climbModeTv, CLIMB_MODES)
 
+        val sf = getSharedPreferences("climbStation", MODE_PRIVATE)
+        val clientKeyTxt = sf.getString("clientKey", "")
+
         binding.viewLayout.setOnClickListener { hideKeyboard(it) }
         binding.sliderSpeed.addOnChangeListener { _, value, _ ->
             hideKeyboard(binding.viewLayout)
             binding.textSpeedValue.text = getString(R.string.speed, value.toInt())
         }
 
-        viewModel.logIn()
-        viewModel.loginResponse.observe(this, { res ->
-            println(res)
-            if (res != null && res.body()?.response != "NOTOK") {
-                Log.d("response1", res.body()?.response ?: "none")
-                Log.d("response2", res.body()?.clientKey ?: "dd")
-            }
-            else {
-                Log.d("response3", res?.errorBody().toString() ?: "dd")
-                Toast.makeText(this, "No internet connection!", Toast.LENGTH_LONG).show()
-                makeAlert { viewModel.logIn() }
-            }
-        })
+        if (clientKeyTxt == "") {
+            viewModel.logIn()
+            viewModel.loginResponse.observe(this, { res ->
+                if (res != null && res.body()?.response != "NOTOK") {
+                    Log.d("response1", res.body()?.response ?: "none")
+                    Log.d("response2", res.body()?.clientKey ?: "dd")
+                    val editor = sf.edit()
+                    editor.putString("clientKey", res.body()?.clientKey)
+                    editor.apply()
+                } else {
+                    Log.d("response3", res?.errorBody().toString() ?: "dd")
+                    Toast.makeText(this, "No internet connection!", Toast.LENGTH_LONG).show()
+                    makeAlert { viewModel.logIn() }
+                }
+            })
+        }
 
         binding.buttonStart.setOnClickListener {
-            setValues(difficultyLevelTv.text.toString())
+            setValues(difficultyLevelTv.text.toString(),clientKeyTxt!!)
             startOperation(difficultyLevelTv.text.toString(), climbModeTv.text.toString())
         }
-    }
 
-    private fun setValues(difficultyLevel: String) {
+        binding.bottomNavigation.setOnItemSelectedListener { menu ->
+            when (menu.itemId) {
+                R.id.menu_settings -> goToSettingsActivity()
+                R.id.history -> startActivity(
+                    Intent(
+                        this@MainActivity,
+                        SettingsActivity::class.java
+                    )
+                )
+            }
+            true
+        }
+
+
+    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        lifecycleScope.launch {
+//            async{
+//                val logOutReq = LogOutRequest(SERIAL_NUM, clientKey!!)
+//                repository.logOut(logOutReq)
+//            }.await()
+//            val sharedPrefs: SharedPreferences = getSharedPreferences("climbStation", MODE_PRIVATE)
+//            val editor = sharedPrefs.edit()
+//            editor.clear()
+//            editor.apply()
+//        }
+//    }
+
+    private fun setValues(difficultyLevel: String, clientKeyTxt:String) {
         totalLength = binding.textLength.editText?.text.toString()
-        speedValue = binding.sliderSpeed.value.toInt().toString()
-        clientKey = viewModel.loginResponse.value?.body()?.clientKey
-        angle = TerrainProfiles.difficultyLevels.find { it.name == difficultyLevel }?.profiles?.get(0)?.angle.toString()
+        speedValue = (binding.sliderSpeed.value.toInt() * 10).toString() // cm to mm
+        clientKey = getSharedPreferences("climbStation", MODE_PRIVATE).getString("clientKey", "")
+        angle =
+            TerrainProfiles.difficultyLevels.find { it.name == difficultyLevel }?.profiles?.get(0)?.angle.toString()
     }
 
     private fun startOperation(difficultyLevel: String, climbMode: String) {
-        if (!NetworkVariables.isNetworkConnected) return makeAlert { startOperation(difficultyLevel, climbMode) }
         if (!validValues(totalLength, speedValue)) return showInvalidValuesToast()
-
-        if (clientKey == null) {
+        if (!NetworkVariables.isNetworkConnected) return makeAlert {
+            startOperation(
+                difficultyLevel,
+                climbMode
+            )
+        } else if (clientKey == null) {
             viewModel.logIn()
             startOperation(difficultyLevel, climbMode)
             return
@@ -99,15 +138,13 @@ class MainActivity : AppCompatActivity() {
             async {
                 val speedReq = SpeedRequest(SERIAL_NUM, clientKey!!, speedValue)
 
-                 viewModel.speedResponse.value = repository.setSpeed(speedReq)
+                viewModel.speedResponse.value = repository.setSpeed(speedReq)
 
                 val angleReq = AngleRequest(SERIAL_NUM, clientKey!!, angle)
                 viewModel.angleResponse.value = repository.setAngle(angleReq)
-                viewModel.angleResponse.observe(this@MainActivity, { res -> Log.d("angle", "$res" ?: "none") })
 
                 val operationReq = OperationRequest(SERIAL_NUM, clientKey!!, "start")
                 viewModel.operationResponse.value = repository.setOperation(operationReq)
-                viewModel.operationResponse.observe(this@MainActivity, { res -> Log.d("operation", "$res" ?: "none") })
 
             }.await()
 
@@ -145,14 +182,20 @@ class MainActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun validValues(totalLength: String, speed: String): Boolean = (totalLength != "" && totalLength != "0") && speed != "0.0"
+    private fun validValues(totalLength: String, speed: String): Boolean =
+        (totalLength != "" && totalLength != "0") && speed != "0.0"
 
     private fun showInvalidValuesToast() {
-        Toast.makeText(this, "Make sure that you set valid speed and total length.", Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            this,
+            "Make sure that you set valid speed and total length.",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun hideKeyboard(view: View) {
-        val inputMethodManager: InputMethodManager = view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager: InputMethodManager =
+            view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -163,7 +206,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-
         if (id == R.id.menu_settings) {
             goToSettingsActivity()
         }

@@ -2,7 +2,10 @@ package fi.metropolia.climbstation.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import fi.metropolia.climbstation.R
 
 class SettingsActivity : AppCompatActivity() {
@@ -17,6 +20,8 @@ class SettingsActivity : AppCompatActivity() {
                 .commit()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        findViewById<BottomNavigationView>(R.id.bottom_navigation).menu.get(2).isChecked = true
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
