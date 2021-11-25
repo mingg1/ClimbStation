@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setValues(difficultyLevel: String, clientKeyTxt:String) {
         totalLength = binding.textLength.editText?.text.toString()
-        speedValue = (binding.sliderSpeed.value.toInt() * 10).toString() // cm to mm
+        speedValue = (binding.sliderSpeed.value.toInt() ).toString() // cm to mm
         clientKey = getSharedPreferences("climbStation", MODE_PRIVATE).getString("clientKey", "")
         angle =
             TerrainProfiles.difficultyLevels.find { it.name == difficultyLevel }?.profiles?.get(0)?.angle.toString()

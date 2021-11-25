@@ -81,8 +81,8 @@ class ClimbingProgressActivity : AppCompatActivity() {
             this@ClimbingProgressActivity,
             { res ->
                 try {
-                    climbedLength = res.length.toInt()
-//                climbedLength += 1
+//                    climbedLength = res.length.toInt()
+               climbedLength += 1
                     binding.textClimbedLength.text = climbedLength.toString()
                     binding.lengthProgressBar.apply {
                         progressMax = goalLength!!.toFloat()
@@ -125,6 +125,14 @@ class ClimbingProgressActivity : AppCompatActivity() {
                                 this@ClimbingProgressActivity,
                                 ClimbingResultsActivity::class.java
                             )
+                        intent.putExtra("climbedLength",climbedLength)
+                        intent.putExtra("goalLength",goalLength)
+                        intent.putExtra("durationText",getTimeString(time))
+                        intent.putExtra("duration",time)
+                        intent.putExtra("speed",speed?.toInt())
+                        intent.putExtra("level",currentLevel!!.name)
+                        intent.putExtra("calories",consumedCalories)
+                        intent.putExtra("clientKey", clientKey)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         startActivity(intent)
                         finishAffinity()
@@ -179,23 +187,27 @@ class ClimbingProgressActivity : AppCompatActivity() {
             stopTimer()
             if (mHandler.post(postRequestRunnable)) stopRunnable(mHandler, postRequestRunnable)
             lifecycleScope.launch {
-                val stopReq = OperationRequest(SERIAL_NUM, clientKey!!, "stop")
-                val operationRes = repository.setOperation(stopReq)
-                viewModel.operationResponse.value = operationRes
-            }
-            val intent = Intent(this@ClimbingProgressActivity, ClimbingResultsActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.putExtra("climbedLength",climbedLength)
-            intent.putExtra("goalLength",goalLength)
-            intent.putExtra("duraition",time)
-            intent.putExtra("speed",speed)
-            intent.putExtra("level",currentLevel!!.name)
-            intent.putExtra("calories",consumedCalories)
-            intent.putExtra("clientKey", clientKey)
+                async{
+                    val stopReq = OperationRequest(SERIAL_NUM, clientKey!!, "stop")
+                    val operationRes = repository.setOperation(stopReq)
+                    viewModel.operationResponse.value = operationRes
+                }.await()
 
-            startActivity(intent)
-            finishAffinity()
-            resetTimer()
+                val intent = Intent(this@ClimbingProgressActivity, ClimbingResultsActivity::class.java)
+
+                intent.putExtra("climbedLength",climbedLength)
+                intent.putExtra("goalLength",goalLength)
+                intent.putExtra("durationText",getTimeString(time))
+                intent.putExtra("duration",time)
+                intent.putExtra("speed",speed?.toInt())
+                intent.putExtra("level",currentLevel!!.name)
+                intent.putExtra("calories",consumedCalories)
+                intent.putExtra("clientKey", clientKey)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                finishAffinity()
+                resetTimer()
+            }
         }
 
         serviceIntent = Intent(applicationContext, TimerService::class.java)

@@ -18,7 +18,6 @@ class SettingsActivity : AppCompatActivity() {
         actionBar!!.title = "Settings Activity"
         actionBar.setDisplayHomeAsUpEnabled(true)
 
-
         val length = resources.getStringArray(R.array.length)
         val lengthAdapter = ArrayAdapter(this, R.layout.dropdown_item, length)
 

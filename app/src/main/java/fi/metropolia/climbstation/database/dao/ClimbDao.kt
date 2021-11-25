@@ -11,8 +11,8 @@ import fi.metropolia.climbstation.database.entities.Climb
 interface ClimbDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addClimb(climb: Climb)
+    suspend fun addClimb(climb: Climb):Long
 
-    @Query("SELECT * FROM climb_table ORDER BY uid ASC")
+    @Query("SELECT * FROM climb_table ORDER BY id ASC")
     fun readAllData(): LiveData<List<Climb>>
 }
