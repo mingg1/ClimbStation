@@ -5,10 +5,12 @@ import fi.metropolia.climbstation.database.entities.Climb
 import fi.metropolia.climbstation.database.dao.ClimbDao
 
 class ClimbRepository (private val climbDao: ClimbDao){
-    val readAllData: LiveData<List<Climb>> = climbDao.readAllData()
 
-    suspend fun addClimb(climb: Climb){
-        climbDao.addClimb(climb)
+    suspend fun addClimbHistory(climb: Climb):Long{
+        return climbDao.addClimb(climb)
     }
+
+   val getClimbHistory:LiveData<List<Climb>> = climbDao.readAllData()
+
 
 }

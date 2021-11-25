@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "climb_table")
 data class Climb(
     @PrimaryKey(autoGenerate = true)
-    val uid: Long,
+    val id: Long,
     val dateTime: Long,
     val level: String,
     val length: Int,
-    val duration: Int,
+    val duration: String,
     val speed: Int,
     val burntCalories: Double
 )

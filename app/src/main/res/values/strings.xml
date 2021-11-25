@@ -14,7 +14,7 @@
     <string name="last_name">Last Name</string>
     <string name="qr_code_scan_msg">Start by connecting your device to Climbstation by scanning the QR-code attached to the wall</string>
     <string name="skip">skip</string>
-    <string name="speed">%d cm / sec</string>
+    <string name="speed">%d m / m</string>
     <string name="consumed_calories">%.2f kcal</string>
     <string name="length_textfield_label">Length (in meter)</string>
     <string name="title_activity_settings">SettingsActivity</string>
@@ -77,6 +77,7 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="degree">%d°</string>
     <string name="results_message">You climbed %d meters from %d meters goal!</string>
+    <string name="climbed_length_value">%dm</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--    <string name="units">Units</string>-->

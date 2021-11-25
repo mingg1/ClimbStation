@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import fi.metropolia.climbstation.database.dao.ClimbDao
 import fi.metropolia.climbstation.database.entities.Climb
 
-@Database(entities = [Climb::class], version = 1, exportSchema = false)
+@Database(entities = [(Climb::class)], version = 1, exportSchema = false)
 abstract class ClimbStationDB : RoomDatabase() {
 
     abstract fun climbDao(): ClimbDao
@@ -22,7 +22,6 @@ abstract class ClimbStationDB : RoomDatabase() {
                 return tempInstance
             }
             synchronized(this) {
-
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     ClimbStationDB::class.java,
