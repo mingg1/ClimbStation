@@ -3,55 +3,87 @@ package fi.metropolia.climbstation.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import androidx.activity.viewModels
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
+import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import fi.metropolia.climbstation.R
-import fi.metropolia.climbstation.database.viewModels.ClimbViewModel
+import fi.metropolia.climbstation.database.viewModels.ClimbHistoryViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingHistoryBinding
 
 class HistoryActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityClimbingHistoryBinding
-lateinit var climbViewModel: ClimbViewModel
+    lateinit var climbHistoryViewModel: ClimbHistoryViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         binding = ActivityClimbingHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        climbViewModel = ViewModelProvider(this).get(ClimbViewModel::class.java)
-        climbViewModel.getClimbHistory.observe(this,{
+        climbHistoryViewModel = ViewModelProvider(this).get(ClimbHistoryViewModel::class.java)
+        climbHistoryViewModel.getClimbHistoryHistory.observe(this, {
             val historyRecyclerView = binding.historyList
-            historyRecyclerView.layoutManager =LinearLayoutManager(this)
+            historyRecyclerView.layoutManager = LinearLayoutManager(this)
             historyRecyclerView.adapter = HistoryListAdapter(it)
         })
+        binding.bottomNav.menu[1].isChecked = true
 
         binding.bottomNav.setOnItemSelectedListener { menu ->
             when (menu.itemId) {
-                R.id.menu_climb -> startActivity(
-                    Intent(
-                        this,
-                        MainActivity::class.java
+                R.id.menu_climb -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            MainActivity::class.java
+                        ).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+
                     )
-                )
-                R.id.menu_settings -> startActivity(
-                    Intent(
-                        this,
-                        SettingsActivity::class.java
+                    finishAffinity()
+                }
+                R.id.menu_settings -> {
+                    startActivity(
+                        Intent(
+                            this,
+                            SettingsActivity::class.java
+                        ).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     )
-                )
+                    finishAffinity()
+                }
             }
             true
         }
+    }
+    override fun onBackPressed() {
+        moveTaskToBack(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.nav_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_climb -> {
+                startActivity(
+                    Intent(
+                        this,
+                        MainActivity::class.java
+                    ).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                )
+            }
+            R.id.menu_settings -> startActivity(
+                Intent(
+                    this,
+                    SettingsActivity::class.java
+                ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            )
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

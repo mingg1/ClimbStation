@@ -14,9 +14,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import fi.metropolia.climbstation.DifficultyLevel
 import fi.metropolia.climbstation.R
-import fi.metropolia.climbstation.TerrainProfiles
+import fi.metropolia.climbstation.TerrainProfilesObject
+import fi.metropolia.climbstation.database.entities.TerrainProfile
+import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingProgressBinding
 import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.service.TimerService
@@ -33,7 +34,8 @@ class ClimbingProgressActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClimbingProgressBinding
     private var timerStarted = false
     private lateinit var serviceIntent: Intent
-    lateinit var viewModel: ClimbStationViewModel
+    lateinit var climbStationViewModel: ClimbStationViewModel
+    private lateinit var terrainProfileViewModel: TerrainProfileViewModel
     val repository = ClimbStationRepository()
     private val viewModelFactory = ClimbStationViewModelFactory(repository)
     var consumedCalories = 0.0
@@ -50,7 +52,9 @@ class ClimbingProgressActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(binding.root)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        viewModel = ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
+        climbStationViewModel =
+            ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
+        terrainProfileViewModel = ViewModelProvider(this)[TerrainProfileViewModel::class.java]
         val mHandler = Handler(Looper.getMainLooper())
 
         val clientKey = intent.extras?.getString("clientKey")
@@ -58,11 +62,16 @@ class ClimbingProgressActivity : AppCompatActivity() {
         val speed = intent.extras?.getString("speed")
         val goalLength = intent.extras?.getString("length")
         val climbMode = intent.extras?.getString("mode")
-        var currentLevel = TerrainProfiles.difficultyLevels.find { it.name == currentLevelText }
-        val currentLevelStacks = currentLevel?.profiles
-        currentLevelStacks!!.forEach { levelTotalLength += it.distance }
-        var currentAngle = currentLevelStacks?.get(0)?.angle
 
+        var currentLevel = terrainProfileViewModel.getTerrainProfileByName(currentLevelText!!)
+//        var currentLevel = TerrainProfilesObject.terrainProfiles.find { it.name == currentLevelText }
+        val currentLevelStacks = currentLevel.phases
+//        currentLevelStacks!!.forEach { levelTotalLength += it.distance }
+        currentLevelStacks.forEach { levelTotalLength += it.distance }
+        var currentAngle = currentLevelStacks[0].angle
+//            currentLevelStacks?.get(0)?.angle
+
+//        Log.d("level", aaa.toString())
         binding.textAngle.text = getString(R.string.degree, currentAngle)
 
         val postRequestRunnable = object : Runnable {
@@ -71,18 +80,18 @@ class ClimbingProgressActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     val infoReq = InfoRequest(SERIAL_NUM, clientKey!!)
                     val res = repository.getInfo(infoReq)
-                    viewModel.infoResponse.value = res
+                    climbStationViewModel.infoResponse.value = res
                 }
                 mHandler.postDelayed(this, 1000)
             }
         }
 
-        viewModel.infoResponse.observe(
+        climbStationViewModel.infoResponse.observe(
             this@ClimbingProgressActivity,
             { res ->
                 try {
 //                    climbedLength = res.length.toInt()
-               climbedLength += 1
+                    climbedLength += 5
                     binding.textClimbedLength.text = climbedLength.toString()
                     binding.lengthProgressBar.apply {
                         progressMax = goalLength!!.toFloat()
@@ -118,22 +127,23 @@ class ClimbingProgressActivity : AppCompatActivity() {
                             val stopReq =
                                 OperationRequest(SERIAL_NUM, clientKey!!, "stop")
                             val operationRes = repository.setOperation(stopReq)
-                            viewModel.operationResponse.value = operationRes
+                            climbStationViewModel.operationResponse.value = operationRes
                         }
                         val intent =
                             Intent(
                                 this@ClimbingProgressActivity,
                                 ClimbingResultsActivity::class.java
                             )
-                        intent.putExtra("climbedLength",climbedLength)
-                        intent.putExtra("goalLength",goalLength)
-                        intent.putExtra("durationText",getTimeString(time))
-                        intent.putExtra("duration",time)
-                        intent.putExtra("speed",speed?.toInt())
-                        intent.putExtra("level",currentLevel!!.name)
-                        intent.putExtra("calories",consumedCalories)
+                        intent.putExtra("climbedLength", climbedLength)
+                        intent.putExtra("goalLength", goalLength)
+                        intent.putExtra("durationText", getTimeString(time))
+                        intent.putExtra("duration", time)
+                        intent.putExtra("speed", speed?.toInt())
+                        intent.putExtra("level", currentLevel!!.name)
+                        intent.putExtra("calories", consumedCalories)
                         intent.putExtra("clientKey", clientKey)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                         startActivity(intent)
                         finishAffinity()
                     }
@@ -147,7 +157,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
                 }
             })
 
-        fun checkResponse(response: MutableLiveData<Response<ClimbStationResponse>>):Boolean {
+        fun checkResponse(response: MutableLiveData<Response<ClimbStationResponse>>): Boolean {
             var isOkay = false
             response.observe(this, { it ->
                 if (it != null && it.body()?.response != "NOTOK") {
@@ -163,18 +173,19 @@ class ClimbingProgressActivity : AppCompatActivity() {
                     if (timerStarted) {
                         val stopReq = OperationRequest(SERIAL_NUM, clientKey!!, "stop")
                         val operationRes = repository.setOperation(stopReq)
-                        viewModel.operationResponse.value = operationRes
+                        climbStationViewModel.operationResponse.value = operationRes
                     } else {
                         val speedReq = SpeedRequest(SERIAL_NUM, clientKey!!, speed!!)
-                        viewModel.speedResponse.value = repository.setSpeed(speedReq)
+                        climbStationViewModel.speedResponse.value = repository.setSpeed(speedReq)
                         val angleReq = AngleRequest(
                             SERIAL_NUM,
                             clientKey!!,
                             currentLevelStacks[currentStep].angle.toString()
                         )
-                        viewModel.angleResponse.value = repository.setAngle(angleReq)
+                        climbStationViewModel.angleResponse.value = repository.setAngle(angleReq)
                         val startReq = OperationRequest(SERIAL_NUM, clientKey!!, "start")
-                        viewModel.operationResponse.value = repository.setOperation(startReq)
+                        climbStationViewModel.operationResponse.value =
+                            repository.setOperation(startReq)
                     }
                 }.await()
                 startStopTimer(mHandler, postRequestRunnable)
@@ -187,23 +198,24 @@ class ClimbingProgressActivity : AppCompatActivity() {
             stopTimer()
             if (mHandler.post(postRequestRunnable)) stopRunnable(mHandler, postRequestRunnable)
             lifecycleScope.launch {
-                async{
+                async {
                     val stopReq = OperationRequest(SERIAL_NUM, clientKey!!, "stop")
                     val operationRes = repository.setOperation(stopReq)
-                    viewModel.operationResponse.value = operationRes
+                    climbStationViewModel.operationResponse.value = operationRes
                 }.await()
 
-                val intent = Intent(this@ClimbingProgressActivity, ClimbingResultsActivity::class.java)
-
-                intent.putExtra("climbedLength",climbedLength)
-                intent.putExtra("goalLength",goalLength)
-                intent.putExtra("durationText",getTimeString(time))
-                intent.putExtra("duration",time)
-                intent.putExtra("speed",speed?.toInt())
-                intent.putExtra("level",currentLevel!!.name)
-                intent.putExtra("calories",consumedCalories)
+                val intent =
+                    Intent(this@ClimbingProgressActivity, ClimbingResultsActivity::class.java)
+                intent.putExtra("climbedLength", climbedLength)
+                intent.putExtra("goalLength", goalLength)
+                intent.putExtra("durationText", getTimeString(time))
+                intent.putExtra("duration", time)
+                intent.putExtra("speed", speed?.toInt())
+                intent.putExtra("level", currentLevel!!.name)
+                intent.putExtra("calories", consumedCalories)
                 intent.putExtra("clientKey", clientKey)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
                 finishAffinity()
                 resetTimer()
@@ -292,18 +304,20 @@ class ClimbingProgressActivity : AppCompatActivity() {
     private fun nextDifficultyLevel(
         climbedLength: Int,
         levelTotalLength: Int,
-        currentLevel: DifficultyLevel, mode: String
-    ): DifficultyLevel {
-        var currentStack: DifficultyLevel = currentLevel
+        currentLevel: TerrainProfile, mode: String
+    ): TerrainProfile {
+        var currentStack: TerrainProfile = currentLevel
         if (climbedLength == levelTotalLength) {
-            val currentIndex = TerrainProfiles.difficultyLevels.indexOf(currentLevel)
+            val currentIndex = currentStack.id.toInt()
+            Log.d("index", currentIndex.toString())
             val index: Int = when (mode) {
-                "To next level" -> if (currentIndex == TerrainProfiles.difficultyLevels.size - 1) 0 else currentIndex + 1
-                "Random" -> (0 until TerrainProfiles.difficultyLevels.size).random()
+                "To next level" -> (if (currentIndex == terrainProfileViewModel.getTerrainProfiles().size) 1 else currentIndex + 1)
+                "Random" -> (1..terrainProfileViewModel.getTerrainProfiles().size).random()
                 else -> currentIndex
             }
-            currentStack = TerrainProfiles.difficultyLevels[index]
+            currentStack = terrainProfileViewModel.getTerrainProfileById(index)
         }
+//            indexOf(currentLevel)
         Log.d("change", currentStack.name)
         return currentStack
     }

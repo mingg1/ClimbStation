@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import fi.metropolia.climbstation.R
-import fi.metropolia.climbstation.database.entities.Climb
-import fi.metropolia.climbstation.database.viewModels.ClimbViewModel
+import fi.metropolia.climbstation.database.entities.ClimbHistory
+import fi.metropolia.climbstation.database.viewModels.ClimbHistoryViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbResultBinding
 import fi.metropolia.climbstation.network.ClimbStationRepository
 import java.util.*
@@ -21,7 +21,7 @@ class ClimbingResultsActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(binding.root)
 
-        val climbHistoryViewModel: ClimbViewModel by viewModels()
+        val climbHistoryHistoryViewModel: ClimbHistoryViewModel by viewModels()
         val clientKey = intent.extras?.getString("clientKey")
         val difficultyLevel = intent.extras?.getString("level")
         val climbedLength = intent.extras?.getInt("climbedLength")
@@ -32,6 +32,7 @@ class ClimbingResultsActivity : AppCompatActivity() {
         val speed = intent.extras?.getInt("speed")
         val burntCalories = intent.extras?.getDouble("calories")
         val durationText = intent.extras?.getString("durationText")
+
         binding.resultsMsg.text = getString(R.string.results_message, climbedLength, goalLength)
         binding.textSpeedValue.text = getString(R.string.speed, speed)
         binding.textDateValue.text = dateString
@@ -42,9 +43,8 @@ class ClimbingResultsActivity : AppCompatActivity() {
         binding.textLengthValue.text = getString(R.string.climbed_length_value, climbedLength)
         binding.textDifficultyLevelValue.text = difficultyLevel
 
-
-        climbHistoryViewModel.addClimbHistory(
-            Climb(
+        climbHistoryHistoryViewModel.addClimbHistory(
+            ClimbHistory(
                 0, dateNow,
                 difficultyLevel!!, climbedLength!!, durationText!!, speed!!, burntCalories!!
             )
