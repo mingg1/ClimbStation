@@ -49,4 +49,10 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@android:color/darker_gray</item>
     </style>
+    <style name="Theme.ClimbStation.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.ClimbStation.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.ClimbStation.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

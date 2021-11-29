@@ -15,7 +15,7 @@
         android:theme="@style/Theme.ClimbStation"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activities.OwnersActivity"
+            android:name=".activities.OwnersLoginActivity"
             android:exported="false"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity

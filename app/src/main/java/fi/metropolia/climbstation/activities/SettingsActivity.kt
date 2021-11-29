@@ -31,7 +31,7 @@ class SettingsActivity : AppCompatActivity() {
         autocompleteCalorieTV.setAdapter(calorieAdapter)
 
         findViewById<Button>(R.id.settingsOwnerLogin).setOnClickListener {
-            val intent = Intent(this, OwnersActivity::class.java)
+            val intent = Intent(this, OwnersLoginActivity::class.java)
             startActivity(intent)
         }
 
