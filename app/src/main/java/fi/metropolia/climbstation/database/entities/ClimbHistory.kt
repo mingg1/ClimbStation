@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "climb_table")
-data class Climb(
+@Entity(tableName = "climb_history_table")
+data class ClimbHistory(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val dateTime: Long,

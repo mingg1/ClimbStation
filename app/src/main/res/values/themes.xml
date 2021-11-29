@@ -12,18 +12,23 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name= "android:textViewStyle" > @style/AppFontStyle </item>
     </style>
 
-    <style name="TextInputLayout" parent="">
+    <style name="AppFontStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/airbnb_cereal_medium</item>
+    </style>
+
+    <style name="TextInputLayout" >
         <item name="android:textColorHint">@color/black</item>
         <item name="hintTextColor">@color/black</item>
         <item name="boxStrokeColor">@color/black</item>
     </style>
 
-    <style name="titleTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="titleTextStyle">
         <item name="android:textSize">16sp</item>
     </style>
-    <style name="infoTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="infoTextStyle">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
