@@ -39,14 +39,14 @@ android {
     }
 }
 
-
+apply plugin: 'kotlinx-serialization'
 dependencies {
 
     // Room components (please don't change the version, otherwise it wouldn't work in m1 macbook :( )
-    implementation("androidx.room:room-runtime:2.4.0-alpha03")
-    implementation "androidx.room:room-ktx:2.4.0-alpha03"
-    kapt "androidx.room:room-compiler:2.4.0-alpha03"
-    androidTestImplementation "androidx.room:room-testing:2.4.0-alpha03"
+    implementation("androidx.room:room-runtime:2.4.0-beta02")
+    implementation "androidx.room:room-ktx:2.4.0-beta02"
+    kapt "androidx.room:room-compiler:2.4.0-beta02"
+    androidTestImplementation "androidx.room:room-testing:2.4.0-beta02"
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
@@ -54,6 +54,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
 
     // Kotlin components
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.0"

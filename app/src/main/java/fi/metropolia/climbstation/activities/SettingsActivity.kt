@@ -6,6 +6,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import fi.metropolia.climbstation.R
 
 class SettingsActivity : AppCompatActivity() {
@@ -17,6 +19,7 @@ class SettingsActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.title = "Settings Activity"
         actionBar.setDisplayHomeAsUpEnabled(true)
+       findViewById<BottomNavigationView>(R.id.bottom_navigation).menu[2].isChecked = true
 
         val length = resources.getStringArray(R.array.length)
         val lengthAdapter = ArrayAdapter(this, R.layout.dropdown_item, length)
@@ -36,7 +39,12 @@ class SettingsActivity : AppCompatActivity() {
         }
 
     }
+    override fun onBackPressed() {
+        moveTaskToBack(false)
+    }
 }
+
+
 
 
 //        findViewById<MaterialAutoCompleteTextView>(R.id.list_length).setAdapter(lengthAdapter)

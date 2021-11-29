@@ -10,20 +10,25 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import fi.metropolia.climbstation.*
+import fi.metropolia.climbstation.database.entities.TerrainProfile
+import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingBinding
 import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.util.Constants.Companion.CLIMB_MODES
 import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClimbingBinding
-    private lateinit var viewModel: ClimbStationViewModel
+    private lateinit var climbStationViewModel: ClimbStationViewModel
+    private val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
     private val repository = ClimbStationRepository()
     private val viewModelFactory = ClimbStationViewModelFactory(repository)
 
@@ -40,15 +45,43 @@ class MainActivity : AppCompatActivity() {
 
         NetworkMonitor(application).startNetworkCallback()
 
-        viewModel = ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
-        binding.textSpeedValue.text = getString(R.string.speed, 0)
+        climbStationViewModel =
+            ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
+//        terrainProfileViewModel = ViewModelProvider(this)[TerrainProfileViewModel::class.java]
+
 
         val difficultyLevelTv = binding.listDifficulty
-        val difficultyLevels = TerrainProfiles.difficultyLevels.map { it.name }
+//        terrainProfileViewModel.getTerrainProfiles.observe(this, {
+        var profiles = terrainProfileViewModel.getTerrainProfiles()
+        if (profiles.isEmpty()) {
+            TerrainProfilesObject.terrainProfiles.forEach {
+                val level = mutableListOf<Pair<Int, Int>>()
+                it.profiles.forEach {
+                    level.add(Pair(it.distance, it.angle))
+                }
+                terrainProfileViewModel.addTerrainProfile(
+                    TerrainProfile(
+                        0,
+                        it.name,
+                        it.profiles
+                    )
+                )
+            }
+            profiles = terrainProfileViewModel.getTerrainProfiles()
+        }
+            val difficultyLevels = profiles.map { it.name }
+            val difficultyLevelList = DropDownList(this, difficultyLevelTv, difficultyLevels)
+            difficultyLevelList.setDropDownHeight(620)
+
+//        }
+
+        binding.textSpeedValue.text = getString(R.string.speed, 0)
+
+
+//        val difficultyLevels = TerrainProfilesObject.terrainProfiles.map { it.name }
         val climbModeTv = binding.listClimbMode
 
-        val difficultyLevelList = DropDownList(this, difficultyLevelTv, difficultyLevels)
-        difficultyLevelList.setDropDownHeight(620)
+
         DropDownList(this, climbModeTv, CLIMB_MODES)
 
         val sf = getSharedPreferences("climbStation", MODE_PRIVATE)
@@ -61,8 +94,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (clientKeyTxt == "") {
-            viewModel.logIn()
-            viewModel.loginResponse.observe(this, { res ->
+            climbStationViewModel.logIn()
+            climbStationViewModel.loginResponse.observe(this, { res ->
                 if (res != null && res.body()?.response != "NOTOK") {
                     Log.d("response1", res.body()?.response ?: "none")
                     Log.d("response2", res.body()?.clientKey ?: "dd")
@@ -72,30 +105,39 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Log.d("response3", res?.errorBody().toString() ?: "dd")
                     Toast.makeText(this, "No internet connection!", Toast.LENGTH_LONG).show()
-                    makeAlert { viewModel.logIn() }
+                    makeAlert { climbStationViewModel.logIn() }
                 }
             })
         }
 
         binding.buttonStart.setOnClickListener {
-            setValues(difficultyLevelTv.text.toString(),clientKeyTxt!!)
+            setValues(difficultyLevelTv.text.toString(), clientKeyTxt!!)
             startOperation(difficultyLevelTv.text.toString(), climbModeTv.text.toString())
         }
 
         binding.bottomNavigation.setOnItemSelectedListener { menu ->
             when (menu.itemId) {
-                R.id.menu_history -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        HistoryActivity::class.java
+                R.id.menu_history -> {
+                    startActivity(
+                        Intent(
+                            this@MainActivity,
+                            HistoryActivity::class.java
+                        ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+
                     )
-                )
-                R.id.menu_settings -> startActivity(
-                    Intent(
-                        this@MainActivity,
-                        SettingsActivity::class.java
+                    finishAffinity()
+                }
+                R.id.menu_settings -> {
+                    startActivity(
+                        Intent(
+                            this@MainActivity,
+                            SettingsActivity::class.java
+                        ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     )
-                )
+                    finishAffinity()
+                }
             }
             true
         }
@@ -116,12 +158,14 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    private fun setValues(difficultyLevel: String, clientKeyTxt:String) {
+    private fun setValues(difficultyLevel: String, clientKeyTxt: String) {
         totalLength = binding.textLength.editText?.text.toString()
-        speedValue = (binding.sliderSpeed.value.toInt() ).toString() // cm to mm
+        speedValue = (binding.sliderSpeed.value.toInt()).toString() // cm to mm
         clientKey = getSharedPreferences("climbStation", MODE_PRIVATE).getString("clientKey", "")
         angle =
-            TerrainProfiles.difficultyLevels.find { it.name == difficultyLevel }?.profiles?.get(0)?.angle.toString()
+            TerrainProfilesObject.terrainProfiles.find { it.name == difficultyLevel }?.profiles?.get(
+                0
+            )?.angle.toString()
     }
 
     private fun startOperation(difficultyLevel: String, climbMode: String) {
@@ -132,7 +176,7 @@ class MainActivity : AppCompatActivity() {
                 climbMode
             )
         } else if (clientKey == null) {
-            viewModel.logIn()
+            climbStationViewModel.logIn()
             startOperation(difficultyLevel, climbMode)
             return
         }
@@ -141,13 +185,14 @@ class MainActivity : AppCompatActivity() {
             async {
                 val speedReq = SpeedRequest(SERIAL_NUM, clientKey!!, speedValue)
 
-                viewModel.speedResponse.value = repository.setSpeed(speedReq)
+                climbStationViewModel.speedResponse.value = repository.setSpeed(speedReq)
 
                 val angleReq = AngleRequest(SERIAL_NUM, clientKey!!, angle)
-                viewModel.angleResponse.value = repository.setAngle(angleReq)
+                climbStationViewModel.angleResponse.value = repository.setAngle(angleReq)
 
                 val operationReq = OperationRequest(SERIAL_NUM, clientKey!!, "start")
-                viewModel.operationResponse.value = repository.setOperation(operationReq)
+                climbStationViewModel.operationResponse.value =
+                    repository.setOperation(operationReq)
 
             }.await()
 
@@ -207,4 +252,7 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onBackPressed() {
+        moveTaskToBack(false)
+    }
 }

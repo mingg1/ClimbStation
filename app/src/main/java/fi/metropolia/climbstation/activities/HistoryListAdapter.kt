@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import fi.metropolia.climbstation.R
-import fi.metropolia.climbstation.database.entities.Climb
+import fi.metropolia.climbstation.database.entities.ClimbHistory
 import java.util.*
 
-class HistoryListAdapter(private val histories: List<Climb>):RecyclerView.Adapter<HistoryListAdapter.HistoryListViewHolder>() {
+class HistoryListAdapter(private val histories: List<ClimbHistory>):RecyclerView.Adapter<HistoryListAdapter.HistoryListViewHolder>() {
     class HistoryListViewHolder(itemView: View):RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryListViewHolder {
