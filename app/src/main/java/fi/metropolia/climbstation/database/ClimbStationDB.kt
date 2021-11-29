@@ -1,16 +1,31 @@
 package fi.metropolia.climbstation.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import fi.metropolia.climbstation.database.dao.ClimbDao
-import fi.metropolia.climbstation.database.entities.Climb
+import androidx.room.*
+import fi.metropolia.climbstation.database.dao.ClimbHistoryDao
+import fi.metropolia.climbstation.database.dao.TerrainProfileDao
+import fi.metropolia.climbstation.database.entities.ClimbHistory
+import fi.metropolia.climbstation.database.entities.PhasesConverter
+import fi.metropolia.climbstation.database.entities.TerrainProfile
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.Json.Default.decodeFromString
 
-@Database(entities = [(Climb::class)], version = 1, exportSchema = false)
+
+class Converters {
+    @TypeConverter
+    fun fromList(value : List<Pair<Int,Int>>) = Json.encodeToString(value)
+
+//    @TypeConverter
+//    fun toList(value: String) = decodeFromString<List<Pair<Int,Int>>>(value)
+}
+
+@Database(entities = [(ClimbHistory::class),(TerrainProfile::class)], version = 1, exportSchema = false)
+@TypeConverters(PhasesConverter::class)
 abstract class ClimbStationDB : RoomDatabase() {
 
-    abstract fun climbDao(): ClimbDao
+    abstract fun climbHistoryDao(): ClimbHistoryDao
+    abstract fun terrainProfileDao():TerrainProfileDao
 
     companion object {
         @Volatile
