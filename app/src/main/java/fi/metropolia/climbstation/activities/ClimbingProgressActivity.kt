@@ -73,7 +73,6 @@ class ClimbingProgressActivity : AppCompatActivity() {
         var currentAngle = currentLevelStacks[0].angle
 //            currentLevelStacks?.get(0)?.angle
 
-//        Log.d("level", aaa.toString())
         binding.textAngle.text = getString(R.string.degree, currentAngle)
 
         val postRequestRunnable = object : Runnable {
