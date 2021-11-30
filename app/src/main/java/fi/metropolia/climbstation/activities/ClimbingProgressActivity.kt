@@ -46,6 +46,8 @@ class ClimbingProgressActivity : AppCompatActivity() {
     var completedStepLength = 0
     var currentStep = 0
 
+    var totalClimbedLength = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClimbingProgressBinding.inflate(layoutInflater)
@@ -90,17 +92,17 @@ class ClimbingProgressActivity : AppCompatActivity() {
             this@ClimbingProgressActivity,
             { res ->
                 try {
-//                    climbedLength = res.length.toInt()
-                    climbedLength += 5
-                    binding.textClimbedLength.text = climbedLength.toString()
+                    climbedLength = res.length.toInt()
+                    totalClimbedLength += climbedLength
+                    binding.textClimbedLength.text = totalClimbedLength.toString()
                     binding.lengthProgressBar.apply {
                         progressMax = goalLength!!.toFloat()
-                        progress = climbedLength.toFloat()
+                        progress = totalClimbedLength.toFloat()
                     }
-                    if (climbedLength - completedStepLength >= currentLevelStacks[currentStep].distance) {
+                    if (climbedLength >= currentLevelStacks[currentStep].distance) {
                         if (currentStep == currentLevelStacks.size - 1) currentStep = 0
                         else currentStep++
-                        completedStepLength = climbedLength
+//                        completedStepLength = climbedLength
 
                         currentAngle = currentLevelStacks[currentStep].angle
                         val angleReq =
@@ -112,12 +114,12 @@ class ClimbingProgressActivity : AppCompatActivity() {
                     currentLevel = nextDifficultyLevel(
                         climbedLength,
                         levelTotalLength,
-                        currentLevel!!,
+                        currentLevel,
                         climbMode!!
                     )
-                    binding.textDifficultyMode.text = currentLevel!!.name
-                    Log.d("val", "${currentStep},$levelTotalLength,$climbedLength")
-                    if (climbedLength >= goalLength!!.toInt()) {
+                    binding.textDifficultyMode.text = currentLevel.name
+//                    Log.d("val", "${currentStep},$levelTotalLength,$climbedLength")
+                    if (totalClimbedLength >= goalLength!!.toInt()) {
                         stopTimer()
                         if (mHandler.post(postRequestRunnable)) stopRunnable(
                             mHandler,
@@ -134,7 +136,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
                                 this@ClimbingProgressActivity,
                                 ClimbingResultsActivity::class.java
                             )
-                        intent.putExtra("climbedLength", climbedLength)
+                        intent.putExtra("climbedLength", totalClimbedLength)
                         intent.putExtra("goalLength", goalLength)
                         intent.putExtra("durationText", getTimeString(time))
                         intent.putExtra("duration", time)
@@ -179,11 +181,11 @@ class ClimbingProgressActivity : AppCompatActivity() {
                         climbStationViewModel.speedResponse.value = repository.setSpeed(speedReq)
                         val angleReq = AngleRequest(
                             SERIAL_NUM,
-                            clientKey!!,
+                            clientKey,
                             currentLevelStacks[currentStep].angle.toString()
                         )
                         climbStationViewModel.angleResponse.value = repository.setAngle(angleReq)
-                        val startReq = OperationRequest(SERIAL_NUM, clientKey!!, "start")
+                        val startReq = OperationRequest(SERIAL_NUM, clientKey, "start")
                         climbStationViewModel.operationResponse.value =
                             repository.setOperation(startReq)
                     }
@@ -211,7 +213,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
                 intent.putExtra("durationText", getTimeString(time))
                 intent.putExtra("duration", time)
                 intent.putExtra("speed", speed?.toInt())
-                intent.putExtra("level", currentLevel!!.name)
+                intent.putExtra("level", currentLevel.name)
                 intent.putExtra("calories", consumedCalories)
                 intent.putExtra("clientKey", clientKey)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
