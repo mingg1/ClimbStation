@@ -73,7 +73,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/length_textfield_label"
+                android:hint="@string/length_text_field_label"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
