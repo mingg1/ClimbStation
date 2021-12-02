@@ -5,50 +5,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <com.budiyev.android.codescanner.CodeScannerView-->
-<!--        android:id="@+id/scanner_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:autoFocusButtonColor="@android:color/white"-->
-<!--        app:autoFocusButtonVisible="true"-->
-<!--        app:flashButtonColor="@android:color/white"-->
-<!--        app:flashButtonVisible="true"-->
-<!--        app:frameAspectRatioHeight="1"-->
-<!--        app:frameAspectRatioWidth="1"-->
-<!--        app:frameColor="@android:color/white"-->
-<!--        app:frameCornersRadius="15dp"-->
-<!--        app:frameCornersSize="50dp"-->
-<!--        app:frameSize="0.7"-->
-<!--        app:frameThickness="5dp"-->
-<!--        app:maskColor="#3C000000" />-->
+    <com.budiyev.android.codescanner.CodeScannerView
+        android:id="@+id/scanner_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:autoFocusButtonColor="@android:color/white"
+        app:autoFocusButtonVisible="true"
+        app:flashButtonColor="@android:color/white"
+        app:flashButtonVisible="true"
+        app:frameAspectRatioHeight="1"
+        app:frameAspectRatioWidth="1"
+        app:frameColor="@android:color/white"
+        app:frameCornersRadius="15dp"
+        app:frameCornersSize="50dp"
+        app:frameSize="0.7"
+        app:frameThickness="5dp"
+        app:maskColor="#3C000000" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/textView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:layout_marginStart="24dp"-->
-<!--        android:layout_marginTop="220dp"-->
-<!--        android:layout_marginEnd="24dp"-->
-<!--        android:fontFamily="@font/airbnb_cereal_medium"-->
-<!--        android:text="@string/qr_code_scan_msg"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold" />-->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="220dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/airbnb_cereal_medium"
+        android:text="@string/qr_code_scan_msg"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-<!--    <Button-->
-<!--        android:id="@+id/button"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|center_horizontal"-->
-<!--        android:layout_marginBottom="32dp"-->
-<!--        android:backgroundTint="#00FFFFFF"-->
-<!--        android:elevation="0dp"-->
-<!--        android:fontFamily="@font/airbnb_cereal_medium"-->
-<!--        android:style="?android:attr/borderlessButtonStyle"-->
-<!--        android:text="@string/skip"-->
-<!--        android:textColor="#F0544F"-->
-<!--        android:textSize="18sp" />-->
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#00FFFFFF"
+        android:elevation="0dp"
+        android:fontFamily="@font/airbnb_cereal_medium"
+        android:style="?android:attr/borderlessButtonStyle"
+        android:text="@string/skip"
+        android:textColor="#F0544F"
+        android:textSize="18sp" />
 
 </FrameLayout>
