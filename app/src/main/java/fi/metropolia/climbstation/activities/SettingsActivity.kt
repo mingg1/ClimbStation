@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import fi.metropolia.climbstation.R
-import fi.metropolia.climbstation.databinding.ActivityClimbingHistoryBinding
 import fi.metropolia.climbstation.databinding.SettingsActivityBinding
 
 class SettingsActivity : AppCompatActivity() {

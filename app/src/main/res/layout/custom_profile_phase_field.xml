@@ -77,7 +77,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="degree"
+            android:hint="degree (-45° to 45°)"
             android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 

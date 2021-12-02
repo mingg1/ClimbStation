@@ -57,6 +57,5 @@
         android:text="@string/skip"
         android:textColor="#F0544F"
         android:textSize="18sp" />
-
+    
 </FrameLayout>
-
