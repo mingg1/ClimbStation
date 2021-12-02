@@ -115,7 +115,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
                         currentLevel!!,
                         climbMode!!
                     )
-                    binding.textDifficultyMode.text = currentLevel!!.name
+                   // binding.textDifficultyMode.text = currentLevel!!.name
                     Log.d("val", "${currentStep},$levelTotalLength,$climbedLength")
                     if (climbedLength >= goalLength!!.toInt()) {
                         stopTimer()
@@ -192,7 +192,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
             }
         }
 
-        binding.textDifficultyMode.text = currentLevelText
+      //  binding.textDifficultyMode.text = currentLevelText
 
         binding.buttonFinish.setOnClickListener {
             stopTimer()
