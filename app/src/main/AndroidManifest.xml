@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="fi.metropolia.climbstation">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,6 +19,13 @@
             android:name=".activities.OwnersLoginActivity"
             android:exported="false"
             android:parentActivityName=".activities.SettingsActivity" />
+
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="android:screenOrientation"/>
+        <activity
+            android:name=".activities.QRCodeScannerActivity" />
         <activity
             android:name=".activities.SettingsActivity"
             android:exported="false"
