@@ -95,7 +95,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/background_gray">
+                android:backgroundTint="@color/background">
 
                 <TextView
                     android:id="@+id/stat_climb_duration"
