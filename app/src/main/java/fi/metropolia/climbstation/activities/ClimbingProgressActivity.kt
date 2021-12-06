@@ -51,7 +51,6 @@ class ClimbingProgressActivity : AppCompatActivity() {
         binding = ActivityClimbingProgressBinding.inflate(layoutInflater)
         supportActionBar?.hide()
         setContentView(binding.root)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         climbStationViewModel =
             ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
         terrainProfileViewModel = ViewModelProvider(this)[TerrainProfileViewModel::class.java]
@@ -68,11 +67,13 @@ class ClimbingProgressActivity : AppCompatActivity() {
         val currentLevelStacks = currentLevel.phases
 //        currentLevelStacks!!.forEach { levelTotalLength += it.distance }
         currentLevelStacks.forEach { levelTotalLength += it.distance }
-        var currentAngle = currentLevelStacks[0].angle
-//            currentLevelStacks?.get(0)?.angle
+        var currentAngle = currentLevelStacks[currentStep].angle
 
-//        Log.d("level", aaa.toString())
         binding.textAngle.text = getString(R.string.degree, currentAngle)
+        binding.textGoalLength.text = goalLength
+
+        binding.textNextAngle.text = getString(R.string.degree, currentLevelStacks[currentStep+1].angle)
+        binding.textNextDistance.text = getString(R.string.distance, currentLevelStacks[currentStep+1].distance)
 
         val postRequestRunnable = object : Runnable {
             override fun run() {
@@ -91,7 +92,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
             { res ->
                 try {
 //                    climbedLength = res.length.toInt()
-                    climbedLength += 5
+                    climbedLength += 1
                     binding.textClimbedLength.text = climbedLength.toString()
                     binding.lengthProgressBar.apply {
                         progressMax = goalLength!!.toFloat()
@@ -108,6 +109,8 @@ class ClimbingProgressActivity : AppCompatActivity() {
                         lifecycleScope.launch { repository.setAngle(angleReq) }
 
                         binding.textAngle.text = getString(R.string.degree, currentAngle)
+                        binding.textNextAngle.text = getString(R.string.degree, if(currentStep == currentLevelStacks.size -1)currentLevelStacks[0].angle else currentLevelStacks[currentStep+1].angle)
+                        binding.textNextDistance.text = getString(R.string.distance, if(currentStep == currentLevelStacks.size -1)currentLevelStacks[0].distance else currentLevelStacks[currentStep+1].distance)
                     }
                     currentLevel = nextDifficultyLevel(
                         climbedLength,
