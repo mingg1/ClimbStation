@@ -55,6 +55,7 @@ class ProgramListAdapter(
                 context.getString(R.string.level, profile.name)
             parent.findViewById<TextView>(R.id.text_total_length).text =
                 context.getString(R.string.distance, totalLength)
+            parent.findViewById<TextView>(R.id.text_angle_value).text = "${profile.phases.minByOrNull {  it.angle}?.angle} to ${profile.phases.maxByOrNull { it.angle }?.angle} degree"
             parent.findViewById<ImageView>(R.id.close_btn)
                 .setOnClickListener { transition.hideInfo() }
         }

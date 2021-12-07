@@ -102,4 +102,5 @@
     <string name="angle_set_up">Angle Set-up</string>
     <string name="speed_set_up">Speed Set-up</string>
     <string name="level">%s level</string>
+    <string name="manage_custom_terrain_profile">Manage custom terrain profile</string>
 </resources>
