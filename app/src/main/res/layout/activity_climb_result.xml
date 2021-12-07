@@ -18,7 +18,7 @@
         android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_title"
         app:layout_constraintVertical_bias="1.0">
@@ -34,8 +34,7 @@
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+
             app:layout_constraintTop_toBottomOf="@+id/view">
 
             <TextView
@@ -125,10 +124,10 @@
 
             <TextView
                 android:id="@+id/text_speed"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Climbed speed" />
+                android:text="@string/climbed_speed" />
 
             <TextView
                 android:id="@+id/text_speed_value"
@@ -154,17 +153,17 @@
 
             <TextView
                 android:id="@+id/text_difficulty_level"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Difficulty level" />
+                android:text="@string/difficulty_level" />
 
             <TextView
                 android:id="@+id/text_difficulty_level_value"
                 style="@style/infoTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00:00:00" />
+                android:text="@string/_00_00_00" />
         </LinearLayout>
 
         <LinearLayout
@@ -183,7 +182,7 @@
 
             <TextView
                 android:id="@+id/text_duration"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Climbing duration" />
@@ -218,6 +217,22 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/results_msg" />
+
+        <Button
+            android:id="@+id/share_btn"
+            style="@style/buttonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:layout_marginBottom="32dp"
+            android:padding="16dp"
+            android:text="Share your climb result"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/button_go_to_history"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/container_burnt_calories"
+            app:layout_constraintVertical_bias="0.986" />
 
         <Button
             android:id="@+id/button_go_to_history"

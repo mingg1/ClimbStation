@@ -54,7 +54,6 @@
             android:id="@+id/congratulations"
             android:layout_width="200dp"
             android:layout_height="40dp"
-            android:layout_marginTop="8dp"
             android:text="@string/congratulations"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
@@ -62,7 +61,8 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.441"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/climb_details"

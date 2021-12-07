@@ -72,5 +72,16 @@ class ClimbingResultsActivity : AppCompatActivity() {
             finishAffinity()
 //        }
         }
+
+        binding.shareBtn.setOnClickListener{
+
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+
+
+
+            startActivity(Intent.createChooser(intent,"Select an application to Share"))
+
+        }
     }
 }
