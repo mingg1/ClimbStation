@@ -11,9 +11,17 @@ class TerrainProfileRepository(private val terrainProfileDao: TerrainProfileDao)
     }
 
     suspend fun getTerrainProfiles(): List<TerrainProfile> = terrainProfileDao.getTerrainProfiles()
-    suspend fun getTerrainProfileByName(name: String):TerrainProfile = terrainProfileDao.getTerrainProfileByName(name)
-    suspend fun getTerrainProfileById(id: Int):TerrainProfile = terrainProfileDao.getTerrainProfileById(id)
+    suspend fun getTerrainProfileByName(name: String): TerrainProfile =
+        terrainProfileDao.getTerrainProfileByName(name)
+
+    suspend fun getTerrainProfileById(id: Int): TerrainProfile =
+        terrainProfileDao.getTerrainProfileById(id)
+
+    suspend fun getCustomTerrainProfiles(custom: Int): LiveData<List<TerrainProfile>> =
+        terrainProfileDao.getCustomTerrainProfiles(custom)
+
     suspend fun updateTerrainProfile(terrainProfile: TerrainProfile) =
         terrainProfileDao.updateTerrainProfile(terrainProfile)
 
+    suspend fun deleteTerrainProfile(terrainProfile: TerrainProfile) = terrainProfileDao.deleteTerrainProfile(terrainProfile)
 }

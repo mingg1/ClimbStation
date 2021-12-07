@@ -15,7 +15,8 @@ data class TerrainProfile
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val name: String,
-    val phases: List<Phase>
+    val phases: List<Phase>,
+    val custom: Int
 )
 
 class PhasesConverter {

@@ -24,7 +24,7 @@ class HistoryActivity : AppCompatActivity() {
 
         climbHistoryViewModel = ViewModelProvider(this).get(ClimbHistoryViewModel::class.java)
         climbHistoryViewModel.getClimbHistoryHistory.observe(this, {
-            val historyRecyclerView = binding.historyList
+            val historyRecyclerView = binding.listView
             historyRecyclerView.layoutManager = LinearLayoutManager(this)
             historyRecyclerView.adapter = HistoryListAdapter(it)
         })

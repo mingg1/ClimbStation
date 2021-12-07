@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     TerrainProfile(
                         0,
                         it.name,
-                        it.profiles
+                        it.profiles,0
                     )
                 )
             }

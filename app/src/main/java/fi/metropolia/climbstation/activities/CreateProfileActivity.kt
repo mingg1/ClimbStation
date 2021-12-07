@@ -51,7 +51,8 @@ class CreateProfileActivity : AppCompatActivity() {
                 }
             }
             Log.d("children", profilePhases.toString())
-            terrainProfileViewModel.addTerrainProfile(TerrainProfile(0,profileName,profilePhases))
+            terrainProfileViewModel.addTerrainProfile(TerrainProfile(0,profileName,profilePhases,1))
+            onBackPressed()
         }
     }
 }
