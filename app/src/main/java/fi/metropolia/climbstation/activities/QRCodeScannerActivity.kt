@@ -16,6 +16,7 @@ import com.google.zxing.BarcodeFormat
 import android.graphics.Color
 import android.view.KeyEvent
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 
 import com.google.zxing.ResultPoint
@@ -89,6 +90,13 @@ class QRCodeScannerActivity:AppCompatActivity() {
         beepManager = BeepManager(this)
 
         supportActionBar!!.hide()
+
+        findViewById<Button>(R.id.button_skip).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            finishAffinity()
+        }
     }
 
     override fun onResume() {

@@ -40,7 +40,7 @@ class ClimbingResultsActivity : AppCompatActivity() {
             getString(R.string.consumed_calories, burntCalories)
         binding.textLengthValue.text = climbedLength.toString()
         binding.textDurationValue.text = durationText
-        binding.textLengthValue.text = getString(R.string.climbed_length_value, climbedLength)
+        binding.textLengthValue.text = getString(R.string.distance, climbedLength)
         binding.textDifficultyLevelValue.text = difficultyLevel
 
         climbHistoryHistoryViewModel.addClimbHistory(
