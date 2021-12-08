@@ -38,4 +38,22 @@ class TerrainProfileViewModel(application: Application):AndroidViewModel(applica
             terrainProfileRepository.getTerrainProfileById(id)
         }
     }
+
+    fun getCustomTerrainProfiles(custom:Int):LiveData<List<TerrainProfile>>{
+        return runBlocking {
+            terrainProfileRepository.getCustomTerrainProfiles(custom)
+        }
+    }
+
+    fun updateTerrainProfile(terrainProfile: TerrainProfile){
+        return runBlocking {
+            terrainProfileRepository.updateTerrainProfile(terrainProfile)
+        }
+    }
+
+    fun deleteTerrainProfile(terrainProfile: TerrainProfile){
+        return runBlocking {
+            terrainProfileRepository.deleteTerrainProfile(terrainProfile)
+        }
+    }
 }

@@ -140,7 +140,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textVliedw78"
-                    app:srcCompat="@drawable/pro_athlete" />
+                    app:srcCompat="@drawable/pro_athlete_character" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -177,7 +177,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textVie3w8"
-                    app:srcCompat="@drawable/athlete" />
+                    app:srcCompat="@drawable/athlete_character" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -248,7 +248,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textVisw8"
-                    app:srcCompat="@drawable/conquerer" />
+                    app:srcCompat="@drawable/conqueror_character" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

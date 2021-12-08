@@ -19,6 +19,13 @@ interface TerrainProfileDao {
     @Query("SELECT * FROM terrain_profile_table WHERE id= :id")
     suspend fun getTerrainProfileById(id: Int): TerrainProfile
 
+    @Query("SELECT * FROM terrain_profile_table WHERE custom= :custom ORDER BY id ASC")
+     fun getCustomTerrainProfiles(custom: Int):LiveData<List<TerrainProfile>>
+
     @Update
     suspend fun updateTerrainProfile(terrainProfile: TerrainProfile)
+
+    @Delete
+    suspend fun deleteTerrainProfile(terrainProfile: TerrainProfile)
+
 }

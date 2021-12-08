@@ -20,8 +20,8 @@ class HistoryListAdapter(private val histories: List<ClimbHistory>):RecyclerView
     override fun onBindViewHolder(holder: HistoryListViewHolder, position: Int) {
       val history = histories[position]
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
-        holder.itemView.findViewById<TextView>(R.id.date).text = simpleDateFormat.format(history.dateTime)
-        holder.itemView.findViewById<TextView>(R.id.level).text = history.level
+        holder.itemView.findViewById<TextView>(R.id.profile_name).text = simpleDateFormat.format(history.dateTime)
+        holder.itemView.findViewById<TextView>(R.id.steps).text = history.level
         holder.itemView.findViewById<TextView>(R.id.length).text = "${history.length}m"
     }
 

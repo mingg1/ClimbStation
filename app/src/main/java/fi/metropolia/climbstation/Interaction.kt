@@ -19,16 +19,16 @@ import android.view.animation.ScaleAnimation
     fun View.feedBackTouchListener(){
         setOnTouchListener(object:View.OnTouchListener{
         override fun onTouch(view: View, event:MotionEvent):Boolean {
-            view.performClick()
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
                     return true
                 }
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL ->{
+                MotionEvent.ACTION_UP,  ->{
                     scaleAnimation(0.95f, 1.0f,0.95f, 1.0f, 500)
                 }
             }
+            view.performClick()
            return false
         }
     })

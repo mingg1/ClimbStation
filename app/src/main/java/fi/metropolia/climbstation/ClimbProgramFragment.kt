@@ -75,6 +75,7 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
         }
 
         val startBtn = binding.buttonStartClimbing
+        startBtn.feedBackTouchListener()
         startBtn.setOnClickListener {
             val selectedLevel = climbPrograms[index]
             lifecycleScope.launch {
