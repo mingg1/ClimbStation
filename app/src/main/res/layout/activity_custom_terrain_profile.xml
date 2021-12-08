@@ -69,7 +69,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="6dp"
-                        android:text="phase" />
+                        android:text="phase 1" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/text_distance"
@@ -101,12 +101,12 @@
                         android:layout_marginEnd="24dp"
                         android:layout_marginBottom="8dp"
                         app:boxBackgroundColor="#00FFFFFF"
-                        app:suffixText="@string/degree">
+                        app:suffixText="@string/degree_symbol">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="degree"
+                            android:hint="degree (-45° to 45°)"
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 

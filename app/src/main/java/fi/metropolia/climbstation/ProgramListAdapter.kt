@@ -1,6 +1,7 @@
 package fi.metropolia.climbstation
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,12 +37,20 @@ class ProgramListAdapter(
 
     override fun onBindViewHolder(holder: ProgramListViewHolder, position: Int) {
         val profile = profiles[position]
-        val profileNameUri = "@drawable/${profile.name.lowercase()}_character"
+        val profileNameUri = "@drawable/${profile.name.lowercase().replace(" ", "_")}_character"
+        Log.d("icon", profileNameUri)
         val profileDrawable: Int? =
             context.resources.getIdentifier(profileNameUri, null, context.packageName)
-        val profileImg = ContextCompat.getDrawable(context, R.drawable.beginner_character)
+
         holder.itemView.findViewById<TextView>(R.id.program_name).text = profile.name
-        holder.itemView.findViewById<ImageView>(R.id.program_icon).setImageDrawable(profileImg)
+        if (profile.custom == 1) {
+            holder.itemView.findViewById<ImageView>(R.id.program_icon)
+                .setImageDrawable(ContextCompat.getDrawable(context, R.drawable.custom_character))
+        } else {
+            val profileImg = profileDrawable?.let { ContextCompat.getDrawable(context, it) }
+            holder.itemView.findViewById<ImageView>(R.id.program_icon).setImageDrawable(profileImg)
+        }
+
         val programContainer = holder.itemView.findViewById<View>(R.id.program_container)
         val info = parent.findViewById<ConstraintLayout>(R.id.program_info_container)
         val transition = Transition(info, parent)
@@ -55,6 +64,8 @@ class ProgramListAdapter(
                 context.getString(R.string.level, profile.name)
             parent.findViewById<TextView>(R.id.text_total_length).text =
                 context.getString(R.string.distance, totalLength)
+            parent.findViewById<TextView>(R.id.text_angle_value).text =
+                "${profile.phases.minByOrNull { it.angle }?.angle} to ${profile.phases.maxByOrNull { it.angle }?.angle} degree"
             parent.findViewById<ImageView>(R.id.close_btn)
                 .setOnClickListener { transition.hideInfo() }
         }

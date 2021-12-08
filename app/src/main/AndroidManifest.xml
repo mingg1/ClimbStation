@@ -54,6 +54,8 @@
             android:parentActivityName=".activities.ClimbingProgressActivity" />
         <activity android:name=".activities.HistoryActivity" />
         <activity android:name=".activities.CreateProfileActivity" />
+        <activity android:name=".activities.ManageProfileActivity" />
+        <activity android:name=".activities.ModifyProfileActivity" />
         <service android:name=".service.TimerService" />
     </application>
 
