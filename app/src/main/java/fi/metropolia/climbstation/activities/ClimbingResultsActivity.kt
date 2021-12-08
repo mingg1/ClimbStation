@@ -79,7 +79,8 @@ class ClimbingResultsActivity : AppCompatActivity() {
                 intent.action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, "This is the result of my Climb, Try your\'s!!")
 
-                type ="text/plain"
+
+                type ="Contacts.CONTENT_TYPE"
             }
 
 
