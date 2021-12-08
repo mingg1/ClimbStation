@@ -31,7 +31,6 @@ val profileId = intent.extras?.getLong("profileId")
         binding.textProfileName.editText?.setText(profile.name)
 
         var phaseNum = profile.phases.size
-        if (profile.phases.size >1){
             profile.phases.forEach {
                 if(profile.phases.indexOf(it)==0){
                     binding.textDistance.editText?.setText(profile.phases[0].distance.toString())
@@ -53,7 +52,6 @@ val profileId = intent.extras?.getLong("profileId")
                     }
                     binding.profileContainer.addView(phaseField)
                 }
-            }
         }
 
         binding.buttonAddPhase.setOnClickListener {
