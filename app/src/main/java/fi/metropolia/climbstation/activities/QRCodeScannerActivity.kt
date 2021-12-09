@@ -91,7 +91,7 @@ class QRCodeScannerActivity:AppCompatActivity() {
 
         supportActionBar!!.hide()
 
-        findViewById<Button>(R.id.button_skip).setOnClickListener {
+        findViewById<Button>(R.id.button).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
