@@ -78,7 +78,7 @@
     <string name="degree">%d°</string>
     <string name="degree_symbol">°</string>
     <string name="results_message">You climbed %d meters from %d meters goal!</string>
-    <string name="climbed_length_value">%dm</string>
+    <string name="distance">%dm</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--    <string name="units">Units</string>-->
@@ -101,4 +101,6 @@
     <string name="logout">Logout</string>
     <string name="angle_set_up">Angle Set-up</string>
     <string name="speed_set_up">Speed Set-up</string>
+    <string name="level">%s level</string>
+    <string name="manage_custom_terrain_profile">Manage custom terrain profile</string>
 </resources>

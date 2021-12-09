@@ -10,6 +10,7 @@ import androidx.core.view.get
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.databinding.SettingsActivityBinding
+import fi.metropolia.climbstation.feedBackTouchListener
 
 class SettingsActivity : AppCompatActivity() {
     lateinit var binding: SettingsActivityBinding
@@ -36,6 +37,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         binding.menuCreateProfile.setOnClickListener {
             startActivity(
                 Intent(
@@ -44,6 +46,17 @@ class SettingsActivity : AppCompatActivity() {
                 ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             )
         }
+        binding.menuCreateProfile.feedBackTouchListener()
+
+        binding.menuManageCustomProfile.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    ManageProfileActivity::class.java
+                ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            )
+        }
+        binding.menuManageCustomProfile.feedBackTouchListener()
 
         binding.bottomNavigation.setOnItemSelectedListener { menu ->
             when (menu.itemId) {

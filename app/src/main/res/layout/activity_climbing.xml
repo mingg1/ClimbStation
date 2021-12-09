@@ -86,7 +86,7 @@
             android:stepSize="1"
             android:value="0"
             android:valueFrom="0"
-            android:valueTo="100"
+            android:valueTo="20"
             app:labelBehavior="gone"
             app:layout_constraintEnd_toStartOf="@+id/text_speed_value"
             app:layout_constraintStart_toStartOf="parent"
@@ -162,15 +162,5 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/constraintLayout"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBaseline_toBottomOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:menu="@menu/nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
