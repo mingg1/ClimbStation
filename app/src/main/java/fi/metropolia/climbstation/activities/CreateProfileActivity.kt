@@ -55,4 +55,10 @@ class CreateProfileActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slide_out_right)
+    }
+
 }

@@ -43,8 +43,9 @@ class SettingsActivity : AppCompatActivity() {
                 Intent(
                     this,
                     CreateProfileActivity::class.java
-                ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                )
             )
+            overridePendingTransition(R.anim.anim_slide_in_right,R.anim.anim_slide_out_left)
         }
         binding.menuCreateProfile.feedBackTouchListener()
 
@@ -53,8 +54,9 @@ class SettingsActivity : AppCompatActivity() {
                 Intent(
                     this,
                     ManageProfileActivity::class.java
-                ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                )
             )
+            overridePendingTransition(R.anim.anim_slide_in_right,R.anim.anim_slide_out_left)
         }
         binding.menuManageCustomProfile.feedBackTouchListener()
 
