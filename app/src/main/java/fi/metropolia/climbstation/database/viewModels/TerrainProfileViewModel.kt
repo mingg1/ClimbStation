@@ -39,9 +39,15 @@ class TerrainProfileViewModel(application: Application):AndroidViewModel(applica
         }
     }
 
-    fun getCustomTerrainProfiles(custom:Int):LiveData<List<TerrainProfile>>{
+    fun getBaseTerrainProfiles():List<TerrainProfile>{
         return runBlocking {
-            terrainProfileRepository.getCustomTerrainProfiles(custom)
+            terrainProfileRepository.getBaseTerrainProfiles()
+        }
+    }
+
+    fun getCustomTerrainProfiles():LiveData<List<TerrainProfile>>{
+        return runBlocking {
+            terrainProfileRepository.getCustomTerrainProfiles()
         }
     }
 
