@@ -23,6 +23,12 @@
     <string name="general_setting">General Settings</string>
     <string name="owner_setting">Owner\'s Settings</string>
 
+    <string-array name="filter_modes">
+        <item>All</item>
+        <item>Custom terrain profiles</item>
+        <item>Basic programs</item>
+    </string-array>
+
     <string-array name="length">
         <item>millimeters(mm)</item>
         <item>centimeters(cm)</item>

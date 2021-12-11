@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Button
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -14,15 +14,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import fi.metropolia.climbstation.activities.ClimbingProgressActivity
 import fi.metropolia.climbstation.activities.MainActivity
-import fi.metropolia.climbstation.database.entities.TerrainProfile
 import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.FragmentClimbProgramsBinding
 import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.util.Constants
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 
 var visibility = false
 
@@ -35,14 +32,12 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
     private var index = 0
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         climbStationViewModel =
             ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
         val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
-        val climbPrograms = terrainProfileViewModel.getTerrainProfiles()
+        val basicClimbPrograms = terrainProfileViewModel.getBaseTerrainProfiles()
 
         val sf =
             requireActivity().getSharedPreferences("climbStation", AppCompatActivity.MODE_PRIVATE)
@@ -56,15 +51,32 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
 
         val programList = binding.programList
         programList.layoutManager = GridLayoutManager(requireContext(), 2)
-        programList.adapter = ProgramListAdapter(climbPrograms, requireContext(), view, this)
+
+        terrainProfileViewModel.getCustomTerrainProfiles().observe(this, {
+            val allPrograms = it + basicClimbPrograms
+            programList.adapter = ProgramListAdapter(allPrograms, requireContext(), view, this)
+
+            binding.spinnerPrograms.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        adapterView: AdapterView<*>?, itemView: View?, position: Int, id: Long
+                    ) {
+                        val selectedItem = adapterView?.getItemAtPosition(position).toString()
+                        val filterModes = resources.getStringArray(R.array.filter_modes)
+                        when(selectedItem){
+                           filterModes[0]-> programList.adapter = ProgramListAdapter(allPrograms, requireContext(), view, this@ClimbProgramFragment)
+                            filterModes[1]-> programList.adapter = ProgramListAdapter(it, requireContext(), view, this@ClimbProgramFragment)
+                            filterModes[2]-> programList.adapter = ProgramListAdapter(basicClimbPrograms, requireContext(), view, this@ClimbProgramFragment)
+                        }
+                    }
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                }
+        })
+
         programList.setOnScrollChangeListener { _, _, _, _, _ ->
-            if (visibility) Transition(
-                info,
-                view
-            ).hideInfo()
+            if (visibility) Transition(info, view).hideInfo()
         }
         programList.setOnTouchListener { _, event ->
-
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     Transition(info, view).hideInfo()
@@ -74,10 +86,11 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
             }
         }
 
+        binding.closeBtn.feedBackTouchListener()
         val startBtn = binding.buttonStartClimbing
         startBtn.feedBackTouchListener()
         startBtn.setOnClickListener {
-            val selectedLevel = climbPrograms[index]
+            val selectedLevel = basicClimbPrograms[index]
             lifecycleScope.launch {
                 async {
                     // The average speed is 6 mm/sec
@@ -86,16 +99,13 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
                     climbStationViewModel.speedResponse.value = repository.setSpeed(speedReq)
 
                     val angleReq = AngleRequest(
-                        Constants.SERIAL_NUM,
-                        clientKey,
-                        selectedLevel.phases[0].angle.toString()
+                        Constants.SERIAL_NUM, clientKey, selectedLevel.phases[0].angle.toString()
                     )
                     climbStationViewModel.angleResponse.value = repository.setAngle(angleReq)
 
                     val operationReq = OperationRequest(Constants.SERIAL_NUM, clientKey, "start")
                     climbStationViewModel.operationResponse.value =
                         repository.setOperation(operationReq)
-
                 }.await()
 
                 var totalLength = 0
