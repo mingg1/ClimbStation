@@ -35,7 +35,7 @@ class CustomProfileListAdapter(
         profile.phases.forEach { totalLength += it.distance }
         holder.itemView.findViewById<TextView>(R.id.profile_name).text = profile.name
         holder.itemView.findViewById<TextView>(R.id.steps_value).text =
-            "${profile.phases.size} steps"
+            "${profile.phases.size} phases"
         holder.itemView.findViewById<TextView>(R.id.length_value).text = "${totalLength} m"
         holder.itemView.findViewById<ConstraintLayout>(R.id.profile_container).setOnClickListener {
             val profileId = profile.id

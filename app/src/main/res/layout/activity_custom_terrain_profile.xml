@@ -27,6 +27,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
             android:paddingBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/button_save_profile"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +106,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="degree (-45° to 45°)"
+                            android:hint="degree (-45° to 15°)"
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 

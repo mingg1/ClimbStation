@@ -1,9 +1,12 @@
 package fi.metropolia.climbstation.activities
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +29,7 @@ class ManageProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
-        customProfiles = terrainProfileViewModel.getCustomTerrainProfiles(1)
+        customProfiles = terrainProfileViewModel.getCustomTerrainProfiles()
 
         binding.textViewTitle.text = getString(R.string.manage_custom_terrain_profile)
         binding.textViewTitle.textSize = 24.0f
@@ -40,34 +43,57 @@ class ManageProfileActivity : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(profileListView)
 
+        binding.bottomNav.visibility = View.GONE
+    }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right)
     }
 
     private var simpleCallback = object : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),
-        ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
+        ItemTouchHelper.LEFT
     ) {
+
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            var startPositon = viewHolder.adapterPosition
-            var endPosition = target.adapterPosition
+            val startPosition = viewHolder.adapterPosition
+            val endPosition = target.adapterPosition
             customProfiles.observe(this@ManageProfileActivity, {
-                Collections.swap(it, startPositon, endPosition)
-                recyclerView.adapter?.notifyItemMoved(startPositon, endPosition)
+                Collections.swap(it, startPosition, endPosition)
+                recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)
             })
             return true
         }
 
+        override fun onChildDraw(
+            c: Canvas, recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
+            actionState: Int, isCurrentlyActive: Boolean
+        ) {
+            val foregroundView = findViewById<ConstraintLayout>(R.id.profile_container)
+            getDefaultUIUtil().onDraw(c,recyclerView,foregroundView,dX,dY,actionState,isCurrentlyActive)
+        }
+
+        override fun onChildDrawOver(
+            c: Canvas, recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder?, dX: Float, dY: Float,
+            actionState: Int, isCurrentlyActive: Boolean
+        ) {
+            val foregroundView = findViewById<ConstraintLayout>(R.id.profile_container)
+            getDefaultUIUtil().onDrawOver(c,recyclerView,foregroundView,dX,dY,actionState,isCurrentlyActive)
+        }
+
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            var position = viewHolder.adapterPosition
+            val position = viewHolder.adapterPosition
             Log.d("pos", position.toString())
             when (direction) {
                 ItemTouchHelper.LEFT -> {
                     val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
-
                     val profileId = customProfiles.value?.get(position)
                     Log.d("id", profileId.toString())
                     profileId?.let { terrainProfileViewModel.deleteTerrainProfile(it) }

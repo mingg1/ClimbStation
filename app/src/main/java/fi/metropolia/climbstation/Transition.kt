@@ -8,21 +8,20 @@ import android.view.ViewGroup
 
 class Transition(private val targetView: View, private val parent:ViewGroup) {
 
-    private fun showHideInfo() {
+    private fun setTransition() {
         val transition = Slide(Gravity.BOTTOM)
         transition.duration = 600
         transition.addTarget(targetView)
         TransitionManager.beginDelayedTransition(parent, transition)
-
     }
 
     fun showInfo(){
-        showHideInfo()
+        setTransition()
         targetView.visibility = View.VISIBLE
     }
 
     fun hideInfo(){
-        showHideInfo()
+        setTransition()
         targetView.visibility = View.GONE
     }
 }
