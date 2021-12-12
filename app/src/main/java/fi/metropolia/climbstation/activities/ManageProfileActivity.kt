@@ -1,10 +1,12 @@
 package fi.metropolia.climbstation.activities
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,13 +48,14 @@ class ManageProfileActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slide_out_right)
+        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right)
     }
 
     private var simpleCallback = object : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),
         ItemTouchHelper.LEFT
     ) {
+
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -65,6 +68,24 @@ class ManageProfileActivity : AppCompatActivity() {
                 recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)
             })
             return true
+        }
+
+        override fun onChildDraw(
+            c: Canvas, recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
+            actionState: Int, isCurrentlyActive: Boolean
+        ) {
+            val foregroundView = findViewById<ConstraintLayout>(R.id.profile_container)
+            getDefaultUIUtil().onDraw(c,recyclerView,foregroundView,dX,dY,actionState,isCurrentlyActive)
+        }
+
+        override fun onChildDrawOver(
+            c: Canvas, recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder?, dX: Float, dY: Float,
+            actionState: Int, isCurrentlyActive: Boolean
+        ) {
+            val foregroundView = findViewById<ConstraintLayout>(R.id.profile_container)
+            getDefaultUIUtil().onDrawOver(c,recyclerView,foregroundView,dX,dY,actionState,isCurrentlyActive)
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

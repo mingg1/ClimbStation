@@ -45,7 +45,7 @@ class ModifyProfileActivity : AppCompatActivity() {
                 phaseField.findViewById<TextView>(R.id.text_phase).text =
                     "Phase ${profile.phases.indexOf(it) + 1}"
                 phaseField.findViewById<TextView>(R.id.text_remove).setOnClickListener {
-//                        index--
+                    phaseNum--
                     binding.profileContainer.removeView(phaseField)
                 }
                 binding.profileContainer.addView(phaseField)

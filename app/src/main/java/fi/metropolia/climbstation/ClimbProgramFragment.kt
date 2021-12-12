@@ -21,8 +21,6 @@ import fi.metropolia.climbstation.util.Constants
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-var visibility = false
-
 class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
 
     private lateinit var binding: FragmentClimbProgramsBinding
@@ -74,7 +72,8 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
         })
 
         programList.setOnScrollChangeListener { _, _, _, _, _ ->
-            if (visibility) Transition(info, view).hideInfo()
+            if (binding.programInfoContainer.visibility == View.VISIBLE) Transition(info, view).hideInfo()
+            Log.d("vis",binding.programInfoContainer.visibility.toString())
         }
         programList.setOnTouchListener { _, event ->
             when (event.action) {
@@ -86,7 +85,6 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
             }
         }
 
-        binding.closeBtn.feedBackTouchListener()
         val startBtn = binding.buttonStartClimbing
         startBtn.feedBackTouchListener()
         startBtn.setOnClickListener {
@@ -130,6 +128,7 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
 
     override fun recyclerViewClickListener(position: Int) {
         index = position
+        Log.d("pos",index.toString())
     }
 
 }

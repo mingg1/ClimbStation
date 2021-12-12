@@ -16,7 +16,8 @@
     </style>
 
     <style name="AppFontStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">@font/airbnb_cereal_medium</item>
+        <item name="android:fontFamily">@font/eurostile_bold</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
     <style name="TextInputLayout" >
@@ -48,7 +49,7 @@
         <item name="cornerRadius">16dp</item>
         <item name="android:padding">20dp</item>
         <item name="backgroundColor">?attr/colorPrimaryVariant</item>
-        <item name="fontFamily">@font/airbnb_cereal_medium</item>
+        <item name="fontFamily">@font/eurostile_bold</item>
     </style>
 
     <style name="Divider">

@@ -29,13 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view">
 
             <TextView
@@ -43,14 +43,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Date" />
+                android:text="Date"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_date_value"
                 style="@style/infoTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00:00:00" />
+                android:text="00:00:00"
+                android:textStyle="normal|bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,10 +62,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/container_difficulty_level">
 
             <TextView
@@ -70,7 +76,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Estimated burnt calories" />
+                android:text="Estimated burnt calories"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_burnt_calories_value"
@@ -86,6 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
@@ -99,7 +108,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Climbed length" />
+                android:text="Climbed length"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_length_value"
@@ -115,6 +126,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
@@ -128,7 +140,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Climbed speed" />
+                android:text="Climbed speed"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_speed_value"
@@ -144,6 +158,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
@@ -157,7 +172,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Difficulty level" />
+                android:text="Difficulty level"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_difficulty_level_value"
@@ -173,6 +190,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
@@ -186,7 +204,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Climbing duration" />
+                android:text="Climbing duration"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_duration_value"
@@ -202,6 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Congratulations! 💪"
+            android:textColor="@color/colorPrimary"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -247,9 +268,11 @@
 
         <TextView
             android:id="@+id/results_msg"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/results_message"
             android:textAlignment="center"
             android:textSize="20sp"

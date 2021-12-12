@@ -38,7 +38,6 @@ class ProgramListAdapter(
     override fun onBindViewHolder(holder: ProgramListViewHolder, position: Int) {
         val profile = profiles[position]
         val profileNameUri = "@drawable/${profile.name.lowercase().replace(" ", "_")}_character"
-        Log.d("icon", profileNameUri)
         val profileDrawable: Int? =
             context.resources.getIdentifier(profileNameUri, null, context.packageName)
 
@@ -54,8 +53,10 @@ class ProgramListAdapter(
         val programContainer = holder.itemView.findViewById<View>(R.id.program_container)
         val info = parent.findViewById<ConstraintLayout>(R.id.program_info_container)
         val transition = Transition(info, parent)
-        programContainer.feedBackTouchListener()
+//        programContainer.feedBackTouchListener()
         programContainer.setOnClickListener {
+            it.scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
+            it.scaleAnimation(0.95f, 1.0f,0.95f, 1.0f, 500)
             listener.recyclerViewClickListener(position)
             transition.showInfo()
             var totalLength = 0
@@ -66,9 +67,13 @@ class ProgramListAdapter(
                 context.getString(R.string.distance, totalLength)
             parent.findViewById<TextView>(R.id.text_angle_value).text =
                 "${profile.phases.minByOrNull { it.angle }?.angle} to ${profile.phases.maxByOrNull { it.angle }?.angle} degree"
+            parent.findViewById<ImageView>(R.id.close_btn).feedBackTouchListener()
             parent.findViewById<ImageView>(R.id.close_btn)
-                .setOnClickListener { transition.hideInfo() }
+                .setOnClickListener { transition.hideInfo()
+                }
         }
+
+
     }
 
     override fun getItemCount(): Int {
