@@ -49,7 +49,7 @@ class ManageProfileActivity : AppCompatActivity(), CustomProfileListAdapter.OnIt
 
     override fun onItemLongClick(position: Int) {
 //        Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
-        val intent = Intent(Intent.ACTION_VIEW)
+        val intent = Intent(Intent.ACTION_SEND)
 
         intent.data = Uri.parse("fi.metropolia.climbstation")
 
