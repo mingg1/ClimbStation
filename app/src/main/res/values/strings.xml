@@ -14,7 +14,7 @@
     <string name="last_name">Last Name</string>
     <string name="qr_code_scan_msg">Scan the QR code located on the wall</string>
     <string name="skip">Enter code manually</string>
-    <string name="speed">%d mm / sec</string>
+    <string name="speed">%d m / min</string>
     <string name="consumed_calories">%.2f kcal</string>
     <string name="length_text_field_label">Length (in meter)</string>
     <string name="title_activity_settings">SettingsActivity</string>

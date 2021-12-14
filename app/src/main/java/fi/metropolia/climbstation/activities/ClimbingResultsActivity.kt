@@ -76,14 +76,11 @@ class ClimbingResultsActivity : AppCompatActivity() {
         binding.shareBtn.setOnClickListener{
 
             val intent = Intent().apply {
-                intent.action = Intent.ACTION_SEND
+                action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, "This is the result of my Climb, Try your\'s!!")
 
-                type ="text/plain"
+                type = "text/plain"
             }
-
-
-
             startActivity(Intent.createChooser(intent,"Select an application to Share", null))
 
         }

@@ -19,14 +19,38 @@ interface ItemHelper {
 
 class CustomProfileListAdapter(
     private val profiles: List<TerrainProfile>,
-    private val context: Context
+    private val context: Context,
+    private val listener: OnItemLongClickListener
 ) : RecyclerView.Adapter<CustomProfileListAdapter.CustomProfileListViewHolder>(), ItemHelper {
-    class CustomProfileListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    inner class CustomProfileListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+    View.OnLongClickListener{
+        init {
+            itemView.setOnLongClickListener(this)
+        }
+
+        override fun onLongClick(p0: View?): Boolean {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+
+            listener.onItemLongClick(position)
+                }
+
+            return true
+
+        }
+    }
+    interface OnItemLongClickListener {
+        fun onItemLongClick(position: Int)
+    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomProfileListViewHolder {
         return CustomProfileListViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.custom_profile_info, parent, false)
         )
+
     }
 
     override fun onBindViewHolder(holder: CustomProfileListViewHolder, position: Int) {
@@ -54,6 +78,5 @@ class CustomProfileListAdapter(
     override fun onItemDismiss(position: Int) {
         notifyItemRemoved(position)
     }
-
 
 }

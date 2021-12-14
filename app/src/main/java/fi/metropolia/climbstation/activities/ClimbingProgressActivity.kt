@@ -30,7 +30,7 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
-class ClimbingProgressActivity : AppCompatActivity() {
+class  ClimbingProgressActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClimbingProgressBinding
     private var timerStarted = false
     private lateinit var serviceIntent: Intent

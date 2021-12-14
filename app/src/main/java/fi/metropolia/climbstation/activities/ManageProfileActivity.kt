@@ -1,6 +1,8 @@
 package fi.metropolia.climbstation.activities
 
+import android.content.Intent
 import android.graphics.Canvas
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -17,7 +19,7 @@ import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingHistoryBinding
 import java.util.*
 
-class ManageProfileActivity : AppCompatActivity() {
+class ManageProfileActivity : AppCompatActivity(), CustomProfileListAdapter.OnItemLongClickListener {
     lateinit var binding: ActivityClimbingHistoryBinding
     lateinit var adapter: CustomProfileListAdapter
     lateinit var customProfiles: LiveData<List<TerrainProfile>>
@@ -37,7 +39,7 @@ class ManageProfileActivity : AppCompatActivity() {
         val profileListView = binding.listView
         profileListView.layoutManager = LinearLayoutManager(this)
         customProfiles.observe(this, {
-            adapter = CustomProfileListAdapter(it, this)
+            adapter = CustomProfileListAdapter(profiles = it, context = this, listener = this)
             profileListView.adapter = adapter
         })
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
@@ -49,6 +51,17 @@ class ManageProfileActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right)
+    }
+
+    override fun onItemLongClick(position: Int) {
+//        Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
+        val intent = Intent(Intent.ACTION_SEND)
+
+        intent.data = Uri.parse("fi.metropolia.climbstation")
+
+        intent.type = "*/*"
+
+        startActivity(intent)
     }
 
     private var simpleCallback = object : ItemTouchHelper.SimpleCallback(
