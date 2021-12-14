@@ -14,7 +14,7 @@ import java.util.*
 
 class ClimbingResultsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClimbResultBinding
-    private val repository = ClimbStationRepository()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClimbResultBinding.inflate(layoutInflater)
@@ -46,7 +46,7 @@ class ClimbingResultsActivity : AppCompatActivity() {
         climbHistoryHistoryViewModel.addClimbHistory(
             ClimbHistory(
                 0, dateNow,
-                difficultyLevel!!, climbedLength!!, durationText!!, speed!!, burntCalories!!
+                difficultyLevel!!, climbedLength!!, goalLength!!, durationText!!, speed!!, burntCalories!!
             )
         )
 
@@ -57,35 +57,19 @@ class ClimbingResultsActivity : AppCompatActivity() {
             finishAffinity()
         }
         binding.buttonGoToMain.setOnClickListener {
-//            lifecycleScope.launch {
-//                async{
-//                    val logOutReq = LogOutRequest(Constants.SERIAL_NUM, clientKey!!)
-//                    repository.logOut(logOutReq)
-//                }.await()
-//                val sharedPrefs: SharedPreferences = getSharedPreferences("climbStation", MODE_PRIVATE)
-//                val editor = sharedPrefs.edit()
-//                editor.clear()
-//                editor.apply()
             val intent = Intent(this@ClimbingResultsActivity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             finishAffinity()
-//        }
         }
 
         binding.shareBtn.setOnClickListener{
-
             val intent = Intent().apply {
                 intent.action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, "This is the result of my Climb, Try your\'s!!")
-
                 type ="text/plain"
             }
-
-
-
             startActivity(Intent.createChooser(intent,"Select an application to Share", null))
-
         }
     }
 }

@@ -15,18 +15,18 @@ import fi.metropolia.climbstation.databinding.ActivityClimbingHistoryBinding
 class HistoryActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityClimbingHistoryBinding
-    lateinit var climbHistoryViewModel: ClimbHistoryViewModel
+    private lateinit var climbHistoryViewModel: ClimbHistoryViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         binding = ActivityClimbingHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        climbHistoryViewModel = ViewModelProvider(this).get(ClimbHistoryViewModel::class.java)
+        climbHistoryViewModel = ViewModelProvider(this)[ClimbHistoryViewModel::class.java]
         climbHistoryViewModel.getClimbHistoryHistory.observe(this, {
             val historyRecyclerView = binding.listView
             historyRecyclerView.layoutManager = LinearLayoutManager(this)
-            historyRecyclerView.adapter = HistoryListAdapter(it)
+            historyRecyclerView.adapter = HistoryListAdapter(it.reversed(),this)
         })
         binding.bottomNav.menu[1].isChecked = true
 

@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import fi.metropolia.climbstation.database.entities.ClimbHistory
+import fi.metropolia.climbstation.database.entities.TerrainProfile
 
 @Dao
 interface ClimbHistoryDao {
@@ -15,4 +16,7 @@ interface ClimbHistoryDao {
 
     @Query("SELECT * FROM climb_history_table ORDER BY id ASC")
     fun readAllData(): LiveData<List<ClimbHistory>>
+
+    @Query("SELECT * FROM climb_history_table WHERE id= :id")
+    suspend fun getClimbHistoryById(id: Long): ClimbHistory
 }

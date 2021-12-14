@@ -33,7 +33,7 @@ class TerrainProfileViewModel(application: Application):AndroidViewModel(applica
         }
     }
 
-    fun getTerrainProfileById(id:Int):TerrainProfile{
+    fun getTerrainProfileById(id:Long):TerrainProfile{
         return runBlocking {
             terrainProfileRepository.getTerrainProfileById(id)
         }

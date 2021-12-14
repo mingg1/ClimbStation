@@ -14,7 +14,7 @@ class TerrainProfileRepository(private val terrainProfileDao: TerrainProfileDao)
     suspend fun getTerrainProfileByName(name: String): TerrainProfile =
         terrainProfileDao.getTerrainProfileByName(name)
 
-    suspend fun getTerrainProfileById(id: Int): TerrainProfile =
+    suspend fun getTerrainProfileById(id: Long): TerrainProfile =
         terrainProfileDao.getTerrainProfileById(id)
 
     suspend fun getBaseTerrainProfiles(): List<TerrainProfile> =
