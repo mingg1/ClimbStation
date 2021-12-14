@@ -2,6 +2,7 @@ package fi.metropolia.climbstation.activities
 
 import android.content.Intent
 import android.graphics.Canvas
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +32,8 @@ class ManageProfileActivity : AppCompatActivity(), CustomProfileListAdapter.OnIt
         binding = ActivityClimbingHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.listContainer.backgroundTintList = ContextCompat.getColorStateList(this,R.color.white)
+        binding.listContainer.backgroundTintMode = PorterDuff.Mode.ADD
         val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
         customProfiles = terrainProfileViewModel.getCustomTerrainProfiles()
 
@@ -88,16 +92,16 @@ class ManageProfileActivity : AppCompatActivity(), CustomProfileListAdapter.OnIt
             viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
             actionState: Int, isCurrentlyActive: Boolean
         ) {
-            val foregroundView = findViewById<ConstraintLayout>(R.id.profile_container)
+            val foregroundView = viewHolder.itemView.findViewById<ConstraintLayout>(R.id.custom_profile_container)
             getDefaultUIUtil().onDraw(c,recyclerView,foregroundView,dX,dY,actionState,isCurrentlyActive)
         }
 
         override fun onChildDrawOver(
             c: Canvas, recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder?, dX: Float, dY: Float,
+            viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
             actionState: Int, isCurrentlyActive: Boolean
         ) {
-            val foregroundView = findViewById<ConstraintLayout>(R.id.profile_container)
+            val foregroundView = viewHolder.itemView.findViewById<ConstraintLayout>(R.id.custom_profile_container)
             getDefaultUIUtil().onDrawOver(c,recyclerView,foregroundView,dX,dY,actionState,isCurrentlyActive)
         }
 

@@ -27,7 +27,7 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
     private lateinit var climbStationViewModel: ClimbStationViewModel
     private val repository = ClimbStationRepository()
     private val viewModelFactory = ClimbStationViewModelFactory(repository)
-    private var index = 0
+    private var selectedProgramId = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -88,7 +88,7 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
         val startBtn = binding.buttonStartClimbing
         startBtn.feedBackTouchListener()
         startBtn.setOnClickListener {
-            val selectedLevel = basicClimbPrograms[index]
+            val selectedLevel = terrainProfileViewModel.getTerrainProfileById(selectedProgramId)
             lifecycleScope.launch {
                 async {
                     // The average speed is 6 mm/sec
@@ -126,9 +126,9 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
         return view
     }
 
-    override fun recyclerViewClickListener(position: Int) {
-        index = position
-        Log.d("pos",index.toString())
+    override fun recyclerViewClickListener(programId: Long) {
+        selectedProgramId = programId
+        Log.d("pos",selectedProgramId.toString())
     }
 
 }

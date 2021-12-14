@@ -32,6 +32,7 @@ import com.journeyapps.barcodescanner.BarcodeCallback
 
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import fi.metropolia.climbstation.R
+import fi.metropolia.climbstation.feedBackTouchListener
 import java.util.*
 
 
@@ -111,7 +112,6 @@ class QRCodeScannerActivity:AppCompatActivity() {
         beepManager = BeepManager(this)
 
         supportActionBar!!.hide()
-
         findViewById<Button>(R.id.button).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

@@ -24,7 +24,7 @@ class ModifyProfileActivity : AppCompatActivity() {
         binding.textViewTitle.text = "Edit terrain profile"
         val profileId = intent.extras?.getLong("profileId")
         val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
-        val profile = terrainProfileViewModel.getTerrainProfileById(profileId!!.toInt())
+        val profile = terrainProfileViewModel.getTerrainProfileById(profileId!!)
 
         binding.textProfileName.editText?.setText(profile.name)
 

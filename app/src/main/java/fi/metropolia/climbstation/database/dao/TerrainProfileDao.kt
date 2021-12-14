@@ -17,7 +17,7 @@ interface TerrainProfileDao {
     suspend fun getTerrainProfileByName(name: String): TerrainProfile
 
     @Query("SELECT * FROM terrain_profile_table WHERE id= :id")
-    suspend fun getTerrainProfileById(id: Int): TerrainProfile
+    suspend fun getTerrainProfileById(id: Long): TerrainProfile
 
     @Query("SELECT * FROM terrain_profile_table WHERE custom= 0 ORDER BY id ASC")
     suspend fun getBaseTerrainProfiles():List<TerrainProfile>

@@ -3,6 +3,7 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -18,35 +19,40 @@
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_destination" />
+            android:layout_marginRight="16dp"
+            android:src="@drawable/trash_bin"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/delete_icon"
             android:text="delete"
             android:textColor="#fff"
-            android:textSize="13dp" />
+            android:textSize="20sp" />
+
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/profile_container"
+        android:id="@+id/custom_profile_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        tools:visibility="invisible">
 
-        <View
-            android:id="@+id/view5"
-            style="@style/Divider"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
 
         <TextView
             android:id="@+id/profile_name"
@@ -80,7 +86,7 @@
             android:layout_marginBottom="16dp"
             android:text="Length: "
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/view5"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/steps" />
 
@@ -105,6 +111,17 @@
             app:layout_constraintBottom_toBottomOf="@+id/length"
             app:layout_constraintStart_toEndOf="@+id/length"
             app:layout_constraintTop_toTopOf="@+id/length" />
+
+        <View
+            android:id="@+id/view5"
+            style="@style/Divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -10,7 +10,8 @@ data class ClimbHistory(
     val id: Long,
     val dateTime: Long,
     val level: String,
-    val length: Int,
+    val climbedLength: Int,
+    val goalLength:Int,
     val duration: String,
     val speed: Int,
     val burntCalories: Double

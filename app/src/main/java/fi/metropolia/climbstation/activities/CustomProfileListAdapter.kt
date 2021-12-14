@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import fi.metropolia.climbstation.R
-import fi.metropolia.climbstation.database.entities.ClimbHistory
 import fi.metropolia.climbstation.database.entities.TerrainProfile
 
 interface ItemHelper {
@@ -61,7 +59,7 @@ class CustomProfileListAdapter(
         holder.itemView.findViewById<TextView>(R.id.steps_value).text =
             "${profile.phases.size} phases"
         holder.itemView.findViewById<TextView>(R.id.length_value).text = "${totalLength} m"
-        holder.itemView.findViewById<ConstraintLayout>(R.id.profile_container).setOnClickListener {
+        holder.itemView.findViewById<ConstraintLayout>(R.id.custom_profile_container).setOnClickListener {
             val profileId = profile.id
             val intent = Intent(
                 context, ModifyProfileActivity::class.java

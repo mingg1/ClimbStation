@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import fi.metropolia.climbstation.database.entities.TerrainProfile
 
 interface RecyclerviewClickListener {
-    fun recyclerViewClickListener(position: Int)
+    fun recyclerViewClickListener(programId: Long)
 }
 
 class ProgramListAdapter(
@@ -57,7 +57,7 @@ class ProgramListAdapter(
         programContainer.setOnClickListener {
             it.scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
             it.scaleAnimation(0.95f, 1.0f,0.95f, 1.0f, 500)
-            listener.recyclerViewClickListener(position)
+            listener.recyclerViewClickListener(profile.id)
             transition.showInfo()
             var totalLength = 0
             profile.phases.forEach { totalLength += it.distance }
