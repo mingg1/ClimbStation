@@ -1,6 +1,10 @@
 package fi.metropolia.climbstation.util
 
+import fi.metropolia.climbstation.IniFileLoader
+
 class Constants {
+
+    val configReader = IniFileLoader().load("")
 
     companion object {
         val CLIMB_MODES = listOf("Looping", "To next level", "Random")
