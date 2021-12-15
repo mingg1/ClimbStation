@@ -25,8 +25,8 @@
         android:layout_marginBottom="20dp"
         android:backgroundTint="#BAFFFFFF"
         android:elevation="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Logo">
 
@@ -34,26 +34,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#0000"
-            android:paddingEnd="20dp"
-            android:paddingStart="20dp">
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/Email"
                 style="@style/TextInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/e_mail"
                 android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/e_mail"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/EmailEditText"
-                    android:background="#00FFFFFF"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00FFFFFF"
                     android:paddingStart="0dp"
-                    android:layout_height="wrap_content" />
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,18 +63,19 @@
                 style="@style/TextInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/first_name"
                 android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/first_name"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/Email">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/FirstNameEditText"
-                    android:background="#00FFFFFF"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00FFFFFF"
                     android:paddingStart="0dp"
-                    android:layout_height="wrap_content" />
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,18 +85,19 @@
                 style="@style/TextInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/last_name"
                 android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/last_name"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/FirstName">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/LastNameEditText"
-                    android:background="#00FFFFFF"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00FFFFFF"
                     android:paddingStart="0dp"
-                    android:layout_height="wrap_content" />
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,18 +106,19 @@
                 style="@style/TextInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"
                 android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/password"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/LastName">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/PasswordEditText"
-                    android:background="#00FFFFFF"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00FFFFFF"
                     android:paddingStart="0dp"
-                    android:layout_height="wrap_content" />
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,18 +127,19 @@
                 style="@style/TextInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/confirm_password"
                 android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/confirm_password"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/Password">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ConfirmPasswordEditText"
-                    android:background="#00FFFFFF"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00FFFFFF"
                     android:paddingStart="0dp"
-                    android:layout_height="wrap_content" />
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,12 +147,12 @@
                 android:id="@+id/RegisterButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="@string/register"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="#fb0200"
+                android:text="@string/register"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ConfirmPassword"/>
+                app:layout_constraintTop_toBottomOf="@id/ConfirmPassword" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="fi.metropolia.climbstation">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -15,9 +17,16 @@
         android:theme="@style/Theme.ClimbStation"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activities.OwnersActivity"
+            android:name=".activities.OwnersLoginActivity"
             android:exported="false"
             android:parentActivityName=".activities.SettingsActivity" />
+
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="android:screenOrientation"/>
+        <activity
+            android:name=".activities.QRCodeScannerActivity" />
         <activity
             android:name=".activities.SettingsActivity"
             android:exported="false"
@@ -45,7 +54,10 @@
             android:name=".activities.ClimbingResultsActivity"
             android:parentActivityName=".activities.ClimbingProgressActivity" />
         <activity android:name=".activities.HistoryActivity" />
+        <activity android:name=".activities.ClimbHistoryDetailActivity" />
         <activity android:name=".activities.CreateProfileActivity" />
+        <activity android:name=".activities.ManageProfileActivity" />
+        <activity android:name=".activities.ModifyProfileActivity" />
         <service android:name=".service.TimerService" />
     </application>
 

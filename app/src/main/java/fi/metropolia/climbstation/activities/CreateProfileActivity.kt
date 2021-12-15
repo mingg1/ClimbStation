@@ -51,7 +51,14 @@ class CreateProfileActivity : AppCompatActivity() {
                 }
             }
             Log.d("children", profilePhases.toString())
-            terrainProfileViewModel.addTerrainProfile(TerrainProfile(0,profileName,profilePhases))
+            terrainProfileViewModel.addTerrainProfile(TerrainProfile(0,profileName,profilePhases,1))
+            onBackPressed()
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slide_out_right)
+    }
+
 }

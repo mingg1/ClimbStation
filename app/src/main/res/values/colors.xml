@@ -10,5 +10,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="inactive">#C4C4C4</color>
     <color name="colorPrimary">#da0000</color>
-    <color name="background_gray">#D2FFFFFF</color>
+    <color name="background">#D2FFFFFF</color>
+    <color name="text_color">#FF555454</color>
+    <color name="colorPrimaryVariant">#a00000</color>
 </resources>

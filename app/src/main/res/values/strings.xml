@@ -12,9 +12,9 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    <string name="qr_code_scan_msg">Start by connecting your device to Climbstation by scanning the QR-code attached to the wall</string>
-    <string name="skip">skip</string>
-    <string name="speed">%d mm / sec</string>
+    <string name="qr_code_scan_msg">Scan the QR code located on the wall</string>
+    <string name="skip">Enter code manually</string>
+    <string name="speed">%d m / min</string>
     <string name="consumed_calories">%.2f kcal</string>
     <string name="length_text_field_label">Length (in meter)</string>
     <string name="title_activity_settings">SettingsActivity</string>
@@ -22,6 +22,12 @@
 
     <string name="general_setting">General Settings</string>
     <string name="owner_setting">Owner\'s Settings</string>
+
+    <string-array name="filter_modes">
+        <item>All</item>
+        <item>Custom terrain profiles</item>
+        <item>Basic programs</item>
+    </string-array>
 
     <string-array name="length">
         <item>millimeters(mm)</item>
@@ -78,7 +84,7 @@
     <string name="degree">%d°</string>
     <string name="degree_symbol">°</string>
     <string name="results_message">You climbed %d meters from %d meters goal!</string>
-    <string name="climbed_length_value">%dm</string>
+    <string name="distance">%dm</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--    <string name="units">Units</string>-->
@@ -88,4 +94,24 @@
 
     <string name="climbing_history">List of Climbing history</string>
     <string name="climb">Climb</string>
+    <string name="title_activity_owners_setting">OwnersSetting</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="reset">Reset</string>
+    <string name="logout">Logout</string>
+    <string name="angle_set_up">Angle Set-up</string>
+    <string name="speed_set_up">Speed Set-up</string>
+
+    <string name="climbed_speed">Climbed speed</string>
+    <string name="difficulty_level">Difficulty level</string>
+    <string name="_00_00_00">00:00:00</string>
+
+    <string name="level">%s level</string>
+    <string name="manage_custom_terrain_profile">Manage custom terrain profile</string>
 </resources>

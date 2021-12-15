@@ -15,10 +15,10 @@ class ClimbStationViewModel(private val repository: ClimbStationRepository) : Vi
     val angleResponse: MutableLiveData<ClimbStationResponse> = MutableLiveData()
     val operationResponse: MutableLiveData<ClimbStationResponse> = MutableLiveData()
 
-    fun logIn() {
+    fun logIn(serialNumber: String) {
         viewModelScope.launch {
           try {
-                val response = repository.logIn("20110001", "user", "climbstation")
+                val response = repository.logIn(serialNumber, "user", "climbstation")
                 loginResponse.value = response
             } catch (err:Exception){
               loginResponse.value = null

@@ -8,7 +8,7 @@
     android:background="@drawable/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/list_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -18,7 +18,7 @@
         android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_title"
         app:layout_constraintVertical_bias="1.0">
@@ -29,13 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view">
 
             <TextView
@@ -43,14 +43,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Date" />
+                android:text="Date"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_date_value"
                 style="@style/infoTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00:00:00" />
+                android:text="00:00:00"
+                android:textStyle="normal|bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,10 +62,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/container_difficulty_level">
 
             <TextView
@@ -70,7 +76,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Estimated burnt calories" />
+                android:text="Estimated burnt calories"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_burnt_calories_value"
@@ -86,6 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
@@ -99,7 +108,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Climbed length" />
+                android:text="Climbed length"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_length_value"
@@ -115,6 +126,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
@@ -125,10 +137,12 @@
 
             <TextView
                 android:id="@+id/text_speed"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Climbed speed" />
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp"
+                android:text="@string/climbed_speed" />
 
             <TextView
                 android:id="@+id/text_speed_value"
@@ -144,6 +158,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
@@ -154,17 +169,19 @@
 
             <TextView
                 android:id="@+id/text_difficulty_level"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Difficulty level" />
+                android:text="@string/difficulty_level"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_difficulty_level_value"
                 style="@style/infoTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00:00:00" />
+                android:text="@string/_00_00_00" />
         </LinearLayout>
 
         <LinearLayout
@@ -173,6 +190,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
@@ -183,10 +201,12 @@
 
             <TextView
                 android:id="@+id/text_duration"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Climbing duration" />
+                android:text="Climbing duration"
+                android:textColor="@color/colorPrimaryVariant"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_duration_value"
@@ -202,6 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Congratulations! 💪"
+            android:textColor="@color/colorPrimary"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -220,36 +241,54 @@
             app:layout_constraintTop_toBottomOf="@+id/results_msg" />
 
         <Button
+            android:id="@+id/share_btn"
+            style="@style/buttonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:layout_marginTop="24dp"
+            android:padding="16dp"
+            android:text="Share your climb result"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/container_burnt_calories" />
+
+        <Button
             android:id="@+id/button_go_to_history"
             style="@style/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="24dp"
             android:padding="16dp"
             android:text="see histories"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_go_to_main"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/share_btn" />
 
         <Button
             android:id="@+id/button_go_to_main"
             style="@style/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="24dp"
             android:padding="16dp"
             android:text="go to main"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/share_btn"
+            app:layout_constraintStart_toEndOf="@+id/button_go_to_history" />
 
         <TextView
             android:id="@+id/results_msg"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/results_message"
             android:textAlignment="center"
             android:textSize="20sp"
@@ -268,7 +307,7 @@
         android:textColor="#C81C1C"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="@+id/list_container"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

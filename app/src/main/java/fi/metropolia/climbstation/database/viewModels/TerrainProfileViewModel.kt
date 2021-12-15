@@ -33,9 +33,33 @@ class TerrainProfileViewModel(application: Application):AndroidViewModel(applica
         }
     }
 
-    fun getTerrainProfileById(id:Int):TerrainProfile{
+    fun getTerrainProfileById(id:Long):TerrainProfile{
         return runBlocking {
             terrainProfileRepository.getTerrainProfileById(id)
+        }
+    }
+
+    fun getBaseTerrainProfiles():List<TerrainProfile>{
+        return runBlocking {
+            terrainProfileRepository.getBaseTerrainProfiles()
+        }
+    }
+
+    fun getCustomTerrainProfiles():LiveData<List<TerrainProfile>>{
+        return runBlocking {
+            terrainProfileRepository.getCustomTerrainProfiles()
+        }
+    }
+
+    fun updateTerrainProfile(terrainProfile: TerrainProfile){
+        return runBlocking {
+            terrainProfileRepository.updateTerrainProfile(terrainProfile)
+        }
+    }
+
+    fun deleteTerrainProfile(terrainProfile: TerrainProfile){
+        return runBlocking {
+            terrainProfileRepository.deleteTerrainProfile(terrainProfile)
         }
     }
 }

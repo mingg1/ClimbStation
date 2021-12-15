@@ -7,8 +7,8 @@
     android:background="@drawable/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
+        android:id="@+id/list_container"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="36dp"
@@ -16,38 +16,126 @@
         android:background="@drawable/half_rounded_corner_container"
         android:elevation="8dp"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:id="@+id/next_duration_container"
+            style="@style/textContainerStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/button_finish"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/next_angle_container"
+            app:layout_constraintTop_toBottomOf="@+id/text_next_info">
+
+            <ImageView
+                android:id="@+id/imageView20"
+                android:layout_width="33dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_destination" />
+
+            <TextView
+                android:id="@+id/text_next_distance"
+                style="@style/infoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1m" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/next_angle_container"
+            style="@style/textContainerStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_weight="1"
+            android:gravity="center|center_horizontal"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/button_pause"
+            app:layout_constraintEnd_toStartOf="@+id/next_duration_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_next_info">
+
+            <ImageView
+                android:id="@+id/imageView210"
+                android:layout_width="35dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_angle" />
+
+            <TextView
+                android:id="@+id/text_next_angle"
+                style="@style/infoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0°" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_next_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/eurostile_extended"
+            android:text="Next"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
 
         <com.mikhaellopez.circularprogressbar.CircularProgressBar
             android:id="@+id/length_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="24dp"
-            app:cpb_background_progressbar_color="#b6bbd8"
+            android:layout_width="210dp"
+            android:layout_height="210dp"
+            android:layout_marginTop="16dp"
+            app:cpb_background_progressbar_color="@color/inactive"
             app:cpb_background_progressbar_width="15dp"
             app:cpb_progress_direction="to_right"
-            app:cpb_progressbar_color="#3f51b5"
+            app:cpb_progressbar_color="#FA5E00"
             app:cpb_progressbar_width="20dp"
             app:cpb_round_border="false"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout3"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+        <TextView
+            android:id="@+id/text_duration_title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/eurostile_extended"
+            android:text="Current"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/length_progress_bar" />
 
         <LinearLayout
             android:id="@+id/linearLayout21"
             style="@style/textContainerStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
             app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout4">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_duration_title3">
 
             <ImageView
                 android:id="@+id/imageView21"
@@ -62,33 +150,7 @@
                 style="@style/infoTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/degree" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
-            style="@style/textContainerStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout3"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="12dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_climbstation_logo" />
-
-            <TextView
-                android:id="@+id/text_difficulty_mode"
-                style="@style/infoTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Easy" />
+                android:text="15°" />
         </LinearLayout>
 
         <LinearLayout
@@ -96,9 +158,11 @@
             style="@style/textContainerStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout3">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout21"
+            app:layout_constraintTop_toBottomOf="@+id/text_duration_title3">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -132,15 +196,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Climbed length"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/text_climbed_length"
-                style="@style/infoTextStyle"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="48sp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_climbed_length"
+                    style="@style/infoTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="48sp" />
+
+                <TextView
+                    android:id="@+id/text_climbed_length2"
+                    style="@style/infoTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="/"
+                    android:textSize="48sp" />
+
+                <TextView
+                    android:id="@+id/text_goal_length"
+                    style="@style/infoTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5"
+                    android:textSize="48sp" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/text_climbed_length_title2"
@@ -155,9 +244,9 @@
             style="@style/textContainerStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -174,7 +263,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00:00"
-                android:textSize="96sp" />
+                android:textSize="48sp" />
         </LinearLayout>
 
         <Button
@@ -182,10 +271,11 @@
             style="@style/buttonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="24dp"
             android:layout_marginEnd="32dp"
             android:elevation="8dp"
             android:text="pause"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/button_finish"
             app:layout_constraintEnd_toStartOf="@+id/button_finish"
             app:layout_constraintStart_toStartOf="parent"
@@ -198,12 +288,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="24dp"
             android:elevation="8dp"
-            android:text="Finish climbing"
+            android:text="Finish"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/button_pause" />
+
+        <View
+            android:id="@+id/view4"
+            style="@style/Divider"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

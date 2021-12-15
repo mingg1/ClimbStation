@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <com.budiyev.android.codescanner.CodeScannerView-->
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        android:id="@+id/barcode_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.journeyapps.barcodescanner.DecoratedBarcodeView>
+
+<!--    <com.journeyapps.barcodescanner.DecoratedBarcodeView-->
 <!--        android:id="@+id/scanner_view"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent"-->
@@ -22,33 +30,38 @@
 <!--        app:frameThickness="5dp"-->
 <!--        app:maskColor="#3C000000" />-->
 
-<!--    <TextView-->
-<!--        android:id="@+id/textView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:layout_marginStart="24dp"-->
-<!--        android:layout_marginTop="220dp"-->
-<!--        android:layout_marginEnd="24dp"-->
-<!--        android:fontFamily="@font/airbnb_cereal_medium"-->
-<!--        android:text="@string/qr_code_scan_msg"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold" />-->
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/qr_code_scan_msg"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
-<!--    <Button-->
-<!--        android:id="@+id/button"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|center_horizontal"-->
-<!--        android:layout_marginBottom="32dp"-->
-<!--        android:backgroundTint="#00FFFFFF"-->
-<!--        android:elevation="0dp"-->
-<!--        android:fontFamily="@font/airbnb_cereal_medium"-->
-<!--        android:style="?android:attr/borderlessButtonStyle"-->
-<!--        android:text="@string/skip"-->
-<!--        android:textColor="#F0544F"-->
-<!--        android:textSize="18sp" />-->
+    <Button
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#0000"
+        android:elevation="0dp"
+        style="@style/transparentButton"
+        android:text="@string/skip"
+        android:fontFamily="@font/eurostile_bold"
+        android:textColor="#F0544F"
+        android:textSize="18sp" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
