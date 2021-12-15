@@ -1,68 +1,29 @@
 package fi.metropolia.climbstation.activities
 
 import android.Manifest
-import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Bundle
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import com.google.zxing.integration.android.IntentIntegrator
-import com.google.zxing.client.android.BeepManager
-
-import com.journeyapps.barcodescanner.DefaultDecoderFactory
-
-import com.google.zxing.BarcodeFormat
-
-import android.graphics.Color
 import android.os.Build
+import android.os.Bundle
+import android.text.InputType
 import android.view.KeyEvent
-import android.view.View
 import android.widget.Button
-import android.widget.ImageView
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
+import com.google.zxing.BarcodeFormat
 import com.google.zxing.ResultPoint
-
-import com.journeyapps.barcodescanner.BarcodeResult
-
+import com.google.zxing.client.android.BeepManager
 import com.journeyapps.barcodescanner.BarcodeCallback
-
+import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
+import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import fi.metropolia.climbstation.R
-import fi.metropolia.climbstation.feedBackTouchListener
 import java.util.*
 
-
-class QRCodeScannerActivity:AppCompatActivity() {
-//    private lateinit var mQrResultLauncher : ActivityResultLauncher<Intent>
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_qr_code_scanner)
-//
-//        mQrResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//            if(it.resultCode == Activity.RESULT_OK) {
-//                val result = IntentIntegrator.parseActivityResult(it.resultCode, it.data)
-//
-//                if(result.contents != null) {
-//                    // Do something with the contents (this is usually a URL)
-//                    println(result.contents)
-//                }
-//            }
-//        }
-//
-//        //startScanner()
-//    }
-//
-//    private fun startScanner() {
-//        val scanner = IntentIntegrator(this)
-//        scanner.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-//        scanner.setOrientationLocked(false)
-//        mQrResultLauncher.launch(scanner.createScanIntent())
-//    }
+class QRCodeScannerActivity : AppCompatActivity() {
     private lateinit var barcodeView: DecoratedBarcodeView
     private var beepManager: BeepManager? = null
     private var lastText: String? = null
@@ -74,7 +35,7 @@ class QRCodeScannerActivity:AppCompatActivity() {
                 return
             }
             lastText = result.text
-            barcodeView.setStatusText(result.text)
+            handleSerialNumberResult(result.text)
             beepManager!!.playBeepSoundAndVibrate()
 
             //Added preview of scanned barcode
@@ -85,39 +46,63 @@ class QRCodeScannerActivity:AppCompatActivity() {
         override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            1 -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+                }
+                else {
+                    inputDialog()
+                }
+                return
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_code_scanner)
 
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            )
-            != PackageManager.PERMISSION_GRANTED
-        ) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.CAMERA),
-                    1
-                )
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 1)
             }
         }
 
         barcodeView = findViewById(R.id.barcode_scanner)
         val formats: Collection<BarcodeFormat> = Arrays.asList(BarcodeFormat.QR_CODE, BarcodeFormat.CODE_39)
-        barcodeView.getBarcodeView().decoderFactory = DefaultDecoderFactory(formats)
+        barcodeView.barcodeView.decoderFactory = DefaultDecoderFactory(formats)
         barcodeView.initializeFromIntent(intent)
         barcodeView.decodeContinuous(callback)
         beepManager = BeepManager(this)
 
         supportActionBar!!.hide()
         findViewById<Button>(R.id.button).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
-            finishAffinity()
+            inputDialog()
         }
+    }
+
+    fun inputDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle("Serial Number")
+
+        val input = EditText(this)
+        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        builder.setView(input)
+
+        builder.setPositiveButton("OK") { _, _ -> handleSerialNumberResult(input.text.toString()) }
+        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+
+        builder.show()
+    }
+
+    fun handleSerialNumberResult(serialNumber: String) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        finishAffinity()
     }
 
     override fun onResume() {
@@ -128,18 +113,6 @@ class QRCodeScannerActivity:AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         barcodeView.pause()
-    }
-
-    fun pause(view: View?) {
-        barcodeView.pause()
-    }
-
-    fun resume(view: View?) {
-        barcodeView.resume()
-    }
-
-    fun triggerScan(view: View?) {
-        barcodeView.decodeSingle(callback)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
