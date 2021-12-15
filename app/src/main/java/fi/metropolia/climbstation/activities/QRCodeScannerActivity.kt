@@ -3,10 +3,12 @@ package fi.metropolia.climbstation.activities
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.KeyEvent
 import android.widget.Button
 import android.widget.EditText
@@ -99,7 +101,11 @@ class QRCodeScannerActivity : AppCompatActivity() {
     }
 
     fun handleSerialNumberResult(serialNumber: String) {
+        Log.d("result",serialNumber)
         val intent = Intent(this, MainActivity::class.java)
+        val sharedPrefs: SharedPreferences = getSharedPreferences("climbStation", MODE_PRIVATE)
+        sharedPrefs.edit().putString("serialNumber",serialNumber).commit()
+        intent.putExtra("serialNumber",serialNumber)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
         finishAffinity()

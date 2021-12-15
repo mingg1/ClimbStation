@@ -48,6 +48,8 @@ class ClimbSettingsFragment: Fragment() {
         binding = ActivityClimbingBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val bundle = arguments
+        val clientKey = bundle!!.getString("mText")
         val difficultyLevelTv = binding.listDifficulty
         val difficultyLevels = profiles.map { it.name }
         val difficultyLevelList = DropDownList(requireContext(), difficultyLevelTv, difficultyLevels)
@@ -89,7 +91,7 @@ class ClimbSettingsFragment: Fragment() {
                 climbMode
             )
         } else if (clientKey == null) {
-            climbStationViewModel.logIn()
+            clientKey?.let { climbStationViewModel.logIn(it) }
             startOperation(difficultyLevel, climbMode)
             return
         }

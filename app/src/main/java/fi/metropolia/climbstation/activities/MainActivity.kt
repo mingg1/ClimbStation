@@ -49,10 +49,19 @@ class MainActivity : AppCompatActivity() {
         climbStationViewModel =
             ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
 //        terrainProfileViewModel = ViewModelProvider(this)[TerrainProfileViewModel::class.java]
-
+        val sf = getSharedPreferences("climbStation", MODE_PRIVATE)
 
 //        val difficultyLevelTv = binding.listDifficulty
+        val serialNumber = sf.getString("serialNumber", "")
 
+        Log.d("serial", serialNumber!!)
+        val bundle = Bundle()
+        bundle.putString("serialNumber", serialNumber)
+        val climbSettingsFragment = ClimbSettingsFragment()
+        climbSettingsFragment.arguments = bundle
+        val mFragmentManager = supportFragmentManager
+        val mFragmentTransaction = mFragmentManager.beginTransaction()
+        mFragmentTransaction.add(R.id.fragmentContainerView, climbSettingsFragment).commit()
         var profiles = terrainProfileViewModel.getTerrainProfiles()
         if (profiles.isEmpty()) {
             TerrainProfilesObject.terrainProfiles.forEach {
@@ -64,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                     TerrainProfile(
                         0,
                         it.name,
-                        it.profiles,0
+                        it.profiles, 0
                     )
                 )
             }
@@ -86,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 //
 //        DropDownList(this, climbModeTv, CLIMB_MODES)
 //
-        val sf = getSharedPreferences("climbStation", MODE_PRIVATE)
+
         val clientKeyTxt = sf.getString("clientKey", "")
 
 //        binding.viewLayout.setOnClickListener { hideKeyboard(it) }
@@ -96,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 //
         if (clientKeyTxt == "") {
-            climbStationViewModel.logIn()
+            climbStationViewModel.logIn(serialNumber)
             climbStationViewModel.loginResponse.observe(this, { res ->
                 if (res != null && res.body()?.response != "NOTOK") {
                     Log.d("response1", res.body()?.response ?: "none")
@@ -107,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Log.d("response3", res?.errorBody().toString() ?: "dd")
                     Toast.makeText(this, "No internet connection!", Toast.LENGTH_LONG).show()
-                    makeAlert { climbStationViewModel.logIn() }
+                    makeAlert { climbStationViewModel.logIn(serialNumber) }
                 }
             })
         }
