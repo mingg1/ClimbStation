@@ -2,6 +2,7 @@ package fi.metropolia.climbstation.activities
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -80,10 +81,6 @@ class QRCodeScannerActivity : AppCompatActivity() {
         supportActionBar!!.hide()
         findViewById<Button>(R.id.button).setOnClickListener {
             inputDialog()
-//            val intent = Intent(this, MainActivity::class.java)
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//            startActivity(intent)
-//            finishAffinity()
         }
     }
 
@@ -102,7 +99,10 @@ class QRCodeScannerActivity : AppCompatActivity() {
     }
 
     fun handleSerialNumberResult(serialNumber: String) {
-        println(serialNumber)
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        finishAffinity()
     }
 
     override fun onResume() {
