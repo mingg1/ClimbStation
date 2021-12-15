@@ -1,7 +1,6 @@
 package fi.metropolia.climbstation
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +37,7 @@ class ProgramListAdapter(
     override fun onBindViewHolder(holder: ProgramListViewHolder, position: Int) {
         val profile = profiles[position]
         val profileNameUri = "@drawable/${profile.name.lowercase().replace(" ", "_")}_character"
-        val profileDrawable: Int? =
+        val profileDrawable: Int =
             context.resources.getIdentifier(profileNameUri, null, context.packageName)
 
         holder.itemView.findViewById<TextView>(R.id.program_name).text = profile.name
@@ -46,7 +45,7 @@ class ProgramListAdapter(
             holder.itemView.findViewById<ImageView>(R.id.program_icon)
                 .setImageDrawable(ContextCompat.getDrawable(context, R.drawable.custom_character))
         } else {
-            val profileImg = profileDrawable?.let { ContextCompat.getDrawable(context, it) }
+            val profileImg = profileDrawable.let { ContextCompat.getDrawable(context, it) }
             holder.itemView.findViewById<ImageView>(R.id.program_icon).setImageDrawable(profileImg)
         }
 
@@ -54,7 +53,7 @@ class ProgramListAdapter(
         val info = parent.findViewById<ConstraintLayout>(R.id.program_info_container)
         val transition = Transition(info, parent)
 //        programContainer.feedBackTouchListener()
-        programContainer.setOnClickListener {
+        programContainer.setOnClickListener { it ->
             it.scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
             it.scaleAnimation(0.95f, 1.0f,0.95f, 1.0f, 500)
             listener.recyclerViewClickListener(profile.id)
