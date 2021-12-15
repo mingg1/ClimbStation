@@ -4,7 +4,7 @@ class Constants {
 
     companion object {
         val CLIMB_MODES = listOf("Looping", "To next level", "Random")
-        const val BASE_URL = "http://192.168.241.1:8800/"
+        const val BASE_URL = "http://192.168.0.5:8800/"
         const val REQ_PACKET_NUM = "1"
         const val SERIAL_NUM = "20110001"
         const val REQUEST = "request"

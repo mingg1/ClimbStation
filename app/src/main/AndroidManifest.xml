@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +23,7 @@
 
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             tools:replace="android:screenOrientation"/>
         <activity
             android:name=".activities.QRCodeScannerActivity" />
@@ -53,6 +54,7 @@
             android:name=".activities.ClimbingResultsActivity"
             android:parentActivityName=".activities.ClimbingProgressActivity" />
         <activity android:name=".activities.HistoryActivity" />
+        <activity android:name=".activities.ClimbHistoryDetailActivity" />
         <activity android:name=".activities.CreateProfileActivity" />
         <activity android:name=".activities.ManageProfileActivity" />
         <activity android:name=".activities.ModifyProfileActivity" />

@@ -32,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:fontFamily="@font/airbnb_cereal_bold"
             android:gravity="left"
             android:text="Remove"
             android:textColor="@color/colorPrimary"
@@ -57,7 +56,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="duration length"
+            android:fontFamily="@font/eurostile_normal"
+            android:hint="duration length (min. 1m)"
             android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,6 +77,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/eurostile_normal"
             android:hint="degree (-45° to 45°)"
             android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>

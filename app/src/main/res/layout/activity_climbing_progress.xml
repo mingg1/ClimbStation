@@ -7,7 +7,7 @@
     android:background="@drawable/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/list_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
@@ -24,15 +24,16 @@
         app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
-            android:id="@+id/linearLayout20"
+            android:id="@+id/next_duration_container"
             style="@style/textContainerStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/button_finish"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout210"
-            app:layout_constraintTop_toBottomOf="@+id/text_duration_title2">
+            app:layout_constraintStart_toEndOf="@+id/next_angle_container"
+            app:layout_constraintTop_toBottomOf="@+id/text_next_info">
 
             <ImageView
                 android:id="@+id/imageView20"
@@ -51,21 +52,22 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout210"
+            android:id="@+id/next_angle_container"
             style="@style/textContainerStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
             android:layout_weight="1"
             android:gravity="center|center_horizontal"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout20"
+            app:layout_constraintBottom_toTopOf="@+id/button_pause"
+            app:layout_constraintEnd_toStartOf="@+id/next_duration_container"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_duration_title2">
+            app:layout_constraintTop_toBottomOf="@+id/text_next_info">
 
             <ImageView
                 android:id="@+id/imageView210"
-                android:layout_width="32dp"
+                android:layout_width="35dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="12dp"
                 android:layout_weight="1"
@@ -80,14 +82,15 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/text_duration_title2"
+            android:id="@+id/text_next_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/airbnb_cereal_bold"
+            android:fontFamily="@font/eurostile_extended"
             android:text="Next"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view4" />
@@ -96,11 +99,11 @@
             android:id="@+id/length_progress_bar"
             android:layout_width="210dp"
             android:layout_height="210dp"
-            android:layout_marginTop="24dp"
-            app:cpb_background_progressbar_color="#b6bbd8"
+            android:layout_marginTop="16dp"
+            app:cpb_background_progressbar_color="@color/inactive"
             app:cpb_background_progressbar_width="15dp"
             app:cpb_progress_direction="to_right"
-            app:cpb_progressbar_color="#3f51b5"
+            app:cpb_progressbar_color="#FA5E00"
             app:cpb_progressbar_width="20dp"
             app:cpb_round_border="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -111,11 +114,12 @@
             android:id="@+id/text_duration_title3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/airbnb_cereal_bold"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/eurostile_extended"
             android:text="Current"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/length_progress_bar" />
@@ -297,7 +301,7 @@
             style="@style/Divider"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />

@@ -9,6 +9,5 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         startActivity(Intent(this@SplashScreenActivity, QRCodeScannerActivity::class.java))
         finish()
-
     }
 }

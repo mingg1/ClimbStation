@@ -17,10 +17,13 @@ interface TerrainProfileDao {
     suspend fun getTerrainProfileByName(name: String): TerrainProfile
 
     @Query("SELECT * FROM terrain_profile_table WHERE id= :id")
-    suspend fun getTerrainProfileById(id: Int): TerrainProfile
+    suspend fun getTerrainProfileById(id: Long): TerrainProfile
 
-    @Query("SELECT * FROM terrain_profile_table WHERE custom= :custom ORDER BY id ASC")
-     fun getCustomTerrainProfiles(custom: Int):LiveData<List<TerrainProfile>>
+    @Query("SELECT * FROM terrain_profile_table WHERE custom= 0 ORDER BY id ASC")
+    suspend fun getBaseTerrainProfiles():List<TerrainProfile>
+
+    @Query("SELECT * FROM terrain_profile_table WHERE custom= 1 ORDER BY id DESC")
+     fun getCustomTerrainProfiles():LiveData<List<TerrainProfile>>
 
     @Update
     suspend fun updateTerrainProfile(terrainProfile: TerrainProfile)

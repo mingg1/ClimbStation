@@ -4,18 +4,15 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.ActivityInfo
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import fi.metropolia.climbstation.R
-import fi.metropolia.climbstation.TerrainProfilesObject
 import fi.metropolia.climbstation.database.entities.TerrainProfile
 import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingProgressBinding
@@ -25,7 +22,6 @@ import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import java.lang.NumberFormatException
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
@@ -44,7 +40,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
     private var levelTotalLength: Int = 0
     var climbedLength = 0
     var completedStepLength = 0
-    var currentStep = 0
+    private var currentStep = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +51,16 @@ class  ClimbingProgressActivity : AppCompatActivity() {
             ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
         terrainProfileViewModel = ViewModelProvider(this)[TerrainProfileViewModel::class.java]
         val mHandler = Handler(Looper.getMainLooper())
+
+        var vibrationEffect1: VibrationEffect
+        val vibrator: Vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager =
+                getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibratorManager.defaultVibrator
+
+        } else {
+            getSystemService(VIBRATOR_SERVICE) as Vibrator
+        }
 
         val clientKey = intent.extras?.getString("clientKey")
         val currentLevelText = intent.extras?.getString("difficultyLevel")
@@ -71,10 +77,16 @@ class  ClimbingProgressActivity : AppCompatActivity() {
 
         binding.textAngle.text = getString(R.string.degree, currentAngle)
         binding.textGoalLength.text = goalLength
-
-        binding.textNextAngle.text = getString(R.string.degree, currentLevelStacks[currentStep+1].angle)
-        binding.textNextDistance.text = getString(R.string.distance, currentLevelStacks[currentStep+1].distance)
-
+        if (currentLevelStacks.size > 1) {
+            binding.textNextAngle.text =
+                getString(R.string.degree, currentLevelStacks[currentStep + 1].angle)
+            binding.textNextDistance.text =
+                getString(R.string.distance, currentLevelStacks[currentStep + 1].distance)
+        } else {
+            binding.textNextInfo.visibility = View.GONE
+            binding.nextAngleContainer.visibility = View.GONE
+            binding.nextDurationContainer.visibility = View.GONE
+        }
         val postRequestRunnable = object : Runnable {
             override fun run() {
                 mHandler.removeCallbacks(this)
@@ -109,8 +121,14 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                         lifecycleScope.launch { repository.setAngle(angleReq) }
 
                         binding.textAngle.text = getString(R.string.degree, currentAngle)
-                        binding.textNextAngle.text = getString(R.string.degree, if(currentStep == currentLevelStacks.size -1)currentLevelStacks[0].angle else currentLevelStacks[currentStep+1].angle)
-                        binding.textNextDistance.text = getString(R.string.distance, if(currentStep == currentLevelStacks.size -1)currentLevelStacks[0].distance else currentLevelStacks[currentStep+1].distance)
+                        binding.textNextAngle.text = getString(
+                            R.string.degree,
+                            if (currentStep == currentLevelStacks.size - 1) currentLevelStacks[0].angle else currentLevelStacks[currentStep + 1].angle
+                        )
+                        binding.textNextDistance.text = getString(
+                            R.string.distance,
+                            if (currentStep == currentLevelStacks.size - 1) currentLevelStacks[0].distance else currentLevelStacks[currentStep + 1].distance
+                        )
                     }
                     currentLevel = nextDifficultyLevel(
                         climbedLength,
@@ -118,7 +136,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                         currentLevel!!,
                         climbMode!!
                     )
-                   // binding.textDifficultyMode.text = currentLevel!!.name
+                    // binding.textDifficultyMode.text = currentLevel!!.name
                     Log.d("val", "${currentStep},$levelTotalLength,$climbedLength")
                     if (climbedLength >= goalLength!!.toInt()) {
                         stopTimer()
@@ -147,6 +165,21 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                         intent.putExtra("clientKey", clientKey)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vibrationEffect1 = VibrationEffect.createOneShot(
+                                1000,
+                                VibrationEffect.DEFAULT_AMPLITUDE
+                            )
+                            vibrator.vibrate(vibrationEffect1)
+                        } else {
+                            // backward compatibility for Android API < 26
+                            // noinspection deprecation
+                            vibrator.vibrate(1000)
+                        }
+//                        vibratorManager.cancel();
+
                         startActivity(intent)
                         finishAffinity()
                     }
@@ -195,7 +228,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
             }
         }
 
-      //  binding.textDifficultyMode.text = currentLevelText
+        //  binding.textDifficultyMode.text = currentLevelText
 
         binding.buttonFinish.setOnClickListener {
             stopTimer()
@@ -311,11 +344,11 @@ class  ClimbingProgressActivity : AppCompatActivity() {
     ): TerrainProfile {
         var currentStack: TerrainProfile = currentLevel
         if (climbedLength == levelTotalLength) {
-            val currentIndex = currentStack.id.toInt()
+            val currentIndex = currentStack.id
             Log.d("index", currentIndex.toString())
-            val index: Int = when (mode) {
-                "To next level" -> (if (currentIndex == terrainProfileViewModel.getTerrainProfiles().size) 1 else currentIndex + 1)
-                "Random" -> (1..terrainProfileViewModel.getTerrainProfiles().size).random()
+            val index: Long = when (mode) {
+                "To next level" -> (if (currentIndex.toInt() == terrainProfileViewModel.getTerrainProfiles().size) 1 else currentIndex + 1)
+                "Random" -> (1..terrainProfileViewModel.getTerrainProfiles().size).random().toLong()
                 else -> currentIndex
             }
             currentStack = terrainProfileViewModel.getTerrainProfileById(index)

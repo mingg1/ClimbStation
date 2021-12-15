@@ -17,7 +17,7 @@
         android:textColor="#C81C1C"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="@+id/list_container"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
@@ -35,7 +35,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/list_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -119,8 +119,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/eurostile_normal"
                             android:hint="@string/length"
                             android:inputType="none"
+                            android:textSize="18sp"
                             tools:ignore="TextContrastCheck,DuplicateClickableBoundsCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,8 +147,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/eurostile_normal"
                             android:hint="@string/calorie"
                             android:inputType="none"
+                            android:textSize="18sp"
                             tools:ignore="TextContrastCheck,DuplicateClickableBoundsCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -157,8 +161,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
                     android:text="Create custom terrain profile"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
 
@@ -237,7 +242,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/manage_custom_terrain_profile"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/menu_create_profile" />
             </androidx.constraintlayout.widget.ConstraintLayout>
