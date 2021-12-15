@@ -51,7 +51,7 @@ class QRCodeScannerActivity : AppCompatActivity() {
         when (requestCode) {
             1 -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-
+                    // do nothing
                 }
                 else {
                     inputDialog()

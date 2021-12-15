@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import fi.metropolia.climbstation.database.entities.ClimbHistory
 import fi.metropolia.climbstation.database.ClimbStationDB
-import fi.metropolia.climbstation.database.entities.TerrainProfile
 import fi.metropolia.climbstation.database.repositories.ClimbHistoryRepository
 import kotlinx.coroutines.runBlocking
 

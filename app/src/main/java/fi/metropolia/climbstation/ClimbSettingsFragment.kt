@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
@@ -19,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import fi.metropolia.climbstation.activities.ClimbingProgressActivity
 import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingBinding
-import fi.metropolia.climbstation.databinding.FragmentClimbProgramsBinding
 import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.util.Constants
 import fi.metropolia.climbstation.util.Constants.Companion.CLIMB_MODES
@@ -40,7 +38,7 @@ class ClimbSettingsFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         climbStationViewModel =
             ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
         val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
