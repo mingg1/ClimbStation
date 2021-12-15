@@ -1,6 +1,7 @@
 package fi.metropolia.climbstation
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -37,18 +38,17 @@ class ProgramListAdapter(
 
     override fun onBindViewHolder(holder: ProgramListViewHolder, position: Int) {
         val profile = profiles[position]
-        val profileNameUri = "@drawable/${profile.name.lowercase().replace(" ", "_")}_character"
-        val profileDrawable: Int? =
-            context.resources.getIdentifier(profileNameUri, null, context.packageName)
-
+        val profileNameUri: String
         holder.itemView.findViewById<TextView>(R.id.program_name).text = profile.name
         if (profile.custom == 1) {
-            holder.itemView.findViewById<ImageView>(R.id.program_icon)
-                .setImageDrawable(ContextCompat.getDrawable(context, R.drawable.custom_character))
+            profileNameUri = "@drawable/custom_profile_character${profile.id % 4 + 1}"
         } else {
-            val profileImg = profileDrawable?.let { ContextCompat.getDrawable(context, it) }
-            holder.itemView.findViewById<ImageView>(R.id.program_icon).setImageDrawable(profileImg)
+            profileNameUri = "@drawable/${profile.name.lowercase().replace(" ", "_")}_character"
         }
+        val profileDrawable =
+            context.resources.getIdentifier(profileNameUri, null, context.packageName)
+        val profileImg = profileDrawable?.let { ContextCompat.getDrawable(context, it) }
+        holder.itemView.findViewById<ImageView>(R.id.program_icon).setImageDrawable(profileImg)
 
         val programContainer = holder.itemView.findViewById<View>(R.id.program_container)
         val info = parent.findViewById<ConstraintLayout>(R.id.program_info_container)
@@ -56,7 +56,7 @@ class ProgramListAdapter(
 //        programContainer.feedBackTouchListener()
         programContainer.setOnClickListener {
             it.scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
-            it.scaleAnimation(0.95f, 1.0f,0.95f, 1.0f, 500)
+            it.scaleAnimation(0.95f, 1.0f, 0.95f, 1.0f, 500)
             listener.recyclerViewClickListener(profile.id)
             transition.showInfo()
             var totalLength = 0
@@ -69,7 +69,8 @@ class ProgramListAdapter(
                 "${profile.phases.minByOrNull { it.angle }?.angle} to ${profile.phases.maxByOrNull { it.angle }?.angle} degree"
             parent.findViewById<ImageView>(R.id.close_btn).feedBackTouchListener()
             parent.findViewById<ImageView>(R.id.close_btn)
-                .setOnClickListener { transition.hideInfo()
+                .setOnClickListener {
+                    transition.hideInfo()
                 }
         }
 
