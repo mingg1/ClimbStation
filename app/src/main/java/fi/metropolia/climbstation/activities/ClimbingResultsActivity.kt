@@ -9,7 +9,6 @@ import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.database.entities.ClimbHistory
 import fi.metropolia.climbstation.database.viewModels.ClimbHistoryViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbResultBinding
-import fi.metropolia.climbstation.network.ClimbStationRepository
 import java.util.*
 
 class ClimbingResultsActivity : AppCompatActivity() {

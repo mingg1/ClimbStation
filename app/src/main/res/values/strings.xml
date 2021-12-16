@@ -19,7 +19,9 @@
     <string name="length_text_field_label">Length (in meter)</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="setting">Settings</string>
-
+    <string name="phase">Phase %d</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
     <string name="general_setting">General Settings</string>
     <string name="owner_setting">Owner\'s Settings</string>
 
