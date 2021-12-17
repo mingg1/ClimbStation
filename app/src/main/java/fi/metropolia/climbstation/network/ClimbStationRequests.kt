@@ -58,21 +58,3 @@ data class AngleRequest(
     @SerializedName("PacketID") override val packetId: String = "2e",
     @SerializedName("PacketNumber") override val packetNumber: String = REQ_PACKET_NUM
 ) : ClientRequest
-
-data class BreakRequest(
-    @SerializedName("ClimbstationSerialNo") override val climbStationSerialNo: String,
-    @SerializedName("clientKey") override val clientKey: String,
-    @SerializedName("Break") val breakOperation: String,
-    //ON- Controller will apply  the Engine break
-    //OFF- Controller will release the Engine break
-    @SerializedName("PacketID") override val packetId: String = "2i",
-    @SerializedName("PacketNumber") override val packetNumber: String = REQ_PACKET_NUM
-) : ClientRequest
-
-data class LogOutRequest(
-    @SerializedName("ClimbstationSerialNo") override val climbStationSerialNo: String,
-    @SerializedName("clientKey") override val clientKey: String,
-    @SerializedName("Logout") val logOut: String = REQUEST,
-    @SerializedName("PacketID") override val packetId: String = "2g",
-    @SerializedName("PacketNumber") override val packetNumber: String = REQ_PACKET_NUM
-) : ClientRequest

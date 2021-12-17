@@ -6,6 +6,6 @@
     app:startDestination="@id/viewPagerFragment">
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="fi.metropolia.climbstation.ViewPagerFragment"
+        android:name="fi.metropolia.climbstation.fragments.ViewPagerFragment"
         android:label="ViewPagerFragment" />
 </navigation>

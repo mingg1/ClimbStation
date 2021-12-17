@@ -3,8 +3,8 @@ package fi.metropolia.climbstation.network
 import android.util.Log
 import retrofit2.Response
 
-class ClimbStationRepository {
-    private val api = RetrofitInstance.climbStationApi
+class ClimbStationRepository(baseUrl: String) {
+    private val api = RetrofitInstance.retrofitInstance (baseUrl)
 
     suspend fun logIn(serialNumber: String, userId: String, password: String): Response<LogInResponse> {
         val logInReq = LogInRequest(serialNumber, userId, password)
@@ -27,10 +27,6 @@ class ClimbStationRepository {
 
     suspend fun setOperation(operationRequest: OperationRequest): ClimbStationResponse {
         return api.operation(operationRequest)
-    }
-
-    suspend fun logOut(logOutRequest: LogOutRequest): ClimbStationResponse {
-        return api.logOut(logOutRequest)
     }
 
 }

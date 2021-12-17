@@ -1,15 +1,14 @@
 package fi.metropolia.climbstation
 
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileReader
-import java.io.IOException
+import android.content.Context
+import android.util.Log
+import java.io.*
 
 
 /**
  * Loader to load IniFile
  */
-class IniFileLoader {
+open class IniFileLoader(private val context: Context) {
     // HashMap<section, HashMap<key, String>>To
     private var mDataMap: HashMap<String?, HashMap<String, String>>? = null
 
@@ -43,8 +42,8 @@ class IniFileLoader {
         mIsLoaded = false
         mDataMap = HashMap()
         try {
-            val fileReader = FileReader(File(filePath))
-            val br = BufferedReader(fileReader)
+            val fileReader = context.assets.open(filePath!!)
+            val br = fileReader.bufferedReader()
             var line = br.readLine()
 
             //Section name
@@ -73,6 +72,7 @@ class IniFileLoader {
             }
             br.close()
         } catch (e: IOException) {
+            Log.e("err",e.toString())
             return false
         }
         mIsLoaded = true

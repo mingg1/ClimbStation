@@ -1,4 +1,4 @@
-package fi.metropolia.climbstation
+package fi.metropolia.climbstation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

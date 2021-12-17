@@ -1,4 +1,4 @@
-package fi.metropolia.climbstation
+package fi.metropolia.climbstation.ui
 
 import android.util.Log
 import android.view.MotionEvent
@@ -6,7 +6,6 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
-
 
     fun View.scaleAnimation(fromX:Float, toX:Float,fromY:Float,toY:Float, animDuration:Long, animInterpolator: AccelerateDecelerateInterpolator =AccelerateDecelerateInterpolator()){
         val animation = ScaleAnimation(fromX,toX,fromY,toY, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f).apply {

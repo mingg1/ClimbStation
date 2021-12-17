@@ -20,6 +20,10 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="setting">Settings</string>
     <string name="phase">Phase %d</string>
+    <plurals name="phase_amount">
+        <item quantity="one">%d phase</item>
+        <item quantity="other">%d phases</item>
+    </plurals>
     <string name="pause">Pause</string>
     <string name="resume">Resume</string>
     <string name="general_setting">General Settings</string>
@@ -39,9 +43,9 @@
     </string-array>
 
     <string-array name="calorie">
-        <item>grams(gms)</item>
-        <item>kilograms(kgs)</item>
-        <item>pounds(lbs)</item>
+        <item>calories</item>
+        <item>kcal</item>
+        <item>kJ</item>
 
     </string-array>
 
@@ -86,7 +90,7 @@
     <string name="degree">%d°</string>
     <string name="degree_symbol">°</string>
     <string name="results_message">You climbed %d meters from %d meters goal!</string>
-    <string name="distance">%dm</string>
+    <string name="distance">%d m</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--    <string name="units">Units</string>-->
@@ -116,4 +120,5 @@
 
     <string name="level">%s level</string>
     <string name="manage_custom_terrain_profile">Manage custom terrain profile</string>
+    <string name="set_body_weight">Set body weight</string>
 </resources>

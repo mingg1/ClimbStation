@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.textfield.TextInputLayout
-import fi.metropolia.climbstation.Phase
+import fi.metropolia.climbstation.util.Phase
 import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.database.entities.TerrainProfile
 import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel

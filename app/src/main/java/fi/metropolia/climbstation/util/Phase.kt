@@ -1,4 +1,4 @@
-package fi.metropolia.climbstation
+package fi.metropolia.climbstation.util
 
 import fi.metropolia.climbstation.util.Constants.Companion.ATHLETE_MODE
 import fi.metropolia.climbstation.util.Constants.Companion.BEGINNER_MODE
@@ -36,15 +36,7 @@ val profile4minus35 = makeProfile(baseDistances[3], -35)
 
 fun makeProfile(distance: Int, angle: Int) = Phase(distance, angle)
 
-class Phase(distance: Int, angle: Int) {
-    val distance: Int
-    val angle: Int
-
-    init {
-        this.distance = distance
-        this.angle = angle
-    }
-}
+class Phase(val distance: Int, val angle: Int)
 
 class DifficultyLevel(val name: String, val profiles: List<Phase>)
 

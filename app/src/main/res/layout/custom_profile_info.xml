@@ -41,8 +41,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingStart="8dp"
-        android:paddingTop="8dp"
-        tools:visibility="invisible">
+        android:paddingTop="8dp">
 
         <ImageView
             android:id="@+id/imageView"

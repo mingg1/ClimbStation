@@ -11,6 +11,11 @@ import fi.metropolia.climbstation.database.viewModels.ClimbHistoryViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbResultBinding
 import java.util.*
 
+/**
+ * Activity for showing information of climbing histories
+ *
+ * @author Minji Choi
+ */
 class ClimbHistoryDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClimbResultBinding
     override fun onCreate(savedInstanceState: Bundle?) {

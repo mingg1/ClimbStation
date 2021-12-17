@@ -21,7 +21,6 @@ class ClimbingResultsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val climbHistoryHistoryViewModel: ClimbHistoryViewModel by viewModels()
-        val clientKey = intent.extras?.getString("clientKey")
         val difficultyLevel = intent.extras?.getString("level")
         val climbedLength = intent.extras?.getInt("climbedLength")
         val goalLength = intent.extras?.getString("goalLength")?.toInt()

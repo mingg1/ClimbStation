@@ -1,8 +1,6 @@
-package fi.metropolia.climbstation
+package fi.metropolia.climbstation.fragments
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +9,11 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import fi.metropolia.climbstation.R
+import fi.metropolia.climbstation.ui.Transition
 import fi.metropolia.climbstation.database.entities.TerrainProfile
+import fi.metropolia.climbstation.ui.feedBackTouchListener
+import fi.metropolia.climbstation.ui.scaleAnimation
 
 interface RecyclerviewClickListener {
     fun recyclerViewClickListener(programId: Long)
@@ -29,36 +31,31 @@ class ProgramListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProgramListViewHolder {
         return ProgramListViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.climb_program_item, parent,
-                false
-            )
+            LayoutInflater.from(parent.context).inflate(R.layout.climb_program_item, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: ProgramListViewHolder, position: Int) {
         val profile = profiles[position]
-        val profileNameUri: String
         holder.itemView.findViewById<TextView>(R.id.program_name).text = profile.name
-        if (profile.custom == 1) {
-            profileNameUri = "@drawable/custom_profile_character${profile.id % 4 + 1}"
+        val profileNameUri: String = if (profile.custom == 1) {
+            "@drawable/custom_profile_character${profile.id % 4 + 1}"
         } else {
-            profileNameUri = "@drawable/${profile.name.lowercase().replace(" ", "_")}_character"
+            "@drawable/${profile.name.lowercase().replace(" ", "_")}_character"
         }
         val profileDrawable =
             context.resources.getIdentifier(profileNameUri, null, context.packageName)
-        val profileImg = profileDrawable?.let { ContextCompat.getDrawable(context, it) }
+        val profileImg = profileDrawable.let { ContextCompat.getDrawable(context, it) }
         holder.itemView.findViewById<ImageView>(R.id.program_icon).setImageDrawable(profileImg)
 
         val programContainer = holder.itemView.findViewById<View>(R.id.program_container)
         val info = parent.findViewById<ConstraintLayout>(R.id.program_info_container)
         val transition = Transition(info, parent)
-//        programContainer.feedBackTouchListener()
-        programContainer.setOnClickListener {
+        programContainer.setOnClickListener { it ->
             it.scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
             it.scaleAnimation(0.95f, 1.0f, 0.95f, 1.0f, 500)
             listener.recyclerViewClickListener(profile.id)
-            transition.showInfo()
+            transition.showElement()
             var totalLength = 0
             profile.phases.forEach { totalLength += it.distance }
             parent.findViewById<TextView>(R.id.text_info_level).text =
@@ -70,10 +67,9 @@ class ProgramListAdapter(
             parent.findViewById<ImageView>(R.id.close_btn).feedBackTouchListener()
             parent.findViewById<ImageView>(R.id.close_btn)
                 .setOnClickListener {
-                    transition.hideInfo()
+                    transition.hideElement()
                 }
         }
-
 
     }
 

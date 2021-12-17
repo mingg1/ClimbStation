@@ -1,17 +1,19 @@
 package fi.metropolia.climbstation.activities
 
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.InputType
+import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.databinding.SettingsActivityBinding
-import fi.metropolia.climbstation.feedBackTouchListener
-import fi.metropolia.climbstation.scaleAnimation
+import fi.metropolia.climbstation.ui.scaleAnimation
 
 class SettingsActivity : AppCompatActivity() {
     lateinit var binding: SettingsActivityBinding
@@ -22,48 +24,36 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.bottomNavigation.menu[2].isChecked = true
 
+        val sf = getSharedPreferences("climbStation", MODE_PRIVATE)
         val length = resources.getStringArray(R.array.length)
         val lengthAdapter = ArrayAdapter(this, R.layout.dropdown_item, length)
-
-        binding.listLength.setAdapter(lengthAdapter)
+        val lengthUnitList = binding.listLength
+        lengthUnitList.setAdapter(lengthAdapter)
+        lengthUnitList.setText(length[2], false)
 
         val calorie = resources.getStringArray(R.array.calorie)
         val calorieAdapter = ArrayAdapter(this, R.layout.dropdown_item, calorie)
-
-        val autocompleteCalorieTV = findViewById<AutoCompleteTextView>(R.id.list_calorie)
-        binding.listCalorie.setAdapter(calorieAdapter)
+        val calorieUnitList = binding.listCalorie
+        calorieUnitList.setAdapter(calorieAdapter)
+        calorieUnitList.setText(calorie[1], false)
 
         binding.settingsOwnerLogin.setOnClickListener {
             val intent = Intent(this, OwnersActivity::class.java)
             startActivity(intent)
         }
 
-
         binding.menuCreateProfile.setOnClickListener {
-            it.scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
-            it.scaleAnimation(0.95f, 1.0f,0.95f, 1.0f, 500)
-            startActivity(
-                Intent(
-                    this,
-                    CreateProfileActivity::class.java
-                )
-            )
-            overridePendingTransition(R.anim.anim_slide_in_right,R.anim.anim_slide_out_left)
+            makeTouchAnimation(it)
+            startActivity(Intent(this, CreateProfileActivity::class.java))
+            overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left)
         }
 
-
+        binding.menuBodyWeight.setOnClickListener { inputDialog(sf) }
         binding.menuManageCustomProfile.setOnClickListener {
-            it.scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
-            it.scaleAnimation(0.95f, 1.0f,0.95f, 1.0f, 500)
-            startActivity(
-                Intent(
-                    this,
-                    ManageProfileActivity::class.java
-                )
-            )
-            overridePendingTransition(R.anim.anim_slide_in_right,R.anim.anim_slide_out_left)
+            makeTouchAnimation(it)
+            startActivity(Intent(this, ManageProfileActivity::class.java))
+            overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_left)
         }
-
 
         binding.bottomNavigation.setOnItemSelectedListener { menu ->
             when (menu.itemId) {
@@ -74,7 +64,6 @@ class SettingsActivity : AppCompatActivity() {
                             MainActivity::class.java
                         ).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-
                     )
                     finishAffinity()
                 }
@@ -94,34 +83,33 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
+    private fun inputDialog(sf: SharedPreferences) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle("Set your body weight")
+
+        val input = EditText(this)
+        input.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
+        input.setText(sf.getInt("weight", 60).toString())
+        builder.setView(input)
+
+        builder.setPositiveButton("OK") { _, _ -> saveNewWeight(sf, input.text.toString()) }
+        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+
+        builder.show()
+    }
+
+    private fun saveNewWeight(sf: SharedPreferences, weightText: String) {
+        sf.edit().putInt("weight", weightText.toInt()).apply()
+        Toast.makeText(this, "Your weight is saved!", Toast.LENGTH_LONG).show()
+    }
+
+
+    private fun makeTouchAnimation(view: View) {
+        view.scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
+        view.scaleAnimation(0.95f, 1.0f, 0.95f, 1.0f, 500)
+    }
+
     override fun onBackPressed() {
         moveTaskToBack(false)
     }
 }
-
-
-//        findViewById<MaterialAutoCompleteTextView>(R.id.list_length).setAdapter(lengthAdapter)
-//        findViewById<MaterialAutoCompleteTextView>(R.id.list_length).setText(
-//            length[0], false)
-//
-//        val calorie = listOf("kilogram(kg)", "grams(gm)", "pounds(lbs)")
-//        val calorieAdapter = ArrayAdapter(this, R.layout.dropdown_item, calorie)
-//        findViewById<MaterialAutoCompleteTextView>(R.id.list_calorie).setAdapter(calorieAdapter)
-//        findViewById<MaterialAutoCompleteTextView>(R.id.list_calorie).setText(
-//            calorie[0], false)
-
-
-//        setContentView(R.layout.settings_activity)
-//        if (savedInstanceState == null) {
-//            supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.settings, SettingsFragment())
-//                .commit()
-//        }
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//    }
-
-//    class SettingsFragment : PreferenceFragmentCompat() {
-//        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-//            setPreferencesFromResource(R.xml.root_preferences, rootKey)
-//        }

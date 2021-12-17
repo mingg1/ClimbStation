@@ -14,7 +14,6 @@ interface ClimbstationAPI {
     @POST("climbstationinfo")
     suspend fun climbstationInfo(@Body reqBody: InfoRequest): InfoResponse
 
-
     @POST("Operation")
     suspend fun operation(@Body reqBody: OperationRequest): ClimbStationResponse
 
@@ -24,11 +23,6 @@ interface ClimbstationAPI {
     @POST("setangle")
     suspend fun setAngle(@Body reqBody: AngleRequest): ClimbStationResponse
 
-    @POST("Break")
-    suspend fun setBreak(@Body reqBody: BreakRequest): ClimbStationResponse
-
-    @POST("logout")
-    suspend fun logOut(@Body reqBody: LogOutRequest): ClimbStationResponse
 }
 
 

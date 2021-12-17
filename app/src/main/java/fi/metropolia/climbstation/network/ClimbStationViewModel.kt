@@ -9,16 +9,16 @@ import retrofit2.Response
 import java.lang.Exception
 
 class ClimbStationViewModel(private val repository: ClimbStationRepository) : ViewModel() {
-    val loginResponse: MutableLiveData<Response<LogInResponse>> = MutableLiveData()
+    val loginResponse: MutableLiveData<Response<LogInResponse>?> = MutableLiveData()
     val infoResponse: MutableLiveData<InfoResponse> = MutableLiveData()
     val speedResponse: MutableLiveData<ClimbStationResponse> = MutableLiveData()
     val angleResponse: MutableLiveData<ClimbStationResponse> = MutableLiveData()
     val operationResponse: MutableLiveData<ClimbStationResponse> = MutableLiveData()
 
-    fun logIn(serialNumber: String) {
+    fun logIn(serialNumber: String, id:String, pw:String) {
         viewModelScope.launch {
           try {
-                val response = repository.logIn(serialNumber, "user", "climbstation")
+                val response = repository.logIn(serialNumber, id, pw)
                 loginResponse.value = response
             } catch (err:Exception){
               loginResponse.value = null

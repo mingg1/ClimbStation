@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -107,14 +106,11 @@ class ManageProfileActivity : AppCompatActivity(), CustomProfileListAdapter.OnIt
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.adapterPosition
-            Log.d("pos", position.toString())
             when (direction) {
                 ItemTouchHelper.LEFT -> {
                     val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
                     val profileId = customProfiles.value?.get(position)
-                    Log.d("id", profileId.toString())
                     profileId?.let { terrainProfileViewModel.deleteTerrainProfile(it) }
-//                    it.toMutableList().removeAt(position)
                     adapter.notifyItemRemoved(position)
                 }
             }

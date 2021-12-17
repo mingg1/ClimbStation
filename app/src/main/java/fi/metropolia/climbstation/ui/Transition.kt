@@ -1,4 +1,4 @@
-package fi.metropolia.climbstation
+package fi.metropolia.climbstation.ui
 
 import android.transition.Slide
 import android.transition.TransitionManager
@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 
+// class for showing and hiding an element with transition
 class Transition(private val targetView: View, private val parent:ViewGroup) {
 
     private fun setTransition() {
@@ -15,12 +16,12 @@ class Transition(private val targetView: View, private val parent:ViewGroup) {
         TransitionManager.beginDelayedTransition(parent, transition)
     }
 
-    fun showInfo(){
+    fun showElement(){
         setTransition()
         targetView.visibility = View.VISIBLE
     }
 
-    fun hideInfo(){
+    fun hideElement(){
         setTransition()
         targetView.visibility = View.GONE
     }

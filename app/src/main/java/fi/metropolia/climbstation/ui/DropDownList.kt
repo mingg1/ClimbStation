@@ -1,8 +1,9 @@
-package fi.metropolia.climbstation
+package fi.metropolia.climbstation.ui
 
 import android.content.Context
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import fi.metropolia.climbstation.R
 
 class DropDownList(context: Context, private val textView: AutoCompleteTextView, adapterList:List<String>) {
 

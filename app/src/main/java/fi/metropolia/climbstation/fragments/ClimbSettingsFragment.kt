@@ -1,4 +1,4 @@
-package fi.metropolia.climbstation
+package fi.metropolia.climbstation.fragments
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -15,23 +15,28 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import fi.metropolia.climbstation.ui.DropDownList
+import fi.metropolia.climbstation.NetworkVariables
+import fi.metropolia.climbstation.R
+import fi.metropolia.climbstation.util.TerrainProfilesObject
 import fi.metropolia.climbstation.activities.ClimbingProgressActivity
 import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingBinding
 import fi.metropolia.climbstation.network.*
-import fi.metropolia.climbstation.util.Constants
-import fi.metropolia.climbstation.util.Constants.Companion.CLIMB_MODES
+import fi.metropolia.climbstation.util.Config
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+
 
 class ClimbSettingsFragment : Fragment() {
     private lateinit var binding: ActivityClimbingBinding
     private lateinit var climbStationViewModel: ClimbStationViewModel
-    private val repository = ClimbStationRepository()
-    private val viewModelFactory = ClimbStationViewModelFactory(repository)
+    private var repository:ClimbStationRepository? =null
+    private var viewModelFactory :ClimbStationViewModelFactory? = null
     private lateinit var totalLength: String
     private lateinit var speedValue: String
     private var clientKey: String? = null
+    private var serialNumber: String? = null
     private lateinit var angle: String
 
     override fun onCreateView(
@@ -39,13 +44,17 @@ class ClimbSettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val configReader = Config(requireContext())
+        repository =  ClimbStationRepository(configReader.baseUrl!!)
+        viewModelFactory = ClimbStationViewModelFactory(repository!!)
         climbStationViewModel =
-            ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
+            ViewModelProvider(this, viewModelFactory!!)[ClimbStationViewModel::class.java]
         val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
         val profiles = terrainProfileViewModel.getTerrainProfiles()
-        clientKey =
+        val sf =
             requireActivity().getSharedPreferences("climbStation", AppCompatActivity.MODE_PRIVATE)
-                .getString("clientKey", "")
+        clientKey = sf.getString("clientKey", "")
+        serialNumber = sf.getString("serialNumber", "")
 
         binding = ActivityClimbingBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -57,7 +66,9 @@ class ClimbSettingsFragment : Fragment() {
         difficultyLevelList.setDropDownHeight(620)
 
         val climbModeTv = binding.listClimbMode
-        DropDownList(requireContext(), climbModeTv, CLIMB_MODES)
+        val modes = configReader.modes
+       val modesArray = modes?.substring(1,modes.lastIndex)?.split(',')?.map { it.substring(1,it.lastIndex) }
+        modesArray?.let { DropDownList(requireContext(), climbModeTv, it) }
 
         binding.textSpeedValue.text = getString(R.string.speed, 0)
         binding.viewLayout.setOnClickListener { hideKeyboard(it) }
@@ -67,48 +78,44 @@ class ClimbSettingsFragment : Fragment() {
         }
 
         binding.buttonStart.setOnClickListener {
-            setValues(difficultyLevelTv.text.toString(), clientKey!!)
-            startOperation(difficultyLevelTv.text.toString(), climbModeTv.text.toString())
+            setValues(difficultyLevelTv.text.toString())
+            startOperation(difficultyLevelTv.text.toString(), climbModeTv.text.toString(),configReader)
         }
 
         return view
     }
 
-    private fun setValues(difficultyLevel: String, clientKeyTxt: String) {
+    private fun setValues(difficultyLevel: String) {
         totalLength = binding.textLength.editText?.text.toString()
         speedValue = (binding.sliderSpeed.value.toInt()).toString() // cm to mm
-//        clientKey = requireActivity().getSharedPreferences("climbStation", AppCompatActivity.MODE_PRIVATE).getString("clientKey", "")
         angle =
             TerrainProfilesObject.terrainProfiles.find { it.name == difficultyLevel }?.profiles?.get(
                 0
             )?.angle.toString()
     }
 
-    private fun startOperation(difficultyLevel: String, climbMode: String) {
+    private fun startOperation(difficultyLevel: String, climbMode: String,configReader:Config) {
         if (!validValues(totalLength, speedValue)) return showInvalidValuesToast()
         if (!NetworkVariables.isNetworkConnected) return makeAlert {
-            startOperation(
-                difficultyLevel,
-                climbMode
-            )
+            startOperation(difficultyLevel, climbMode, configReader)
         } else if (clientKey == null) {
-            clientKey?.let { climbStationViewModel.logIn(it) }
-            startOperation(difficultyLevel, climbMode)
+            clientKey?.let { climbStationViewModel.logIn(it,configReader.id!!,configReader.password!!) }
+            startOperation(difficultyLevel, climbMode,configReader)
             return
         }
 
         lifecycleScope.launch {
             async {
-                val speedReq = SpeedRequest(Constants.SERIAL_NUM, clientKey!!, speedValue)
+                val speedReq = SpeedRequest(serialNumber!!, clientKey!!, speedValue)
 
-                climbStationViewModel.speedResponse.value = repository.setSpeed(speedReq)
+                climbStationViewModel.speedResponse.value = repository!!.setSpeed(speedReq)
 
-                val angleReq = AngleRequest(Constants.SERIAL_NUM, clientKey!!, angle)
-                climbStationViewModel.angleResponse.value = repository.setAngle(angleReq)
+                val angleReq = AngleRequest(serialNumber!!, clientKey!!, angle)
+                climbStationViewModel.angleResponse.value = repository!!.setAngle(angleReq)
 
-                val operationReq = OperationRequest(Constants.SERIAL_NUM, clientKey!!, "start")
+                val operationReq = OperationRequest(serialNumber!!, clientKey!!, "start")
                 climbStationViewModel.operationResponse.value =
-                    repository.setOperation(operationReq)
+                    repository!!.setOperation(operationReq)
 
             }.await()
 
@@ -142,9 +149,7 @@ class ClimbSettingsFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
             }
-            .setPositiveButton("Yes") { _, _ ->
-                function()
-            }
+            .setPositiveButton("Yes") { _, _ -> function() }
 
         val alertDialog = builder.create()
         alertDialog.show()
