@@ -12,6 +12,13 @@ import fi.metropolia.climbstation.database.entities.TerrainProfile
 import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityCustomTerrainProfileBinding
 
+
+/**
+ * Activity for editing custom terrain profiles
+ *
+ * @author Minji Choi
+ *
+ */
 class ModifyProfileActivity : AppCompatActivity() {
     lateinit var binding: ActivityCustomTerrainProfileBinding
 

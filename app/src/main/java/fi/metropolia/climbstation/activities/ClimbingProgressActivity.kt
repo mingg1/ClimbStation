@@ -25,6 +25,12 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
+/**
+ * Activity to handle climbing progress
+ *
+ * @author Minji Choi
+ *
+ */
 class ClimbingProgressActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClimbingProgressBinding
     private var timerStarted = false

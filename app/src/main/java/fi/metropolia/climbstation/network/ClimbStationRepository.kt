@@ -3,6 +3,12 @@ package fi.metropolia.climbstation.network
 import android.util.Log
 import retrofit2.Response
 
+/**
+ * Class for network repository
+ *
+ * @author Minji Choi
+ *
+ */
 class ClimbStationRepository(baseUrl: String) {
     private val api = RetrofitInstance.retrofitInstance (baseUrl)
 

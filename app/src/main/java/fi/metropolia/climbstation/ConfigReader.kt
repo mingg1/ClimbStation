@@ -7,9 +7,10 @@ import java.io.*
 
 /**
  * Loader to load IniFile
+ * @author Minji Choi
  */
-open class IniFileLoader(private val context: Context) {
-    // HashMap<section, HashMap<key, String>>To
+open class ConfigReader(private val context: Context) {
+    // HashMap<section, HashMap<key, String>>
     private var mDataMap: HashMap<String?, HashMap<String, String>>? = null
 
     //File Path
@@ -21,8 +22,8 @@ open class IniFileLoader(private val context: Context) {
     /**
      * Load the specified file
      *
-     * @param filePath File path
-     * @return Whether the load was successful
+     * @param filePath is File path
+     * @return Whether the file loadinig was successful
      */
     fun load(filePath: String?): Boolean {
         mFilePath = filePath
@@ -32,12 +33,17 @@ open class IniFileLoader(private val context: Context) {
     /**
      * Reload the file you last tried to load
      *
-     * @return Whether the load was successful
+     * @return Whether the file loading was successful
      */
     fun reload(): Boolean {
         return isEmpty(mFilePath) && loadProcess(mFilePath)
     }
 
+    /**
+     * read the file loaded and save as hashmap
+     * @param filePath is the file path
+     * @return Whether the file loading was successful
+     */
     private fun loadProcess(filePath: String?): Boolean {
         mIsLoaded = false
         mDataMap = HashMap()
@@ -72,22 +78,11 @@ open class IniFileLoader(private val context: Context) {
             }
             br.close()
         } catch (e: IOException) {
-            Log.e("err",e.toString())
             return false
         }
         mIsLoaded = true
         return true
     }
-
-    /**
-     * Read the result(section, (key, value))of[HashMap]Return with
-     *
-     * @return The result of reading[HashMap]
-     */
-    val allDataMap: HashMap<String?, HashMap<String, String>>?
-        get() = if (mIsLoaded) {
-            mDataMap
-        } else null
 
     /**
      * The specified section of the read result(key, value)of[Map]Return with
@@ -102,54 +97,10 @@ open class IniFileLoader(private val context: Context) {
     }
 
     /**
-     * Returns the value of the specified section, specified key
-     *
-     * @param section Section specification
-     * @param key key specification
-     * @return Specified section, specified key value
-     */
-    fun getValue(section: String?, key: String): String? {
-        if (mIsLoaded) {
-            val map = mDataMap!![section]
-            if (map != null) {
-                return map[key]
-            }
-        }
-        return null
-    }
-
-    /**
-     * Returns whether the specified section is in the read result
-     *
-     * @param section Section specification
-     * @return if it exists`true`
-     */
-    fun containsSection(section: String?): Boolean {
-        return if (mIsLoaded) {
-            mDataMap!!.containsKey(section)
-        } else false
-    }
-
-    /**
-     * Returns whether the specified key in the specified section is in the read result
-     *
-     * @param section Section specification
-     * @param key key specification
-     * @return if it exists`true`
-     */
-    fun containsKey(section: String?, key: String): Boolean {
-        if (mIsLoaded) {
-            val map: HashMap<String, String>? = mDataMap!![section]
-            return map != null && map.containsKey(key)
-        }
-        return false
-    }
-
-    /**
-     * `String`Determine if is empty
+     * Check if the string is empty or not
      *
      * @param str Judgment target
-     * @return `String`If is empty`true`
+     * @return If the string is empty or not
      */
     private fun isEmpty(str: String?): Boolean {
         return str == null || str.isEmpty()

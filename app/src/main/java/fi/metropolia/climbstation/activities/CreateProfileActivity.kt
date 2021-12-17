@@ -13,6 +13,12 @@ import fi.metropolia.climbstation.database.entities.TerrainProfile
 import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityCustomTerrainProfileBinding
 
+/**
+ * Activity to create custom profile
+ *
+ * @author Minji Choi
+ *
+ */
 class CreateProfileActivity : AppCompatActivity() {
     private var phaseNum = 1
     lateinit var binding: ActivityCustomTerrainProfileBinding

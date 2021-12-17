@@ -5,12 +5,18 @@ import android.content.Intent
 import android.os.IBinder
 import java.util.*
 
+/**
+ * Class for timer of climbing duration
+ *
+ * @author Minji Choi
+ */
 class TimerService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
     private val timer = Timer()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val time = intent?.getDoubleExtra(TIME_EXTRA, 0.0)
+        // works every second
         timer.scheduleAtFixedRate(time?.let { TimeTask(it) }, 0, 1000)
         return START_NOT_STICKY
     }

@@ -4,6 +4,12 @@ import androidx.lifecycle.LiveData
 import fi.metropolia.climbstation.database.entities.ClimbHistory
 import fi.metropolia.climbstation.database.dao.ClimbHistoryDao
 
+/**
+ * Repository for climbing history
+ *
+ * @author Minji Choi
+ *
+ */
 class ClimbHistoryRepository(private val climbHistoryDao: ClimbHistoryDao) {
 
     suspend fun addClimbHistory(climbHistory: ClimbHistory): Long {

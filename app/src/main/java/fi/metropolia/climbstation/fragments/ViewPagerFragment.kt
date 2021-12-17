@@ -7,6 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import fi.metropolia.climbstation.databinding.FragmentViewPagerBinding
 
+/**
+ * Viewpager fragment
+ *
+ * @author Minji Choi
+ *
+ */
 class ViewPagerFragment : Fragment() {
     private lateinit var binding: FragmentViewPagerBinding
     override fun onCreateView(

@@ -8,6 +8,12 @@ import fi.metropolia.climbstation.database.entities.ClimbHistory
 import fi.metropolia.climbstation.database.entities.PhasesConverter
 import fi.metropolia.climbstation.database.entities.TerrainProfile
 
+/**
+ * Database of the application
+ *
+ * @author Minji Choi
+ *
+ */
 @Database(
     entities = [(ClimbHistory::class), (TerrainProfile::class)],
     version = 1,

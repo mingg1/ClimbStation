@@ -8,6 +8,12 @@ import fi.metropolia.climbstation.database.ClimbStationDB
 import fi.metropolia.climbstation.database.repositories.ClimbHistoryRepository
 import kotlinx.coroutines.runBlocking
 
+/**
+ * Viewmodel for climbing history
+ *
+ * @author Minji Choi
+ *
+ */
 class ClimbHistoryViewModel(application: Application) : AndroidViewModel(application) {
 
     val getClimbHistoryHistory: LiveData<List<ClimbHistory>>

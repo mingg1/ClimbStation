@@ -20,6 +20,13 @@ import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingHistoryBinding
 import java.util.*
 
+/**
+ * Activity for manage custom terrain profiles
+ *
+ * @author Minji Choi
+ * @author Anjan Shakya
+ *
+ */
 class ManageProfileActivity : AppCompatActivity(), CustomProfileListAdapter.OnItemLongClickListener {
     lateinit var binding: ActivityClimbingHistoryBinding
     lateinit var adapter: CustomProfileListAdapter
@@ -57,13 +64,9 @@ class ManageProfileActivity : AppCompatActivity(), CustomProfileListAdapter.OnIt
     }
 
     override fun onItemLongClick(position: Int) {
-//        Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
         val intent = Intent(Intent.ACTION_SEND)
-
         intent.data = Uri.parse("fi.metropolia.climbstation")
-
         intent.type = "*/*"
-
         startActivity(intent)
     }
 

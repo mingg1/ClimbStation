@@ -6,6 +6,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Object for retrofit instance
+ *
+ * @author Minji Choi
+ *
+ */
 object RetrofitInstance {
 
     private val interceptor = HttpLoggingInterceptor()

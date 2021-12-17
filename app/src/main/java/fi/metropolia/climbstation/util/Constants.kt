@@ -1,10 +1,10 @@
 package fi.metropolia.climbstation.util
 
 import android.content.Context
-import fi.metropolia.climbstation.IniFileLoader
+import fi.metropolia.climbstation.ConfigReader
 
 
-class Config(context: Context) : IniFileLoader(context) {
+class Config(context: Context) : ConfigReader(context) {
     val configReader = load("climbstation.conf")
     val mainVariables = getSectionDataMap("main")
     val baseUrl = mainVariables?.get("httpserverHost")

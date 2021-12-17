@@ -12,6 +12,12 @@ import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.database.viewModels.ClimbHistoryViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingHistoryBinding
 
+/**
+ * Activity to display climbing histories
+ *
+ * @author Minji Choi
+ *
+ */
 class HistoryActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityClimbingHistoryBinding
@@ -34,21 +40,14 @@ class HistoryActivity : AppCompatActivity() {
             when (menu.itemId) {
                 R.id.menu_climb -> {
                     startActivity(
-                        Intent(
-                            this,
-                            MainActivity::class.java
-                        ).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-
                     )
                     finishAffinity()
                 }
                 R.id.menu_settings -> {
                     startActivity(
-                        Intent(
-                            this,
-                            SettingsActivity::class.java
-                        ).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        Intent(this, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     )
                     finishAffinity()
@@ -70,17 +69,11 @@ class HistoryActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_climb -> {
                 startActivity(
-                    Intent(
-                        this,
-                        MainActivity::class.java
-                    ).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 )
             }
             R.id.menu_settings -> startActivity(
-                Intent(
-                    this,
-                    SettingsActivity::class.java
-                ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                Intent(this, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             )
         }
         return super.onOptionsItemSelected(item)

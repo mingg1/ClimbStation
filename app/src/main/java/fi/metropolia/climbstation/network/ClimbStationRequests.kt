@@ -4,6 +4,13 @@ import com.google.gson.annotations.SerializedName
 import fi.metropolia.climbstation.util.Constants.Companion.REQUEST
 import fi.metropolia.climbstation.util.Constants.Companion.REQ_PACKET_NUM
 
+/**
+ * Collection of network requests
+ *
+ * @author Minji Choi
+ *
+ */
+
 // keys used in both response and request
 interface BaseKey {
     val packetId: String

@@ -8,6 +8,13 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.Exception
 
+/**
+ * Class for network viewmodel
+ * @param repository required repository
+ *
+ * @author Minji Choi
+ *
+ */
 class ClimbStationViewModel(private val repository: ClimbStationRepository) : ViewModel() {
     val loginResponse: MutableLiveData<Response<LogInResponse>?> = MutableLiveData()
     val infoResponse: MutableLiveData<InfoResponse> = MutableLiveData()
@@ -15,6 +22,7 @@ class ClimbStationViewModel(private val repository: ClimbStationRepository) : Vi
     val angleResponse: MutableLiveData<ClimbStationResponse> = MutableLiveData()
     val operationResponse: MutableLiveData<ClimbStationResponse> = MutableLiveData()
 
+    // log in to the app
     fun logIn(serialNumber: String, id:String, pw:String) {
         viewModelScope.launch {
           try {
@@ -27,6 +35,7 @@ class ClimbStationViewModel(private val repository: ClimbStationRepository) : Vi
         }
     }
 
+    // get current climb info (angle, length)
     fun getInfo(serialNumber: String, clientKey: String){
         viewModelScope.launch {
             val infoRequest = InfoRequest(serialNumber,clientKey)
@@ -35,6 +44,7 @@ class ClimbStationViewModel(private val repository: ClimbStationRepository) : Vi
         }
     }
 
+    // set speed
     fun setSpeed(serialNumber: String, clientKey: String, speed:String){
         viewModelScope.launch {
             val speedRequest = SpeedRequest(serialNumber,clientKey,speed)
@@ -43,6 +53,7 @@ class ClimbStationViewModel(private val repository: ClimbStationRepository) : Vi
         }
     }
 
+ // set angle
     fun setAngle(serialNumber: String, clientKey: String, angle:String){
         viewModelScope.launch {
             val angleRequest = AngleRequest(serialNumber,clientKey,angle)
@@ -51,6 +62,7 @@ class ClimbStationViewModel(private val repository: ClimbStationRepository) : Vi
         }
     }
 
+    // start or stop operation
     fun setOperation(serialNumber: String, clientKey: String, operation:String) {
         viewModelScope.launch {
             val operationRequest = OperationRequest(serialNumber,clientKey,operation)

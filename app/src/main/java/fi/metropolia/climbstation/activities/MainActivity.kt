@@ -16,6 +16,12 @@ import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.util.Config
 import fi.metropolia.climbstation.util.TerrainProfilesObject
 
+/**
+ * Activity to get the serial number and log in to the application
+ *
+ * @author Minji Choi
+ *
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShowBinding
     private lateinit var climbStationViewModel: ClimbStationViewModel
@@ -93,6 +99,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // make an alert when disconnected to network
     private fun makeAlert(function: () -> Unit) {
         val builder = AlertDialog.Builder(this)
             .setTitle("No internet connection")
@@ -106,17 +113,6 @@ class MainActivity : AppCompatActivity() {
 
         val alertDialog = builder.create()
         alertDialog.show()
-    }
-
-    private fun validValues(totalLength: String, speed: String): Boolean =
-        (totalLength != "" && totalLength != "0") && speed != "0.0"
-
-    private fun showInvalidValuesToast() {
-        Toast.makeText(
-            this,
-            "Make sure that you set valid speed and total length.",
-            Toast.LENGTH_LONG
-        ).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

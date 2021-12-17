@@ -26,6 +26,12 @@ import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.util.Config
 import fi.metropolia.climbstation.util.Constants
 
+/**
+ * Activity for QR code scanner
+ *
+ * @author Anne Pier Merkus
+ * @author Minji Choi
+ */
 class QRCodeScannerActivity : AppCompatActivity() {
     private lateinit var barcodeView: DecoratedBarcodeView
     private var beepManager: BeepManager? = null
@@ -40,10 +46,6 @@ class QRCodeScannerActivity : AppCompatActivity() {
             lastText = result.text
             handleSerialNumberResult(result.text)
             beepManager!!.playBeepSoundAndVibrate()
-
-            //Added preview of scanned barcode
-//            val imageView: ImageView = findViewById(R.id.barcodePreview)
-//            imageView.setImageBitmap(result.getBitmapWithResultPoints(Color.YELLOW))
         }
 
         override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
@@ -71,13 +73,14 @@ class QRCodeScannerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_code_scanner)
         supportActionBar!!.hide()
-Log.d("config",Config(this).mainVariables.toString())
+
         // check if a serial number has been saved in the app
-        val sf= getSharedPreferences("climbStation", MODE_PRIVATE)
+        val sf = getSharedPreferences("climbStation", MODE_PRIVATE)
         val serialNumber = sf.getString("serialNumber", "")
         if (serialNumber != null && serialNumber != "") {
             moveToNextActivity()
         } else {
+            // check camera permission
             if (ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.CAMERA
@@ -103,6 +106,7 @@ Log.d("config",Config(this).mainVariables.toString())
 
     }
 
+    // dialog for filling serial number menually
     private fun inputDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle("Serial Number")
@@ -117,8 +121,12 @@ Log.d("config",Config(this).mainVariables.toString())
         builder.show()
     }
 
+    /**
+     * Handle received serial number from QR code reader
+     * @param serialNumber received serial number
+     */
     fun handleSerialNumberResult(serialNumber: String) {
-        val sf= getSharedPreferences("climbStation", MODE_PRIVATE)
+        val sf = getSharedPreferences("climbStation", MODE_PRIVATE)
         sf.edit().putString("serialNumber", serialNumber)?.apply()
         moveToNextActivity()
     }

@@ -15,6 +15,12 @@ import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.databinding.SettingsActivityBinding
 import fi.metropolia.climbstation.ui.scaleAnimation
 
+/**
+ * Activity for general application settings
+ *
+ * @author Minji Choi
+ * @author Anjan Shakya
+ */
 class SettingsActivity : AppCompatActivity() {
     lateinit var binding: SettingsActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,8 +66,7 @@ class SettingsActivity : AppCompatActivity() {
                 R.id.menu_climb -> {
                     startActivity(
                         Intent(
-                            this,
-                            MainActivity::class.java
+                            this, MainActivity::class.java
                         ).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     )
@@ -70,8 +75,7 @@ class SettingsActivity : AppCompatActivity() {
                 R.id.menu_history -> {
                     startActivity(
                         Intent(
-                            this,
-                            HistoryActivity::class.java
+                            this, HistoryActivity::class.java
                         ).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     )
@@ -83,6 +87,10 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
+    /** dialog for weight setting
+     * @param sf is shared preference
+     *
+     */
     private fun inputDialog(sf: SharedPreferences) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle("Set your body weight")
@@ -98,12 +106,21 @@ class SettingsActivity : AppCompatActivity() {
         builder.show()
     }
 
+    /**
+     * Save newly inserted weight
+     * @param sf is shared preference
+     * @param weightText is weight inserted in editText
+     */
     private fun saveNewWeight(sf: SharedPreferences, weightText: String) {
         sf.edit().putInt("weight", weightText.toInt()).apply()
         Toast.makeText(this, "Your weight is saved!", Toast.LENGTH_LONG).show()
     }
 
-
+    /**
+     * Make animation when an element is clicked
+     * @param view is the view which will show the animation
+     *
+     */
     private fun makeTouchAnimation(view: View) {
         view.scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
         view.scaleAnimation(0.95f, 1.0f, 0.95f, 1.0f, 500)

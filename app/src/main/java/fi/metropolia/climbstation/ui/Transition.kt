@@ -6,7 +6,12 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 
-// class for showing and hiding an element with transition
+/**
+ * class for showing and hiding an element with transition
+ *
+ * @author Minji Choi
+ *
+ */
 class Transition(private val targetView: View, private val parent:ViewGroup) {
 
     private fun setTransition() {

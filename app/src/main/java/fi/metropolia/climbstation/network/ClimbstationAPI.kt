@@ -5,6 +5,12 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
+/**
+ * Collection of Http queries
+ *
+ * @author Minji Choi
+ *
+ */
 interface ClimbstationAPI {
     @Headers("Content-Type: application/json")
     @POST("login")
@@ -22,7 +28,6 @@ interface ClimbstationAPI {
 
     @POST("setangle")
     suspend fun setAngle(@Body reqBody: AngleRequest): ClimbStationResponse
-
 }
 
 

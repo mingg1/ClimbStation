@@ -6,6 +6,12 @@ import android.os.Bundle
 import android.widget.Button
 import fi.metropolia.climbstation.R
 
+/**
+ * Activity for login to settings of the owner
+ *
+ * @author Anjan Shakya
+ *
+ */
 class OwnersLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

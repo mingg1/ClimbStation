@@ -7,6 +7,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import fi.metropolia.climbstation.database.entities.ClimbHistory
 
+/**
+ * Queries for climbing history
+ *
+ * @author Minji Choi
+ *
+ */
 @Dao
 interface ClimbHistoryDao {
 

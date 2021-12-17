@@ -4,6 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import fi.metropolia.climbstation.database.entities.TerrainProfile
 
+/**
+ * Queries for terrain profile (climbing program)
+ *
+ * @author Minji Choi
+ *
+ */
 @Dao
 interface TerrainProfileDao {
 

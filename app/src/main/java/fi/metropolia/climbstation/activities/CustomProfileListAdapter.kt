@@ -11,10 +11,26 @@ import androidx.recyclerview.widget.RecyclerView
 import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.database.entities.TerrainProfile
 
+/**
+ * Interface to get a position of the item clicked
+ *
+ * @author Minji Choi
+ * @author Anjan Shakya
+ */
 interface ItemHelper {
     fun onItemDismiss(position: Int)
 }
 
+/**
+ * Adapter for custom profile list
+ *
+ * @param profiles list of terrain profile
+ * @param context context
+ * @param listener long click listener
+ *
+ * @author Minji Choi
+ *
+ */
 class CustomProfileListAdapter(
     private val profiles: List<TerrainProfile>,
     private val context: Context,
@@ -32,9 +48,7 @@ class CustomProfileListAdapter(
             if (position != RecyclerView.NO_POSITION) {
                 listener.onItemLongClick(position)
             }
-
             return true
-
         }
     }
 

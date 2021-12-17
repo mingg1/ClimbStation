@@ -7,6 +7,12 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import fi.metropolia.climbstation.util.Phase
 
+/**
+ * Schema of terrain profile (climbing history)
+ *
+ * @author Minji Choi
+ *
+ */
 @Entity(tableName = "terrain_profile_table")
 data class TerrainProfile
     (

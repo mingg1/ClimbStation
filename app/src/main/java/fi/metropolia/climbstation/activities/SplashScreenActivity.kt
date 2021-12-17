@@ -1,10 +1,14 @@
 package fi.metropolia.climbstation.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import fi.metropolia.climbstation.util.Config
+import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * Activity for splash screen
+ *
+ * @author Anne Pier Merkus
+ */
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

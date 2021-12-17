@@ -14,6 +14,15 @@ import fi.metropolia.climbstation.database.entities.ClimbHistory
 import fi.metropolia.climbstation.ui.scaleAnimation
 import java.util.*
 
+/**
+ * Adapter for climbing history list
+ *
+ * @param histories list of histories
+ * @param context context
+ *
+ * @author Minji Choi
+ *
+ */
 class HistoryListAdapter(private val histories: List<ClimbHistory>, private val context: Context) :
     RecyclerView.Adapter<HistoryListAdapter.HistoryListViewHolder>() {
     class HistoryListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -35,6 +44,7 @@ class HistoryListAdapter(private val histories: List<ClimbHistory>, private val 
 
         holder.itemView.findViewById<ConstraintLayout>(R.id.history_info_container)
             .setOnClickListener {
+                // make an animation when clicked
                 it.scaleAnimation(1.0f, 0.95f, 1.0f, 0.95f, 100)
                 it.scaleAnimation(0.95f, 1.0f, 0.95f, 1.0f, 500)
                 val historyId = history.id
