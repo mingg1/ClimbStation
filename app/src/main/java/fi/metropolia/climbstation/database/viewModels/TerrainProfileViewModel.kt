@@ -8,6 +8,12 @@ import fi.metropolia.climbstation.database.entities.TerrainProfile
 import fi.metropolia.climbstation.database.repositories.TerrainProfileRepository
 import kotlinx.coroutines.runBlocking
 
+/**
+ * Viewmodel for terrain profile (climbing program)
+ *
+ * @author Minji Choi
+ *
+ */
 class TerrainProfileViewModel(application: Application) : AndroidViewModel(application) {
     private val terrainProfileRepository: TerrainProfileRepository
 

@@ -15,10 +15,22 @@ import fi.metropolia.climbstation.database.entities.TerrainProfile
 import fi.metropolia.climbstation.ui.feedBackTouchListener
 import fi.metropolia.climbstation.ui.scaleAnimation
 
+/**
+ * Click listener of an item from recycler view
+ *
+ * @author Minji Choi
+ *
+ */
 interface RecyclerviewClickListener {
     fun recyclerViewClickListener(programId: Long)
 }
 
+/**
+ * Adapter for climbing program list
+ *
+ * @author Minji Choi
+ *
+ */
 class ProgramListAdapter(
     private val profiles: List<TerrainProfile>,
     private val context: Context,

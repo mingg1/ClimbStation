@@ -27,7 +27,12 @@ import fi.metropolia.climbstation.util.Config
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-
+/**
+ * Fragment for advanced climbing settings
+ *
+ * @author Minji Choi
+ *
+ */
 class ClimbSettingsFragment : Fragment() {
     private lateinit var binding: ActivityClimbingBinding
     private lateinit var climbStationViewModel: ClimbStationViewModel
@@ -85,6 +90,7 @@ class ClimbSettingsFragment : Fragment() {
         return view
     }
 
+    // set initial angle and speed, and total length of climb
     private fun setValues(difficultyLevel: String) {
         totalLength = binding.textLength.editText?.text.toString()
         speedValue = (binding.sliderSpeed.value.toInt()).toString() // cm to mm
@@ -94,6 +100,7 @@ class ClimbSettingsFragment : Fragment() {
             )?.angle.toString()
     }
 
+    // start the climbing machine
     private fun startOperation(difficultyLevel: String, climbMode: String,configReader:Config) {
         if (!validValues(totalLength, speedValue)) return showInvalidValuesToast()
         if (!NetworkVariables.isNetworkConnected) return makeAlert {
@@ -138,6 +145,7 @@ class ClimbSettingsFragment : Fragment() {
         finishAffinity(requireActivity())
     }
 
+    // make an alert when disconnected to the network
     private fun makeAlert(function: () -> Unit) {
         val builder = AlertDialog.Builder(requireContext())
             .setTitle("No internet connection")
@@ -155,9 +163,11 @@ class ClimbSettingsFragment : Fragment() {
         alertDialog.show()
     }
 
+    // check if there are valid values on the text inputs
     private fun validValues(totalLength: String, speed: String): Boolean =
         (totalLength != "" && totalLength != "0") && speed != "0.0"
 
+    // Make an alert when there is an invalid value
     private fun showInvalidValuesToast() {
         Toast.makeText(
             requireContext(),

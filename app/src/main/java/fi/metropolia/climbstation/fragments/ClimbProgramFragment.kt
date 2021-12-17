@@ -23,6 +23,12 @@ import fi.metropolia.climbstation.util.Config
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
+/**
+ * Fragment for showing climbing programs
+ *
+ * @author Minji Choi
+ *
+ */
 class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
 
     private lateinit var binding: FragmentClimbProgramsBinding
@@ -57,6 +63,7 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
             val allPrograms = it + basicClimbPrograms
             programList.adapter = ProgramListAdapter(allPrograms, requireContext(), view, this)
 
+            // filtering climbing programs (custom, predefined, or both)
             binding.spinnerPrograms.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
@@ -90,6 +97,7 @@ class ClimbProgramFragment : Fragment(), RecyclerviewClickListener {
         val startBtn = binding.buttonStartClimbing
         startBtn.feedBackTouchListener()
         startBtn.setOnClickListener {
+            // start selected program with the average speed
             val selectedLevel = terrainProfileViewModel.getTerrainProfileById(selectedProgramId)
             lifecycleScope.launch {
                 async {

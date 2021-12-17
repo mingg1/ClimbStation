@@ -77,9 +77,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
         val climbMode = intent.extras?.getString("mode")
 
         var currentLevel = terrainProfileViewModel.getTerrainProfileByName(currentLevelText!!)
-//        var currentLevel = TerrainProfilesObject.terrainProfiles.find { it.name == currentLevelText }
         val currentLevelStacks = currentLevel.phases
-//        currentLevelStacks!!.forEach { levelTotalLength += it.distance }
         currentLevelStacks.forEach { levelTotalLength += it.distance }
         var currentAngle = currentLevelStacks[currentStep].angle
 
@@ -95,6 +93,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
             binding.nextAngleContainer.visibility = View.GONE
             binding.nextDurationContainer.visibility = View.GONE
         }
+        // send http request every second
         val postRequestRunnable = object : Runnable {
             override fun run() {
                 mHandler.removeCallbacks(this)
@@ -173,6 +172,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
+                        // vibrates the phone when the climb is finished
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             vibrationEffect1 = VibrationEffect.createOneShot(
                                 1000,
@@ -336,6 +336,7 @@ class ClimbingProgressActivity : AppCompatActivity() {
         timerStarted = false
     }
 
+    // calculate total length and move on to the next level(s)
     private fun nextDifficultyLevel(
         climbedLength: Int,
         levelTotalLength: Int,
