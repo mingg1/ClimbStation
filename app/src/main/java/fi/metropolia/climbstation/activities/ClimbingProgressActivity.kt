@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.*
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +17,7 @@ import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingProgressBinding
 import fi.metropolia.climbstation.network.*
 import fi.metropolia.climbstation.service.TimerService
-import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
+import fi.metropolia.climbstation.util.Config
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -26,17 +25,21 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
-class  ClimbingProgressActivity : AppCompatActivity() {
+/**
+ * Activity to handle climbing progress
+ *
+ * @author Minji Choi
+ *
+ */
+class ClimbingProgressActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClimbingProgressBinding
     private var timerStarted = false
     private lateinit var serviceIntent: Intent
     lateinit var climbStationViewModel: ClimbStationViewModel
     private lateinit var terrainProfileViewModel: TerrainProfileViewModel
-    val repository = ClimbStationRepository()
-    private val viewModelFactory = ClimbStationViewModelFactory(repository)
     var consumedCalories = 0.0
     private var time = 0.0
-    var weight = 60.0 // in kg
+    var weight = 60
     private var levelTotalLength: Int = 0
     private var climbedLength = 0
     private var completedStepLength = 0
@@ -47,6 +50,8 @@ class  ClimbingProgressActivity : AppCompatActivity() {
         binding = ActivityClimbingProgressBinding.inflate(layoutInflater)
         supportActionBar?.hide()
         setContentView(binding.root)
+        val repository = ClimbStationRepository(Config(this).baseUrl!!)
+        val viewModelFactory = ClimbStationViewModelFactory(repository)
         climbStationViewModel =
             ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
         terrainProfileViewModel = ViewModelProvider(this)[TerrainProfileViewModel::class.java]
@@ -62,6 +67,9 @@ class  ClimbingProgressActivity : AppCompatActivity() {
             getSystemService(VIBRATOR_SERVICE) as Vibrator
         }
 
+        val sf = getSharedPreferences("climbStation", MODE_PRIVATE)
+        weight = sf.getInt("weight", weight)
+        val serialNumber = sf.getString("serialNumber", "")
         val clientKey = intent.extras?.getString("clientKey")
         val currentLevelText = intent.extras?.getString("difficultyLevel")
         val speed = intent.extras?.getString("speed")
@@ -69,9 +77,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
         val climbMode = intent.extras?.getString("mode")
 
         var currentLevel = terrainProfileViewModel.getTerrainProfileByName(currentLevelText!!)
-//        var currentLevel = TerrainProfilesObject.terrainProfiles.find { it.name == currentLevelText }
         val currentLevelStacks = currentLevel.phases
-//        currentLevelStacks!!.forEach { levelTotalLength += it.distance }
         currentLevelStacks.forEach { levelTotalLength += it.distance }
         var currentAngle = currentLevelStacks[currentStep].angle
 
@@ -87,11 +93,12 @@ class  ClimbingProgressActivity : AppCompatActivity() {
             binding.nextAngleContainer.visibility = View.GONE
             binding.nextDurationContainer.visibility = View.GONE
         }
+        // send http request every second
         val postRequestRunnable = object : Runnable {
             override fun run() {
                 mHandler.removeCallbacks(this)
                 lifecycleScope.launch {
-                    val infoReq = InfoRequest(SERIAL_NUM, clientKey!!)
+                    val infoReq = InfoRequest(serialNumber!!, clientKey!!)
                     val res = repository.getInfo(infoReq)
                     climbStationViewModel.infoResponse.value = res
                 }
@@ -103,8 +110,8 @@ class  ClimbingProgressActivity : AppCompatActivity() {
             this@ClimbingProgressActivity,
             {
                 try {
-//                    climbedLength = res.length.toInt()
-                    climbedLength += 1
+                   climbedLength = it.length.toInt()
+//                   climbedLength += 1
                     binding.textClimbedLength.text = climbedLength.toString()
                     binding.lengthProgressBar.apply {
                         progressMax = goalLength!!.toFloat()
@@ -117,7 +124,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
 
                         currentAngle = currentLevelStacks[currentStep].angle
                         val angleReq =
-                            AngleRequest(SERIAL_NUM, clientKey!!, currentAngle.toString())
+                            AngleRequest(serialNumber!!, clientKey!!, currentAngle.toString())
                         lifecycleScope.launch { repository.setAngle(angleReq) }
 
                         binding.textAngle.text = getString(R.string.degree, currentAngle)
@@ -136,8 +143,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                         currentLevel,
                         climbMode!!
                     )
-                    // binding.textDifficultyMode.text = currentLevel!!.name
-                    Log.d("val", "${currentStep},$levelTotalLength,$climbedLength")
+
                     if (climbedLength >= goalLength!!.toInt()) {
                         stopTimer()
                         if (mHandler.post(postRequestRunnable)) stopRunnable(
@@ -146,7 +152,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                         )
                         lifecycleScope.launch {
                             val stopReq =
-                                OperationRequest(SERIAL_NUM, clientKey!!, "stop")
+                                OperationRequest(serialNumber!!, clientKey!!, "stop")
                             val operationRes = repository.setOperation(stopReq)
                             climbStationViewModel.operationResponse.value = operationRes
                         }
@@ -166,7 +172,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
-
+                        // vibrates the phone when the climb is finished
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             vibrationEffect1 = VibrationEffect.createOneShot(
                                 1000,
@@ -175,20 +181,15 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                             vibrator.vibrate(vibrationEffect1)
                         } else {
                             // backward compatibility for Android API < 26
-                            // noinspection deprecation
                             vibrator.vibrate(1000)
                         }
-//                        vibratorManager.cancel();
-
                         startActivity(intent)
                         finishAffinity()
                     }
 
                 } catch (err: NumberFormatException) {
                     Toast.makeText(
-                        applicationContext,
-                        "No internet connection!",
-                        Toast.LENGTH_SHORT
+                        applicationContext, "No internet connection!", Toast.LENGTH_SHORT
                     ).show()
                 }
             })
@@ -207,19 +208,19 @@ class  ClimbingProgressActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 async {
                     if (timerStarted) {
-                        val stopReq = OperationRequest(SERIAL_NUM, clientKey!!, "stop")
+                        val stopReq = OperationRequest(serialNumber!!, clientKey!!, "stop")
                         val operationRes = repository.setOperation(stopReq)
                         climbStationViewModel.operationResponse.value = operationRes
                     } else {
-                        val speedReq = SpeedRequest(SERIAL_NUM, clientKey!!, speed!!)
+                        val speedReq = SpeedRequest(serialNumber!!, clientKey!!, speed!!)
                         climbStationViewModel.speedResponse.value = repository.setSpeed(speedReq)
                         val angleReq = AngleRequest(
-                            SERIAL_NUM,
+                            serialNumber,
                             clientKey,
                             currentLevelStacks[currentStep].angle.toString()
                         )
                         climbStationViewModel.angleResponse.value = repository.setAngle(angleReq)
-                        val startReq = OperationRequest(SERIAL_NUM, clientKey, "start")
+                        val startReq = OperationRequest(serialNumber, clientKey, "start")
                         climbStationViewModel.operationResponse.value =
                             repository.setOperation(startReq)
                     }
@@ -228,14 +229,12 @@ class  ClimbingProgressActivity : AppCompatActivity() {
             }
         }
 
-        //  binding.textDifficultyMode.text = currentLevelText
-
         binding.buttonFinish.setOnClickListener {
             stopTimer()
             if (mHandler.post(postRequestRunnable)) stopRunnable(mHandler, postRequestRunnable)
             lifecycleScope.launch {
                 async {
-                    val stopReq = OperationRequest(SERIAL_NUM, clientKey!!, "stop")
+                    val stopReq = OperationRequest(serialNumber!!, clientKey!!, "stop")
                     val operationRes = repository.setOperation(stopReq)
                     climbStationViewModel.operationResponse.value = operationRes
                 }.await()
@@ -269,7 +268,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
 
 
     // Calories burnt per second = (MET x body weight in Kg x 3.5) ÷ 200 ÷ 60
-    private fun calculateCalories(weight: Double, time: Double): Double =
+    private fun calculateCalories(weight: Int, time: Double): Double =
         roundOffDecimal(5.8 * weight * time / 200 / 60)
 
     private fun roundOffDecimal(number: Double): Double {
@@ -337,6 +336,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
         timerStarted = false
     }
 
+    // calculate total length and move on to the next level(s)
     private fun nextDifficultyLevel(
         climbedLength: Int,
         levelTotalLength: Int,
@@ -345,7 +345,6 @@ class  ClimbingProgressActivity : AppCompatActivity() {
         var currentStack: TerrainProfile = currentLevel
         if (climbedLength == levelTotalLength) {
             val currentIndex = currentStack.id
-            Log.d("index", currentIndex.toString())
             val index: Long = when (mode) {
                 "To next level" -> (if (currentIndex.toInt() == terrainProfileViewModel.getTerrainProfiles().size) 1 else currentIndex + 1)
                 "Random" -> (1..terrainProfileViewModel.getTerrainProfiles().size).random().toLong()
@@ -353,8 +352,6 @@ class  ClimbingProgressActivity : AppCompatActivity() {
             }
             currentStack = terrainProfileViewModel.getTerrainProfileById(index)
         }
-//            indexOf(currentLevel)
-        Log.d("change", currentStack.name)
         return currentStack
     }
 }

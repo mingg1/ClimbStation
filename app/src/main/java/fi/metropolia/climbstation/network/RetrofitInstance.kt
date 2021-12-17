@@ -1,17 +1,22 @@
 package fi.metropolia.climbstation.network
 
 import fi.metropolia.climbstation.BuildConfig
-import fi.metropolia.climbstation.util.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Object for retrofit instance
+ *
+ * @author Minji Choi
+ *
+ */
 object RetrofitInstance {
 
     private val interceptor = HttpLoggingInterceptor()
 
-    val client = OkHttpClient.Builder().apply {
+    private val client = OkHttpClient.Builder().apply {
         if (BuildConfig.DEBUG) {
             interceptor.level = HttpLoggingInterceptor.Level.BODY
         } else {
@@ -20,14 +25,12 @@ object RetrofitInstance {
         addNetworkInterceptor(interceptor)
     }.build()
 
-    private val retrofit by lazy {
-        Retrofit.Builder().client(client).baseUrl(BASE_URL)
+    fun retrofitInstance(baseUrl:String):ClimbstationAPI {
+       val retrofit = Retrofit.Builder().client(client).baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
 
-    val climbStationApi: ClimbstationAPI by lazy {
-        retrofit.create(ClimbstationAPI::class.java)
+        return retrofit.create(ClimbstationAPI::class.java)
     }
 }
                             

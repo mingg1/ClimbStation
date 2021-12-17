@@ -2,11 +2,13 @@ package fi.metropolia.climbstation.activities
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.KeyEvent
 import android.widget.Button
 import android.widget.EditText
@@ -21,8 +23,15 @@ import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import fi.metropolia.climbstation.R
-import java.util.*
+import fi.metropolia.climbstation.util.Config
+import fi.metropolia.climbstation.util.Constants
 
+/**
+ * Activity for QR code scanner
+ *
+ * @author Anne Pier Merkus
+ * @author Minji Choi
+ */
 class QRCodeScannerActivity : AppCompatActivity() {
     private lateinit var barcodeView: DecoratedBarcodeView
     private var beepManager: BeepManager? = null
@@ -37,23 +46,22 @@ class QRCodeScannerActivity : AppCompatActivity() {
             lastText = result.text
             handleSerialNumberResult(result.text)
             beepManager!!.playBeepSoundAndVibrate()
-
-            //Added preview of scanned barcode
-//            val imageView: ImageView = findViewById(R.id.barcodePreview)
-//            imageView.setImageBitmap(result.getBitmapWithResultPoints(Color.YELLOW))
         }
 
         override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             1 -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // do nothing
-                }
-                else {
+                } else {
                     inputDialog()
                 }
                 return
@@ -64,27 +72,42 @@ class QRCodeScannerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_code_scanner)
+        supportActionBar!!.hide()
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 1)
+        // check if a serial number has been saved in the app
+        val sf = getSharedPreferences("climbStation", MODE_PRIVATE)
+        val serialNumber = sf.getString("serialNumber", "")
+        if (serialNumber != null && serialNumber != "") {
+            moveToNextActivity()
+        } else {
+            // check camera permission
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 1)
+                }
+            }
+
+            barcodeView = findViewById(R.id.barcode_scanner)
+            val formats: Collection<BarcodeFormat> =
+                listOf(BarcodeFormat.QR_CODE, BarcodeFormat.CODE_39)
+            barcodeView.barcodeView.decoderFactory = DefaultDecoderFactory(formats)
+            barcodeView.initializeFromIntent(intent)
+            barcodeView.decodeContinuous(callback)
+            beepManager = BeepManager(this)
+
+            findViewById<Button>(R.id.button).setOnClickListener {
+                inputDialog()
             }
         }
 
-        barcodeView = findViewById(R.id.barcode_scanner)
-        val formats: Collection<BarcodeFormat> = Arrays.asList(BarcodeFormat.QR_CODE, BarcodeFormat.CODE_39)
-        barcodeView.barcodeView.decoderFactory = DefaultDecoderFactory(formats)
-        barcodeView.initializeFromIntent(intent)
-        barcodeView.decodeContinuous(callback)
-        beepManager = BeepManager(this)
-
-        supportActionBar!!.hide()
-        findViewById<Button>(R.id.button).setOnClickListener {
-            inputDialog()
-        }
     }
 
-    fun inputDialog() {
+    // dialog for filling serial number menually
+    private fun inputDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle("Serial Number")
 
@@ -98,7 +121,17 @@ class QRCodeScannerActivity : AppCompatActivity() {
         builder.show()
     }
 
+    /**
+     * Handle received serial number from QR code reader
+     * @param serialNumber received serial number
+     */
     fun handleSerialNumberResult(serialNumber: String) {
+        val sf = getSharedPreferences("climbStation", MODE_PRIVATE)
+        sf.edit().putString("serialNumber", serialNumber)?.apply()
+        moveToNextActivity()
+    }
+
+    private fun moveToNextActivity() {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
@@ -118,4 +151,5 @@ class QRCodeScannerActivity : AppCompatActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         return barcodeView.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event)
     }
+
 }

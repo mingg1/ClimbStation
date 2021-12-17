@@ -2,7 +2,12 @@ package fi.metropolia.climbstation.network
 
 import com.google.gson.annotations.SerializedName
 
-
+/**
+ * Collection of network responses
+ *
+ * @author Minji Choi
+ *
+ */
 interface BaseResponse : BaseKey {
     val response: String
 }

@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +20,13 @@ import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityClimbingHistoryBinding
 import java.util.*
 
+/**
+ * Activity for manage custom terrain profiles
+ *
+ * @author Minji Choi
+ * @author Anjan Shakya
+ *
+ */
 class ManageProfileActivity : AppCompatActivity(), CustomProfileListAdapter.OnItemLongClickListener {
     lateinit var binding: ActivityClimbingHistoryBinding
     lateinit var adapter: CustomProfileListAdapter
@@ -58,13 +64,9 @@ class ManageProfileActivity : AppCompatActivity(), CustomProfileListAdapter.OnIt
     }
 
     override fun onItemLongClick(position: Int) {
-//        Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
         val intent = Intent(Intent.ACTION_SEND)
-
         intent.data = Uri.parse("fi.metropolia.climbstation")
-
         intent.type = "*/*"
-
         startActivity(intent)
     }
 
@@ -107,14 +109,11 @@ class ManageProfileActivity : AppCompatActivity(), CustomProfileListAdapter.OnIt
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.adapterPosition
-            Log.d("pos", position.toString())
             when (direction) {
                 ItemTouchHelper.LEFT -> {
                     val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
                     val profileId = customProfiles.value?.get(position)
-                    Log.d("id", profileId.toString())
                     profileId?.let { terrainProfileViewModel.deleteTerrainProfile(it) }
-//                    it.toMutableList().removeAt(position)
                     adapter.notifyItemRemoved(position)
                 }
             }

@@ -7,24 +7,23 @@ import fi.metropolia.climbstation.database.dao.TerrainProfileDao
 import fi.metropolia.climbstation.database.entities.ClimbHistory
 import fi.metropolia.climbstation.database.entities.PhasesConverter
 import fi.metropolia.climbstation.database.entities.TerrainProfile
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
-
-class Converters {
-    @TypeConverter
-    fun fromList(value : List<Pair<Int,Int>>) = Json.encodeToString(value)
-
-//    @TypeConverter
-//    fun toList(value: String) = decodeFromString<List<Pair<Int,Int>>>(value)
-}
-
-@Database(entities = [(ClimbHistory::class),(TerrainProfile::class)], version = 1, exportSchema = false)
+/**
+ * Database of the application
+ *
+ * @author Minji Choi
+ *
+ */
+@Database(
+    entities = [(ClimbHistory::class), (TerrainProfile::class)],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(PhasesConverter::class)
 abstract class ClimbStationDB : RoomDatabase() {
 
     abstract fun climbHistoryDao(): ClimbHistoryDao
-    abstract fun terrainProfileDao():TerrainProfileDao
+    abstract fun terrainProfileDao(): TerrainProfileDao
 
     companion object {
         @Volatile

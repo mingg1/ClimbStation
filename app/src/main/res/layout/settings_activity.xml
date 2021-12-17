@@ -161,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:text="Create custom terrain profile"
                     android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +176,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/menu_manage_custom_profile" />
+                    app:layout_constraintTop_toBottomOf="@+id/menu_body_weight" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout5"
@@ -245,6 +245,17 @@
                     android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/menu_create_profile" />
+
+                <TextView
+                    android:id="@+id/menu_body_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/set_body_weight"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/menu_manage_custom_profile" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

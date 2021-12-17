@@ -7,12 +7,18 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.google.android.material.textfield.TextInputLayout
-import fi.metropolia.climbstation.Phase
+import fi.metropolia.climbstation.util.Phase
 import fi.metropolia.climbstation.R
 import fi.metropolia.climbstation.database.entities.TerrainProfile
 import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
 import fi.metropolia.climbstation.databinding.ActivityCustomTerrainProfileBinding
 
+/**
+ * Activity to create custom profile
+ *
+ * @author Minji Choi
+ *
+ */
 class CreateProfileActivity : AppCompatActivity() {
     private var phaseNum = 1
     lateinit var binding: ActivityCustomTerrainProfileBinding
@@ -35,7 +41,6 @@ class CreateProfileActivity : AppCompatActivity() {
                 phaseNum--
                 profileContainer.removeView(phaseField) }
             profileContainer.addView(phaseField)
-            Log.d("children", profileContainer.children.toList().toString())
         }
 
         binding.buttonSaveProfile.setOnClickListener {
@@ -50,7 +55,6 @@ class CreateProfileActivity : AppCompatActivity() {
                     profilePhases.add(phase)
                 }
             }
-            Log.d("children", profilePhases.toString())
             terrainProfileViewModel.addTerrainProfile(TerrainProfile(0,profileName,profilePhases,1))
             onBackPressed()
         }

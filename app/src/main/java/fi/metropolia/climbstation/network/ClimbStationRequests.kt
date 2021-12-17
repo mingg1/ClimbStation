@@ -4,6 +4,13 @@ import com.google.gson.annotations.SerializedName
 import fi.metropolia.climbstation.util.Constants.Companion.REQUEST
 import fi.metropolia.climbstation.util.Constants.Companion.REQ_PACKET_NUM
 
+/**
+ * Collection of network requests
+ *
+ * @author Minji Choi
+ *
+ */
+
 // keys used in both response and request
 interface BaseKey {
     val packetId: String
@@ -56,23 +63,5 @@ data class AngleRequest(
     @SerializedName("clientKey") override val clientKey: String,
     @SerializedName("Angle") val angle: String, // in degrees , -45 to +45
     @SerializedName("PacketID") override val packetId: String = "2e",
-    @SerializedName("PacketNumber") override val packetNumber: String = REQ_PACKET_NUM
-) : ClientRequest
-
-data class BreakRequest(
-    @SerializedName("ClimbstationSerialNo") override val climbStationSerialNo: String,
-    @SerializedName("clientKey") override val clientKey: String,
-    @SerializedName("Break") val breakOperation: String,
-    //ON- Controller will apply  the Engine break
-    //OFF- Controller will release the Engine break
-    @SerializedName("PacketID") override val packetId: String = "2i",
-    @SerializedName("PacketNumber") override val packetNumber: String = REQ_PACKET_NUM
-) : ClientRequest
-
-data class LogOutRequest(
-    @SerializedName("ClimbstationSerialNo") override val climbStationSerialNo: String,
-    @SerializedName("clientKey") override val clientKey: String,
-    @SerializedName("Logout") val logOut: String = REQUEST,
-    @SerializedName("PacketID") override val packetId: String = "2g",
     @SerializedName("PacketNumber") override val packetNumber: String = REQ_PACKET_NUM
 ) : ClientRequest

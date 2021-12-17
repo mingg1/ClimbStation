@@ -8,10 +8,16 @@ import fi.metropolia.climbstation.database.ClimbStationDB
 import fi.metropolia.climbstation.database.repositories.ClimbHistoryRepository
 import kotlinx.coroutines.runBlocking
 
-class ClimbHistoryViewModel(application: Application): AndroidViewModel(application) {
+/**
+ * Viewmodel for climbing history
+ *
+ * @author Minji Choi
+ *
+ */
+class ClimbHistoryViewModel(application: Application) : AndroidViewModel(application) {
 
     val getClimbHistoryHistory: LiveData<List<ClimbHistory>>
-   private val historyRepository : ClimbHistoryRepository
+    private val historyRepository: ClimbHistoryRepository
 
     init {
         val climbDao = ClimbStationDB.getDatabase(application).climbHistoryDao()
@@ -19,21 +25,13 @@ class ClimbHistoryViewModel(application: Application): AndroidViewModel(applicat
         getClimbHistoryHistory = historyRepository.getClimbHistory
     }
 
-//    fun getClimbHistory(): LiveData<List<Climb>>{
-//        var climbHistories: LiveData<List<Climb>>
-//        runBlocking {
-//            climbHistories = repository.getClimbHistory()
-//        }
-//        return climbHistories
-//    }
-
-    fun getClimbHistoryById(id:Long): ClimbHistory {
+    fun getClimbHistoryById(id: Long): ClimbHistory {
         return runBlocking {
             historyRepository.getClimbHistoryById(id)
         }
     }
 
-    fun addClimbHistory(climbHistory: ClimbHistory){
+    fun addClimbHistory(climbHistory: ClimbHistory) {
         runBlocking {
             historyRepository.addClimbHistory(climbHistory)
         }

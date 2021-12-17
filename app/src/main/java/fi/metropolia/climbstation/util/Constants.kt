@@ -1,12 +1,21 @@
 package fi.metropolia.climbstation.util
 
-class Constants {
+import android.content.Context
+import fi.metropolia.climbstation.ConfigReader
 
+
+class Config(context: Context) : ConfigReader(context) {
+    val configReader = load("climbstation.conf")
+    val mainVariables = getSectionDataMap("main")
+    val baseUrl = mainVariables?.get("httpserverHost")
+    val modes = mainVariables?.get("climbModes")
+    val id = mainVariables?.get("idUser")
+    val password = mainVariables?.get("pwUser")
+}
+
+class Constants {
     companion object {
-        val CLIMB_MODES = listOf("Looping", "To next level", "Random")
-        const val BASE_URL = "http://192.168.0.5:8800/"
         const val REQ_PACKET_NUM = "1"
-        const val SERIAL_NUM = "20110001"
         const val REQUEST = "request"
         const val BEGINNER_MODE = "Beginner"
         const val WARM_UP_MODE = "Warm up"
