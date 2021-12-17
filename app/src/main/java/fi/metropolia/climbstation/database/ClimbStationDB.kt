@@ -9,7 +9,6 @@ import fi.metropolia.climbstation.database.entities.PhasesConverter
 import fi.metropolia.climbstation.database.entities.TerrainProfile
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.Json.Default.decodeFromString
 
 
 class Converters {

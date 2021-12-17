@@ -38,8 +38,8 @@ class  ClimbingProgressActivity : AppCompatActivity() {
     private var time = 0.0
     var weight = 60.0 // in kg
     private var levelTotalLength: Int = 0
-    var climbedLength = 0
-    var completedStepLength = 0
+    private var climbedLength = 0
+    private var completedStepLength = 0
     private var currentStep = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,7 +101,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
 
         climbStationViewModel.infoResponse.observe(
             this@ClimbingProgressActivity,
-            { res ->
+            {
                 try {
 //                    climbedLength = res.length.toInt()
                     climbedLength += 1
@@ -133,7 +133,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                     currentLevel = nextDifficultyLevel(
                         climbedLength,
                         levelTotalLength,
-                        currentLevel!!,
+                        currentLevel,
                         climbMode!!
                     )
                     // binding.textDifficultyMode.text = currentLevel!!.name
@@ -160,7 +160,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                         intent.putExtra("durationText", getTimeString(time))
                         intent.putExtra("duration", time)
                         intent.putExtra("speed", speed?.toInt())
-                        intent.putExtra("level", currentLevel!!.name)
+                        intent.putExtra("level", currentLevel.name)
                         intent.putExtra("calories", consumedCalories)
                         intent.putExtra("clientKey", clientKey)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -195,7 +195,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
 
         fun checkResponse(response: MutableLiveData<Response<ClimbStationResponse>>): Boolean {
             var isOkay = false
-            response.observe(this, { it ->
+            response.observe(this, {
                 if (it != null && it.body()?.response != "NOTOK") {
                     isOkay = true
                 }
@@ -215,11 +215,11 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                         climbStationViewModel.speedResponse.value = repository.setSpeed(speedReq)
                         val angleReq = AngleRequest(
                             SERIAL_NUM,
-                            clientKey!!,
+                            clientKey,
                             currentLevelStacks[currentStep].angle.toString()
                         )
                         climbStationViewModel.angleResponse.value = repository.setAngle(angleReq)
-                        val startReq = OperationRequest(SERIAL_NUM, clientKey!!, "start")
+                        val startReq = OperationRequest(SERIAL_NUM, clientKey, "start")
                         climbStationViewModel.operationResponse.value =
                             repository.setOperation(startReq)
                     }
@@ -247,7 +247,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
                 intent.putExtra("durationText", getTimeString(time))
                 intent.putExtra("duration", time)
                 intent.putExtra("speed", speed?.toInt())
-                intent.putExtra("level", currentLevel!!.name)
+                intent.putExtra("level", currentLevel.name)
                 intent.putExtra("calories", consumedCalories)
                 intent.putExtra("clientKey", clientKey)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -316,7 +316,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
     private fun startTimer() {
         serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
         startService(serviceIntent)
-        binding.buttonPause.text = "Pause"
+        binding.buttonPause.text = getString(R.string.pause)
         timerStarted = true
     }
 
@@ -333,7 +333,7 @@ class  ClimbingProgressActivity : AppCompatActivity() {
 
     private fun stopTimer() {
         stopService(serviceIntent)
-        binding.buttonPause.text = "Resume"
+        binding.buttonPause.text = getString(R.string.resume)
         timerStarted = false
     }
 

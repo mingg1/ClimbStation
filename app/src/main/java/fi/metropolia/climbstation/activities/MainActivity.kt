@@ -1,30 +1,19 @@
 package fi.metropolia.climbstation.activities
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import fi.metropolia.climbstation.*
 import fi.metropolia.climbstation.database.entities.TerrainProfile
 import fi.metropolia.climbstation.database.viewModels.TerrainProfileViewModel
-import fi.metropolia.climbstation.databinding.ActivityClimbingBinding
 import fi.metropolia.climbstation.databinding.ActivityShowBinding
 import fi.metropolia.climbstation.network.*
-import fi.metropolia.climbstation.util.Constants.Companion.CLIMB_MODES
-import fi.metropolia.climbstation.util.Constants.Companion.SERIAL_NUM
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShowBinding
@@ -36,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var totalLength: String
     private lateinit var speedValue: String
     private var clientKey: String? = null
-    private lateinit var angle: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,17 +42,9 @@ class MainActivity : AppCompatActivity() {
 //        val difficultyLevelTv = binding.listDifficulty
         val serialNumber = sf.getString("serialNumber", "")
 
-        Log.d("serial", serialNumber!!)
-        val bundle = Bundle()
-        bundle.putString("serialNumber", serialNumber)
-        val climbSettingsFragment = ClimbSettingsFragment()
-        climbSettingsFragment.arguments = bundle
-        val mFragmentManager = supportFragmentManager
-        val mFragmentTransaction = mFragmentManager.beginTransaction()
-        mFragmentTransaction.add(R.id.fragmentContainerView, climbSettingsFragment).commit()
-        var profiles = terrainProfileViewModel.getTerrainProfiles()
+        val profiles = terrainProfileViewModel.getTerrainProfiles()
         if (profiles.isEmpty()) {
-            TerrainProfilesObject.terrainProfiles.forEach {
+            TerrainProfilesObject.terrainProfiles.forEach { it ->
                 val level = mutableListOf<Pair<Int, Int>>()
                 it.profiles.forEach {
                     level.add(Pair(it.distance, it.angle))

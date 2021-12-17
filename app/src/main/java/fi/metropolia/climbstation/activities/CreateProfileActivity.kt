@@ -24,13 +24,13 @@ class CreateProfileActivity : AppCompatActivity() {
         binding = ActivityCustomTerrainProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.textPhase.text = "Phase $phaseNum"
+        binding.textPhase.text = getString(R.string.phase, phaseNum)
         val profileContainer = binding.profileContainer
 
         binding.buttonAddPhase.setOnClickListener {
             val phaseField =
                 layoutInflater.inflate(R.layout.custom_profile_phase_field, null, false)
-            phaseField.findViewById<TextView>(R.id.text_phase).text = "Phase ${++phaseNum}"
+            phaseField.findViewById<TextView>(R.id.text_phase).text = getString(R.string.phase, ++phaseNum)
             phaseField.findViewById<TextView>(R.id.text_remove).setOnClickListener {
                 phaseNum--
                 profileContainer.removeView(phaseField) }
