@@ -24,7 +24,7 @@ import fi.metropolia.climbstation.util.Constants.Companion.CLIMB_MODES
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class ClimbSettingsFragment: Fragment() {
+class ClimbSettingsFragment : Fragment() {
     private lateinit var binding: ActivityClimbingBinding
     private lateinit var climbStationViewModel: ClimbStationViewModel
     private val repository = ClimbStationRepository()
@@ -43,16 +43,17 @@ class ClimbSettingsFragment: Fragment() {
             ViewModelProvider(this, viewModelFactory)[ClimbStationViewModel::class.java]
         val terrainProfileViewModel: TerrainProfileViewModel by viewModels()
         val profiles = terrainProfileViewModel.getTerrainProfiles()
-        clientKey = requireActivity().getSharedPreferences("climbStation", AppCompatActivity.MODE_PRIVATE).getString("clientKey", "")
+        clientKey =
+            requireActivity().getSharedPreferences("climbStation", AppCompatActivity.MODE_PRIVATE)
+                .getString("clientKey", "")
 
         binding = ActivityClimbingBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val bundle = arguments
-        val clientKey = bundle!!.getString("mText")
         val difficultyLevelTv = binding.listDifficulty
         val difficultyLevels = profiles.map { it.name }
-        val difficultyLevelList = DropDownList(requireContext(), difficultyLevelTv, difficultyLevels)
+        val difficultyLevelList =
+            DropDownList(requireContext(), difficultyLevelTv, difficultyLevels)
         difficultyLevelList.setDropDownHeight(620)
 
         val climbModeTv = binding.listClimbMode
@@ -135,7 +136,11 @@ class ClimbSettingsFragment: Fragment() {
             .setTitle("No internet connection")
             .setMessage("Do you want to try again?")
             .setNeutralButton("Cancel") { _, _ ->
-                Toast.makeText(requireContext().applicationContext, "clicked cancel", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext().applicationContext,
+                    "clicked cancel",
+                    Toast.LENGTH_LONG
+                ).show()
             }
             .setPositiveButton("Yes") { _, _ ->
                 function()
