@@ -13,6 +13,7 @@ minimum API Level: Android 7.0 Nougat (SDK 24)
 ## Usage
 ### Connect to the climbing machine
 Before you open the application, you have to connect to the same network as the ClimbStation machines.
+Open assets/climbstation.conf file, and change ip address of httpserverHost file to your own address.
 Once connected, you will see a QR code reader to get the serial number attached to the machines. Scan the code, or you can also write down the serial number manually.
 
 ### Select climbing program
